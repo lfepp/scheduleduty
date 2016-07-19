@@ -1,0 +1,43 @@
+escalation_level,user_or_team,type,day_of_week,start_time,end_time
+1,Import Team,Team,Friday,0:00,9:00
+2,Import User 1,User,Friday,0:00,9:00
+1,Import User 2,User,Friday,9:00,18:30
+1,Import User 3,User,Friday,9:00,18:30
+1,Import Team,Team,Friday,18:30,24:00
+2,Import User 1,User,Friday,18:30,24:00
+1,Import Team,Team,Saturday,0:00,9:00
+2,Import User 1,User,Saturday,0:00,9:00
+1,Import User 2,User,Saturday,9:00,18:30
+1,Import User 3,User,Saturday,9:00,18:30
+1,Import Team,Team,Saturday,18:30,24:00
+2,Import User 1,User,Saturday,18:30,24:00
+1,Import Team,Team,Sunday,0:00,9:00
+2,Import User 1,User,Sunday,0:00,9:00
+1,Import User 2,User,Sunday,9:00,18:30
+1,Import User 3,User,Sunday,9:00,18:30
+1,Import Team,Team,Sunday,18:30,24:00
+2,Import User 1,User,Sunday,18:30,24:00
+1,Import Team,Team,Monday,0:00,9:00
+2,Import User 1,User,Monday,0:00,9:00
+1,Import User 2,User,Monday,9:00,18:30
+1,Import User 3,User,Monday,9:00,18:30
+1,Import Team,Team,Monday,18:30,24:00
+2,Import User 1,User,Monday,18:30,24:00
+1,Import Team,Team,Tuesday,0:00,9:00
+2,Import User 1,User,Tuesday,0:00,9:00
+1,Import User 2,User,Tuesday,9:00,18:30
+1,Import User 3,User,Tuesday,9:00,18:30
+1,Import Team,Team,Tuesday,18:30,24:00
+2,Import User 1,User,Tuesday,18:30,24:00
+1,Import Team,Team,Wednesday,0:00,9:00
+2,Import User 1,User,Wednesday,0:00,9:00
+1,Import User 2,User,Wednesday,9:00,18:30
+1,Import User 3,User,Wednesday,9:00,18:30
+1,Import Team,Team,Wednesday,18:30,24:00
+2,Import User 1,User,Wednesday,18:30,24:00
+1,Import Team,Team,Thursday,0:00,9:00
+2,Import User 1,User,Thursday,0:00,9:00
+1,Import User 2,User,Thursday,9:00,18:30
+1,Import User 3,User,Thursday,9:00,18:30
+1,Import Team,Team,Thursday,18:30,24:00
+2,Import User 1,User,Thursday,18:30,24:00
