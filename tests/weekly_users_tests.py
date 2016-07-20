@@ -364,12 +364,355 @@ create_days_of_week_expected = [
     }
 ]
 
-split_days_by_level_expected = [{
+split_days_by_level_input = [{
     'schedules': [{
-        'name': 'weekly_test_level_1',
-        'days': []
+        'name': 'weekly_users_test',
+        'days': create_days_of_week_expected
     }]
 }]
+
+split_days_by_level_expected = [
+  {
+    "schedules": [
+      {
+        "name": "weekly_users_test_level_1",
+        "days": [
+          [
+            {
+              "type": "Team",
+              "start_time": "0:00",
+              "escalation_level": 1,
+              "id": "Import Team",
+              "end_time": "9:00"
+            },
+            {
+              "type": "User",
+              "start_time": "9:00",
+              "escalation_level": 1,
+              "id": "Import User 2",
+              "end_time": "18:30"
+            },
+            {
+              "type": "User",
+              "start_time": "9:00",
+              "escalation_level": 1,
+              "id": "Import User 3",
+              "end_time": "18:30"
+            },
+            {
+              "type": "Team",
+              "start_time": "18:30",
+              "escalation_level": 1,
+              "id": "Import Team",
+              "end_time": "24:00"
+            }
+          ],
+          [
+            {
+              "type": "Team",
+              "start_time": "0:00",
+              "escalation_level": 1,
+              "id": "Import Team",
+              "end_time": "9:00"
+            },
+            {
+              "type": "User",
+              "start_time": "9:00",
+              "escalation_level": 1,
+              "id": "Import User 2",
+              "end_time": "18:30"
+            },
+            {
+              "type": "User",
+              "start_time": "9:00",
+              "escalation_level": 1,
+              "id": "Import User 3",
+              "end_time": "18:30"
+            },
+            {
+              "type": "Team",
+              "start_time": "18:30",
+              "escalation_level": 1,
+              "id": "Import Team",
+              "end_time": "24:00"
+            }
+          ],
+          [
+            {
+              "type": "Team",
+              "start_time": "0:00",
+              "escalation_level": 1,
+              "id": "Import Team",
+              "end_time": "9:00"
+            },
+            {
+              "type": "User",
+              "start_time": "9:00",
+              "escalation_level": 1,
+              "id": "Import User 2",
+              "end_time": "18:30"
+            },
+            {
+              "type": "User",
+              "start_time": "9:00",
+              "escalation_level": 1,
+              "id": "Import User 3",
+              "end_time": "18:30"
+            },
+            {
+              "type": "Team",
+              "start_time": "18:30",
+              "escalation_level": 1,
+              "id": "Import Team",
+              "end_time": "24:00"
+            }
+          ],
+          [
+            {
+              "type": "Team",
+              "start_time": "0:00",
+              "escalation_level": 1,
+              "id": "Import Team",
+              "end_time": "9:00"
+            },
+            {
+              "type": "User",
+              "start_time": "9:00",
+              "escalation_level": 1,
+              "id": "Import User 2",
+              "end_time": "18:30"
+            },
+            {
+              "type": "User",
+              "start_time": "9:00",
+              "escalation_level": 1,
+              "id": "Import User 3",
+              "end_time": "18:30"
+            },
+            {
+              "type": "Team",
+              "start_time": "18:30",
+              "escalation_level": 1,
+              "id": "Import Team",
+              "end_time": "24:00"
+            }
+          ],
+          [
+            {
+              "type": "Team",
+              "start_time": "0:00",
+              "escalation_level": 1,
+              "id": "Import Team",
+              "end_time": "9:00"
+            },
+            {
+              "type": "User",
+              "start_time": "9:00",
+              "escalation_level": 1,
+              "id": "Import User 2",
+              "end_time": "18:30"
+            },
+            {
+              "type": "User",
+              "start_time": "9:00",
+              "escalation_level": 1,
+              "id": "Import User 3",
+              "end_time": "18:30"
+            },
+            {
+              "type": "Team",
+              "start_time": "18:30",
+              "escalation_level": 1,
+              "id": "Import Team",
+              "end_time": "24:00"
+            }
+          ],
+          [
+            {
+              "type": "Team",
+              "start_time": "0:00",
+              "escalation_level": 1,
+              "id": "Import Team",
+              "end_time": "9:00"
+            },
+            {
+              "type": "User",
+              "start_time": "9:00",
+              "escalation_level": 1,
+              "id": "Import User 2",
+              "end_time": "18:30"
+            },
+            {
+              "type": "User",
+              "start_time": "9:00",
+              "escalation_level": 1,
+              "id": "Import User 3",
+              "end_time": "18:30"
+            },
+            {
+              "type": "Team",
+              "start_time": "18:30",
+              "escalation_level": 1,
+              "id": "Import Team",
+              "end_time": "24:00"
+            }
+          ],
+          [
+            {
+              "type": "Team",
+              "start_time": "0:00",
+              "escalation_level": 1,
+              "id": "Import Team",
+              "end_time": "9:00"
+            },
+            {
+              "type": "User",
+              "start_time": "9:00",
+              "escalation_level": 1,
+              "id": "Import User 2",
+              "end_time": "18:30"
+            },
+            {
+              "type": "User",
+              "start_time": "9:00",
+              "escalation_level": 1,
+              "id": "Import User 3",
+              "end_time": "18:30"
+            },
+            {
+              "type": "Team",
+              "start_time": "18:30",
+              "escalation_level": 1,
+              "id": "Import Team",
+              "end_time": "24:00"
+            }
+          ]
+        ]
+      }
+    ]
+  },
+  {
+    "schedules": [
+      {
+        "name": "weekly_users_test_level_2",
+        "days": [
+          [
+            {
+              "type": "User",
+              "start_time": "0:00",
+              "escalation_level": 2,
+              "id": "Import User 1",
+              "end_time": "9:00"
+            },
+            {
+              "type": "User",
+              "start_time": "18:30",
+              "escalation_level": 2,
+              "id": "Import User 1",
+              "end_time": "24:00"
+            }
+          ],
+          [
+            {
+              "type": "User",
+              "start_time": "0:00",
+              "escalation_level": 2,
+              "id": "Import User 1",
+              "end_time": "9:00"
+            },
+            {
+              "type": "User",
+              "start_time": "18:30",
+              "escalation_level": 2,
+              "id": "Import User 1",
+              "end_time": "24:00"
+            }
+          ],
+          [
+            {
+              "type": "User",
+              "start_time": "0:00",
+              "escalation_level": 2,
+              "id": "Import User 1",
+              "end_time": "9:00"
+            },
+            {
+              "type": "User",
+              "start_time": "18:30",
+              "escalation_level": 2,
+              "id": "Import User 1",
+              "end_time": "24:00"
+            }
+          ],
+          [
+            {
+              "type": "User",
+              "start_time": "0:00",
+              "escalation_level": 2,
+              "id": "Import User 1",
+              "end_time": "9:00"
+            },
+            {
+              "type": "User",
+              "start_time": "18:30",
+              "escalation_level": 2,
+              "id": "Import User 1",
+              "end_time": "24:00"
+            }
+          ],
+          [
+            {
+              "type": "User",
+              "start_time": "0:00",
+              "escalation_level": 2,
+              "id": "Import User 1",
+              "end_time": "9:00"
+            },
+            {
+              "type": "User",
+              "start_time": "18:30",
+              "escalation_level": 2,
+              "id": "Import User 1",
+              "end_time": "24:00"
+            }
+          ],
+          [
+            {
+              "type": "User",
+              "start_time": "0:00",
+              "escalation_level": 2,
+              "id": "Import User 1",
+              "end_time": "9:00"
+            },
+            {
+              "type": "User",
+              "start_time": "18:30",
+              "escalation_level": 2,
+              "id": "Import User 1",
+              "end_time": "24:00"
+            }
+          ],
+          [
+            {
+              "type": "User",
+              "start_time": "0:00",
+              "escalation_level": 2,
+              "id": "Import User 1",
+              "end_time": "9:00"
+            },
+            {
+              "type": "User",
+              "start_time": "18:30",
+              "escalation_level": 2,
+              "id": "Import User 1",
+              "end_time": "24:00"
+            }
+          ]
+        ]
+      }
+    ]
+  }
+]
 
 class WeeklyUserTests(unittest.TestCase):
 
@@ -379,8 +722,8 @@ class WeeklyUserTests(unittest.TestCase):
         self.assertEqual(expected_result, actual_result)
 
     def split_days_by_level(self):
-        expected_result = {}
-        actual_result = import_schedules.split_days_by_level(create_days_of_week_expected)
+        expected_result = split_days_by_level_expected
+        actual_result = import_schedules.split_days_by_level(split_days_by_level_input)
         self.assertEqual(expected_result, actual_result)
 
 def suite():

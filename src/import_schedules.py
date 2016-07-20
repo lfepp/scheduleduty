@@ -30,6 +30,7 @@ import csv
 import glob
 
 
+# TODO: Create a WeeklyUserLogic class for extensibility
 def create_days_of_week(file):
     """ Parse CSV file into days of week
     """
@@ -86,34 +87,39 @@ def split_days_by_level(escalation_policy_by_level):
     new_ep = []
     for day in escalation_policy_by_level[0]['schedules'][0]['days']:
         for entry in day['entries']:
-            if hasattr(levels, entry['escalation_level']):
-                levels[entry['escalation_level']]['days'][day['day_of_week']].append(entry)
+            if str(entry['escalation_level']) in levels:
+                levels[str(entry['escalation_level'])]['days'][str(day['day_of_week'])].append(entry)
             else:
-                levels[entry['escalation_level']] = { 'days': { 0: [], 1: [], 2: [], 3: [], 4: [], 5: [], 6: [] } }
-                levels[entry['escalation_level']]['days'][day['day_of_week']].append(entry)
+                levels[str(entry['escalation_level'])] = { 'days': { '0': [], '1': [], '2': [], '3': [], '4': [], '5': [], '6': [] } }
+                levels[str(entry['escalation_level'])]['days'][str(day['day_of_week'])].append(entry)
     for level in levels.keys():
         days = []
-        for day in levels[level]['days'].keys():
-            days.append(day)
-        new_ep[level] = {
+        i = 0
+        while i <= 6:
+            for day in levels[level]['days']:
+                if int(day) == i:
+                    days.append(levels[level]['days'][day])
+                    i += 1
+        new_ep.insert(int(level), {
             'schedules': [{
                 'name': "{0}_level_{1}".format(escalation_policy_by_level[0]['schedules'][0]['name'], level),
                 'days': days
             }]
-        }
+        })
     return new_ep
 
 
 def main():
     # Loop through all CSV files
-    files = glob.glob('csv/*.csv')
+    files = glob.glob('src/csv/*.csv')
     for file in files:
         # TODO: Add logic to handle non-weekly schedules
         days = create_days_of_week(file)
         # Create list of escalation policies by level
         escalation_policy_by_level = [{
             'schedules': [{
-                'name': file[4:len(file) - 4],
+                # TODO: Use regex to parse filename
+                'name': file[8:len(file) - 4],
                 'days': days
             }]
         }]
