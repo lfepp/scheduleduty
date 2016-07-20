@@ -45,37 +45,37 @@ def create_days_of_week(file):
     reader.next()
     for row in reader:
         entry = {
-            'escalation_level': row['escalation_level'],
+            'escalation_level': int(row['escalation_level']),
             'id': row['user_or_team'],
             'type': row['type'],
             'start_time': row['start_time'],
             'end_time': row['end_time']
         }
-        if row['day_of_week'] == 0:
+        if row['day_of_week'] == 0 or row['day_of_week'].lower() == 'sunday':
             sunday_entries.append(entry)
-        elif row['day_of_week'] == 1:
+        elif row['day_of_week'] == 1 or row['day_of_week'].lower() == 'monday':
             monday_entries.append(entry)
-        elif row['day_of_week'] == 2:
+        elif row['day_of_week'] == 2 or row['day_of_week'].lower() == 'tuesday':
             tuesday_entries.append(entry)
-        elif row['day_of_week'] == 3:
+        elif row['day_of_week'] == 3 or row['day_of_week'].lower() == 'wednesday':
             wednesday_entries.append(entry)
-        elif row['day_of_week'] == 4:
+        elif row['day_of_week'] == 4 or row['day_of_week'].lower() == 'thursday':
             thursday_entries.append(entry)
-        elif row['day_of_week'] == 5:
+        elif row['day_of_week'] == 5 or row['day_of_week'].lower() == 'friday':
             friday_entries.append(entry)
-        elif row['day_of_week'] == 6:
+        elif row['day_of_week'] == 6 or row['day_of_week'].lower() == 'saturday':
             saturday_entries.append(entry)
         else:
             print "Error: Entry {0} does not have a valid day_of_week: {1}".format(row['user_or_team'], row['day_of_week'])
-        # Create days with entries
-        sunday = { 'day_of_week': 0, 'entries': sunday_entries }
-        monday = { 'day_of_week': 1, 'entries': monday_entries }
-        tuesday = { 'day_of_week': 2, 'entries': tuesday_entries }
-        wednesday = { 'day_of_week': 3, 'entries': wednesday_entries }
-        thursday = { 'day_of_week': 4, 'entries': thursday_entries }
-        friday = { 'day_of_week': 5, 'entries': friday_entries }
-        saturday = { 'day_of_week': 6, 'entries': saturday_entries }
-        return [sunday, monday, tuesday, wednesday, thursday, friday, saturday]
+    # Create days with entries
+    sunday = { 'day_of_week': 0, 'entries': sunday_entries }
+    monday = { 'day_of_week': 1, 'entries': monday_entries }
+    tuesday = { 'day_of_week': 2, 'entries': tuesday_entries }
+    wednesday = { 'day_of_week': 3, 'entries': wednesday_entries }
+    thursday = { 'day_of_week': 4, 'entries': thursday_entries }
+    friday = { 'day_of_week': 5, 'entries': friday_entries }
+    saturday = { 'day_of_week': 6, 'entries': saturday_entries }
+    return [sunday, monday, tuesday, wednesday, thursday, friday, saturday]
 
 
 def split_days_by_level(escalation_policy_by_level):
