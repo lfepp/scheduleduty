@@ -94,7 +94,7 @@ def split_days_by_level(base_ep):
     """
 
     levels = {}
-    new_ep = []
+    ep_by_level = []
     for day in base_ep[0]['schedules'][0]['days']:
         for entry in day['entries']:
             if str(entry['escalation_level']) in levels:
@@ -115,14 +115,55 @@ def split_days_by_level(base_ep):
                 if int(day) == i:
                     days.append(levels[level]['days'][day])
                     i += 1
-        new_ep.insert(int(level), {
+        ep_by_level.insert(int(level), {
             'schedules': [{
                 'name': ("{0}_level_{1}".format(base_ep[0]['schedules'][0]
                          ['name'], level)),
                 'days': days
             }]
         })
-    return new_ep
+    return ep_by_level
+
+
+def get_time_periods(ep_by_level):
+    # 3) Check each day for time period overlaps
+    for level in ep_by_level:
+        for i, day in enumerate(level['schedules'][0]['days']):
+            time_periods = []
+            for entry in day:
+                # Loop through current time_periods to check for overlaps
+                if len(time_periods) > 0:
+                    overlap = False
+                    for period in time_periods:
+                        # TODO: Handle cases where times overlap but are not exactly the same start & end # NOQA
+                        if (entry['start_time'] == period['start_time'] and
+                           entry['end_time'] == period['end_time']):
+                            period['entries'].append({
+                                'id': entry['id'],
+                                'type': entry['type']
+                            })
+                            overlap = True
+                            break
+                    if not overlap:
+                        time_periods.append({
+                            'start_time': entry['start_time'],
+                            'end_time': entry['end_time'],
+                            'entries': [{
+                                'id': entry['id'],
+                                'type': entry['type']
+                            }]
+                        })
+                else:
+                    time_periods.append({
+                        'start_time': entry['start_time'],
+                        'end_time': entry['end_time'],
+                        'entries': [{
+                            'id': entry['id'],
+                            'type': entry['type']
+                        }]
+                    })
+            level['schedules'][0]['days'][i] = {"time_periods": time_periods}
+    return ep_by_level
 
 
 def main():
@@ -140,13 +181,16 @@ def main():
             }]
         }]
         ep_by_level = split_days_by_level(base_ep)
-    # 3) Check each day for time period overlaps
-    # 4) If overlaps, break into new possible schedules on same level
-    # 5) Break each day down by time period
-    # 6) Loop through consecutive days for patterns
-    # 7) Each batch of user/time period/consecutive days becomes a new layer
-    # 8) Each possible schedule on each EP level becomes a schedule based on layers in 7
-    # 9) EP is created
+        print ep_by_level
+        # TODO: Handle cominbing cases where one on-call starts at 0:00 and another ends at 24:00 # NOQA
+    # 4) Check for multiple entires in a time period and break them out into two schedules # NOQA
+    # 5) Remove entries list from the ep_by_level object
+    # 6) Break each day down by time period
+    # 7) Loop through consecutive days for patterns
+    # 8) Each batch of user/time period/consecutive days becomes a new layer
+    # 9) When a batch has a team, get the users on that team instead
+    # 10) Each possible schedule on each EP level becomes a schedule based on layers in 7 # NOQA
+    # 11) EP is created
 
 if __name__ == '__main__':
     sys.exit(main())

@@ -714,6 +714,461 @@ split_days_by_level_expected = [
   }
 ]
 
+get_time_periods_expected = [
+  {
+    "schedules": [
+      {
+        "name": "weekly_users_test_level_1",
+        "days": [
+          {
+            "time_periods": [
+              {
+                "start_time": "0:00",
+                "end_time": "9:00",
+                "entries": [
+                  {
+                    "id": "Import Team",
+                    "type": "Team"
+                  }
+                ]
+              },
+              {
+                "start_time": "9:00",
+                "end_time": "18:30",
+                "entries": [
+                  {
+                    "id": "Import User 2",
+                    "type": "User"
+                  },
+                  {
+                    "id": "Import User 3",
+                    "type": "User"
+                  }
+                ]
+              },
+              {
+                "start_time": "18:30",
+                "end_time": "24:00",
+                "entries": [
+                  {
+                    "id": "Import Team",
+                    "type": "Team"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "time_periods": [
+              {
+                "start_time": "0:00",
+                "end_time": "9:00",
+                "entries": [
+                  {
+                    "id": "Import Team",
+                    "type": "Team"
+                  }
+                ]
+              },
+              {
+                "start_time": "9:00",
+                "end_time": "18:30",
+                "entries": [
+                  {
+                    "id": "Import User 2",
+                    "type": "User"
+                  },
+                  {
+                    "id": "Import User 3",
+                    "type": "User"
+                  }
+                ]
+              },
+              {
+                "start_time": "18:30",
+                "end_time": "24:00",
+                "entries": [
+                  {
+                    "id": "Import Team",
+                    "type": "Team"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "time_periods": [
+              {
+                "start_time": "0:00",
+                "end_time": "9:00",
+                "entries": [
+                  {
+                    "id": "Import Team",
+                    "type": "Team"
+                  }
+                ]
+              },
+              {
+                "start_time": "9:00",
+                "end_time": "18:30",
+                "entries": [
+                  {
+                    "id": "Import User 2",
+                    "type": "User"
+                  },
+                  {
+                    "id": "Import User 3",
+                    "type": "User"
+                  }
+                ]
+              },
+              {
+                "start_time": "18:30",
+                "end_time": "24:00",
+                "entries": [
+                  {
+                    "id": "Import Team",
+                    "type": "Team"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "time_periods": [
+              {
+                "start_time": "0:00",
+                "end_time": "9:00",
+                "entries": [
+                  {
+                    "id": "Import Team",
+                    "type": "Team"
+                  }
+                ]
+              },
+              {
+                "start_time": "9:00",
+                "end_time": "18:30",
+                "entries": [
+                  {
+                    "id": "Import User 2",
+                    "type": "User"
+                  },
+                  {
+                    "id": "Import User 3",
+                    "type": "User"
+                  }
+                ]
+              },
+              {
+                "start_time": "18:30",
+                "end_time": "24:00",
+                "entries": [
+                  {
+                    "id": "Import Team",
+                    "type": "Team"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "time_periods": [
+              {
+                "start_time": "0:00",
+                "end_time": "9:00",
+                "entries": [
+                  {
+                    "id": "Import Team",
+                    "type": "Team"
+                  }
+                ]
+              },
+              {
+                "start_time": "9:00",
+                "end_time": "18:30",
+                "entries": [
+                  {
+                    "id": "Import User 2",
+                    "type": "User"
+                  },
+                  {
+                    "id": "Import User 3",
+                    "type": "User"
+                  }
+                ]
+              },
+              {
+                "start_time": "18:30",
+                "end_time": "24:00",
+                "entries": [
+                  {
+                    "id": "Import Team",
+                    "type": "Team"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "time_periods": [
+              {
+                "start_time": "0:00",
+                "end_time": "9:00",
+                "entries": [
+                  {
+                    "id": "Import Team",
+                    "type": "Team"
+                  }
+                ]
+              },
+              {
+                "start_time": "9:00",
+                "end_time": "18:30",
+                "entries": [
+                  {
+                    "id": "Import User 2",
+                    "type": "User"
+                  },
+                  {
+                    "id": "Import User 3",
+                    "type": "User"
+                  }
+                ]
+              },
+              {
+                "start_time": "18:30",
+                "end_time": "24:00",
+                "entries": [
+                  {
+                    "id": "Import Team",
+                    "type": "Team"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "time_periods": [
+              {
+                "start_time": "0:00",
+                "end_time": "9:00",
+                "entries": [
+                  {
+                    "id": "Import Team",
+                    "type": "Team"
+                  }
+                ]
+              },
+              {
+                "start_time": "9:00",
+                "end_time": "18:30",
+                "entries": [
+                  {
+                    "id": "Import User 2",
+                    "type": "User"
+                  },
+                  {
+                    "id": "Import User 3",
+                    "type": "User"
+                  }
+                ]
+              },
+              {
+                "start_time": "18:30",
+                "end_time": "24:00",
+                "entries": [
+                  {
+                    "id": "Import Team",
+                    "type": "Team"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "schedules": [
+      {
+        "name": "weekly_users_test_level_2",
+        "days": [
+          {
+            "time_periods": [
+              {
+                "start_time": "0:00",
+                "end_time": "9:00",
+                "entries": [
+                  {
+                    "id": "Import User 1",
+                    "type": "User"
+                  }
+                ]
+              },
+              {
+                "start_time": "18:30",
+                "end_time": "24:00",
+                "entries": [
+                  {
+                    "id": "Import User 1",
+                    "type": "User"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "time_periods": [
+              {
+                "start_time": "0:00",
+                "end_time": "9:00",
+                "entries": [
+                  {
+                    "id": "Import User 1",
+                    "type": "User"
+                  }
+                ]
+              },
+              {
+                "start_time": "18:30",
+                "end_time": "24:00",
+                "entries": [
+                  {
+                    "id": "Import User 1",
+                    "type": "User"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "time_periods": [
+              {
+                "start_time": "0:00",
+                "end_time": "9:00",
+                "entries": [
+                  {
+                    "id": "Import User 1",
+                    "type": "User"
+                  }
+                ]
+              },
+              {
+                "start_time": "18:30",
+                "end_time": "24:00",
+                "entries": [
+                  {
+                    "id": "Import User 1",
+                    "type": "User"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "time_periods": [
+              {
+                "start_time": "0:00",
+                "end_time": "9:00",
+                "entries": [
+                  {
+                    "id": "Import User 1",
+                    "type": "User"
+                  }
+                ]
+              },
+              {
+                "start_time": "18:30",
+                "end_time": "24:00",
+                "entries": [
+                  {
+                    "id": "Import User 1",
+                    "type": "User"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "time_periods": [
+              {
+                "start_time": "0:00",
+                "end_time": "9:00",
+                "entries": [
+                  {
+                    "id": "Import User 1",
+                    "type": "User"
+                  }
+                ]
+              },
+              {
+                "start_time": "18:30",
+                "end_time": "24:00",
+                "entries": [
+                  {
+                    "id": "Import User 1",
+                    "type": "User"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "time_periods": [
+              {
+                "start_time": "0:00",
+                "end_time": "9:00",
+                "entries": [
+                  {
+                    "id": "Import User 1",
+                    "type": "User"
+                  }
+                ]
+              },
+              {
+                "start_time": "18:30",
+                "end_time": "24:00",
+                "entries": [
+                  {
+                    "id": "Import User 1",
+                    "type": "User"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "time_periods": [
+              {
+                "start_time": "0:00",
+                "end_time": "9:00",
+                "entries": [
+                  {
+                    "id": "Import User 1",
+                    "type": "User"
+                  }
+                ]
+              },
+              {
+                "start_time": "18:30",
+                "end_time": "24:00",
+                "entries": [
+                  {
+                    "id": "Import User 1",
+                    "type": "User"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+]
+
 
 class WeeklyUserTests(unittest.TestCase):
 
@@ -729,9 +1184,16 @@ class WeeklyUserTests(unittest.TestCase):
          split_days_by_level_input)
         self.assertEqual(expected_result, actual_result)
 
+    def get_time_periods(self):
+        expected_result = get_time_periods_expected
+        actual_result = import_schedules.get_time_periods(
+         split_days_by_level_expected)
+        self.assertEqual(expected_result, actual_result)
+
 
 def suite():
     suite = unittest.TestSuite()
     suite.addTest(WeeklyUserTests('create_days_of_week'))
     suite.addTest(WeeklyUserTests('split_days_by_level'))
+    suite.addTest(WeeklyUserTests('get_time_periods'))
     return suite
