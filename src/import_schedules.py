@@ -32,8 +32,7 @@ import glob
 
 # TODO: Create a WeeklyUserLogic class for extensibility
 def create_days_of_week(file):
-    """ Parse CSV file into days of week
-    """
+    """Parse CSV file into days of week"""
 
     sunday_entries = []
     monday_entries = []
@@ -90,8 +89,7 @@ def create_days_of_week(file):
 
 
 def split_days_by_level(base_ep):
-    """ Split days in escalation policy by level
-    """
+    """Split days in escalation policy by level"""
 
     levels = {}
     ep_by_level = []
@@ -126,7 +124,8 @@ def split_days_by_level(base_ep):
 
 
 def get_time_periods(ep_by_level):
-    # 3) Check each day for time period overlaps
+    """Breaks out each day by time period"""
+
     for level in ep_by_level:
         for i, day in enumerate(level['schedules'][0]['days']):
             time_periods = []
@@ -166,6 +165,61 @@ def get_time_periods(ep_by_level):
     return ep_by_level
 
 
+def check_for_overlap(ep_by_level):
+    """Checks time periods for multiple entries and breaks the entries into \
+    multiple schedules
+    """
+    # 4) Check for multiple entires in a time period and break them out into two schedules # NOQA
+    for level in ep_by_level:
+        # Save schedule name
+        schedule_name = level['schedules'][0]['name']
+        for i, day in enumerate(level['schedules'][0]['days']):
+            for ind, period in enumerate(day['time_periods']):
+                if len(period['entries']) > 1:
+                    # Update name for multis
+                    level['schedules'][0]['name'] = "{0}_multi_1".format(schedule_name)
+                    for index, entry in enumerate(period['entries']):
+                        # Loop through schedules to see if multi schedule already exists skipping first index
+                        # FIXME: Create many more schedules than needed, not properly finding dupes
+                        # TODO: move up under the level loop? I think this might be a problem with exists getting set to false on each entry
+                        schedule_exists = False
+                        for idx, schedule in enumerate(level['schedules']):
+                            if "multi_{0}".format(str(index + 1)) == schedule['name'][-(6 + len(str(index + 1))):] and index > 0:
+                                schedule_exists = True
+                                # Append time period if day exists or create new day
+                                try:
+                                    level['schedules'][idx]['days'][i]['time_periods'].append({
+                                        'start_time': period['start_time'],
+                                        'end_time': period['end_time'],
+                                        'entries': [entry]
+                                    })
+                                except IndexError:
+                                    level['schedules'][idx]['days'].insert(i, {
+                                        'time_periods': {
+                                            'start_time': period['start_time'],
+                                            'end_time': period['end_time'],
+                                            'entries': [entry]
+                                        }
+                                    })
+                                break
+                        if not schedule_exists:
+                            # Create days for the new schedule
+                            days = []
+                            for n in range(i):
+                                days.append({'time_periods': []})
+                            days.append({'time_periods': [period]})
+                            # Create new schedule with days
+                            level['schedules'].append({
+                                'name': "{0}_multi_{1}".format(schedule_name, str(index + 1)),
+                                'days': days
+                            })
+        # TODO: Move this to new function
+        # Delete all indices that have been moved to new schedules
+        # for item in to_delete:
+        #     del level['schedules'][0]['days'][item['day']]['time_periods'][item['period']]['entries'][item['entry']]
+    return ep_by_level
+
+
 def main():
     # Loop through all CSV files
     files = glob.glob('src/csv/*.csv')
@@ -181,9 +235,9 @@ def main():
             }]
         }]
         ep_by_level = split_days_by_level(base_ep)
-        print ep_by_level
         # TODO: Handle cominbing cases where one on-call starts at 0:00 and another ends at 24:00 # NOQA
-    # 4) Check for multiple entires in a time period and break them out into two schedules # NOQA
+        ep_by_level = get_time_periods(ep_by_level)
+        print ep_by_level
     # 5) Remove entries list from the ep_by_level object
     # 6) Break each day down by time period
     # 7) Loop through consecutive days for patterns
