@@ -371,11 +371,11 @@ split_days_by_level_expected = [{
     }]
 }]
 
-class TestCoreLogic(unittest.TestCase):
+class WeeklyUserTests(unittest.TestCase):
 
     def create_days_of_week(self):
         expected_result = create_days_of_week_expected
-        actual_result = import_schedules.create_days_of_week("csv/weekly_test.csv")
+        actual_result = import_schedules.create_days_of_week("csv/weekly_users_test.csv")
         self.assertIs(expected_result, actual_result)
 
     def split_days_by_level(self):
@@ -383,8 +383,8 @@ class TestCoreLogic(unittest.TestCase):
         actual_result = import_schedules.split_days_by_level(create_days_of_week_expected)
         self.assertIs(expected_result, actual_result)
 
-def suite(self):
+def suite():
     suite = unittest.TestSuite()
-    suite.addTest(TestCoreLogic('create_days_of_week'))
-    suite.addTest(TestCoreLogic('split_days_by_level'))
+    suite.addTest(WeeklyUserTests('create_days_of_week'))
+    suite.addTest(WeeklyUserTests('split_days_by_level'))
     return suite

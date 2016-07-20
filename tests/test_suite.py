@@ -29,11 +29,11 @@ import glob
 import unittest
 
 suite = unittest.TestSuite()
-files = glob.glob('*_tests.py')
+files = glob.glob('tests/*_tests.py')
 for file in files:
     # Load suite() function from module
-    module = __import__(file[:-3])
-    suite_function = getattr(module, 'suite')
-    suite.addTest(suite_function)
+    module = __import__(file[6:-3])
+    suite.addTest(module.suite())
+    print suite
 
 unittest.TextTestRunner().run(suite)
