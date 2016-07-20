@@ -45,11 +45,11 @@ def create_days_of_week(file):
     reader.next()
     for row in reader:
         entry = {
-            'escalation_level': escalation_level,
-            'id': user_or_team,
-            'type': type,
-            'start_time': start_time,
-            'end_time': end_time
+            'escalation_level': row['escalation_level'],
+            'id': row['user_or_team'],
+            'type': row['type'],
+            'start_time': row['start_time'],
+            'end_time': row['end_time']
         }
         if row['day_of_week'] == 0:
             sunday_entries.append(entry)
@@ -66,7 +66,7 @@ def create_days_of_week(file):
         elif row['day_of_week'] == 6:
             saturday_entries.append(entry)
         else:
-            print "Error: Entry {0} does not have a valid day_of_week: {1}".format(user_or_team, day_of_week)
+            print "Error: Entry {0} does not have a valid day_of_week: {1}".format(row['user_or_team'], row['day_of_week'])
         # Create days with entries
         sunday = { 'day_of_week': 0, 'entries': sunday_entries }
         monday = { 'day_of_week': 1, 'entries': monday_entries }

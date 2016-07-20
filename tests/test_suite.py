@@ -34,6 +34,5 @@ for file in files:
     # Load suite() function from module
     module = __import__(file[6:-3])
     suite.addTest(module.suite())
-    print suite
 
 unittest.TextTestRunner().run(suite)
