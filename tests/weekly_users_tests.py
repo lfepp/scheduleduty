@@ -714,17 +714,21 @@ split_days_by_level_expected = [
   }
 ]
 
+
 class WeeklyUserTests(unittest.TestCase):
 
     def create_days_of_week(self):
         expected_result = create_days_of_week_expected
-        actual_result = import_schedules.create_days_of_week("tests/csv/weekly_users_test.csv")
+        actual_result = import_schedules.create_days_of_week(
+         "tests/csv/weekly_users_test.csv")
         self.assertEqual(expected_result, actual_result)
 
     def split_days_by_level(self):
         expected_result = split_days_by_level_expected
-        actual_result = import_schedules.split_days_by_level(split_days_by_level_input)
+        actual_result = import_schedules.split_days_by_level(
+         split_days_by_level_input)
         self.assertEqual(expected_result, actual_result)
+
 
 def suite():
     suite = unittest.TestSuite()

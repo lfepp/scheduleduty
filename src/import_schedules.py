@@ -42,7 +42,12 @@ def create_days_of_week(file):
     thursday_entries = []
     friday_entries = []
     saturday_entries = []
-    reader = csv.DictReader(open(file), fieldnames=('escalation_level','user_or_team','type','day_of_week','start_time','end_time'))
+    reader = csv.DictReader(open(file), fieldnames=('escalation_level',
+                                                    'user_or_team',
+                                                    'type',
+                                                    'day_of_week',
+                                                    'start_time',
+                                                    'end_time'))
     reader.next()
     for row in reader:
         entry = {
@@ -56,42 +61,52 @@ def create_days_of_week(file):
             sunday_entries.append(entry)
         elif row['day_of_week'] == 1 or row['day_of_week'].lower() == 'monday':
             monday_entries.append(entry)
-        elif row['day_of_week'] == 2 or row['day_of_week'].lower() == 'tuesday':
+        elif (row['day_of_week'] == 2 or
+              row['day_of_week'].lower() == 'tuesday'):
             tuesday_entries.append(entry)
-        elif row['day_of_week'] == 3 or row['day_of_week'].lower() == 'wednesday':
+        elif (row['day_of_week'] == 3 or
+              row['day_of_week'].lower() == 'wednesday'):
             wednesday_entries.append(entry)
-        elif row['day_of_week'] == 4 or row['day_of_week'].lower() == 'thursday':
+        elif (row['day_of_week'] == 4 or
+              row['day_of_week'].lower() == 'thursday'):
             thursday_entries.append(entry)
         elif row['day_of_week'] == 5 or row['day_of_week'].lower() == 'friday':
             friday_entries.append(entry)
-        elif row['day_of_week'] == 6 or row['day_of_week'].lower() == 'saturday':
+        elif (row['day_of_week'] == 6 or
+              row['day_of_week'].lower() == 'saturday'):
             saturday_entries.append(entry)
         else:
-            print "Error: Entry {0} does not have a valid day_of_week: {1}".format(row['user_or_team'], row['day_of_week'])
+            print ("Error: Entry {0} does not have a valid day_of_week: {1}"
+                   .format(row['user_or_team'], row['day_of_week']))
     # Create days with entries
-    sunday = { 'day_of_week': 0, 'entries': sunday_entries }
-    monday = { 'day_of_week': 1, 'entries': monday_entries }
-    tuesday = { 'day_of_week': 2, 'entries': tuesday_entries }
-    wednesday = { 'day_of_week': 3, 'entries': wednesday_entries }
-    thursday = { 'day_of_week': 4, 'entries': thursday_entries }
-    friday = { 'day_of_week': 5, 'entries': friday_entries }
-    saturday = { 'day_of_week': 6, 'entries': saturday_entries }
+    sunday = {'day_of_week': 0, 'entries': sunday_entries}
+    monday = {'day_of_week': 1, 'entries': monday_entries}
+    tuesday = {'day_of_week': 2, 'entries': tuesday_entries}
+    wednesday = {'day_of_week': 3, 'entries': wednesday_entries}
+    thursday = {'day_of_week': 4, 'entries': thursday_entries}
+    friday = {'day_of_week': 5, 'entries': friday_entries}
+    saturday = {'day_of_week': 6, 'entries': saturday_entries}
     return [sunday, monday, tuesday, wednesday, thursday, friday, saturday]
 
 
-def split_days_by_level(escalation_policy_by_level):
+def split_days_by_level(base_ep):
     """ Split days in escalation policy by level
     """
 
     levels = {}
     new_ep = []
-    for day in escalation_policy_by_level[0]['schedules'][0]['days']:
+    for day in base_ep[0]['schedules'][0]['days']:
         for entry in day['entries']:
             if str(entry['escalation_level']) in levels:
-                levels[str(entry['escalation_level'])]['days'][str(day['day_of_week'])].append(entry)
+                (levels[str(entry['escalation_level'])]['days']
+                 [str(day['day_of_week'])].append(entry))
             else:
-                levels[str(entry['escalation_level'])] = { 'days': { '0': [], '1': [], '2': [], '3': [], '4': [], '5': [], '6': [] } }
-                levels[str(entry['escalation_level'])]['days'][str(day['day_of_week'])].append(entry)
+                levels[str(entry['escalation_level'])] = ({'days': {'0': [],
+                                                          '1': [], '2': [],
+                                                          '3': [], '4': [],
+                                                          '5': [], '6': []}})
+                (levels[str(entry['escalation_level'])]['days']
+                 [str(day['day_of_week'])].append(entry))
     for level in levels.keys():
         days = []
         i = 0
@@ -102,7 +117,8 @@ def split_days_by_level(escalation_policy_by_level):
                     i += 1
         new_ep.insert(int(level), {
             'schedules': [{
-                'name': "{0}_level_{1}".format(escalation_policy_by_level[0]['schedules'][0]['name'], level),
+                'name': ("{0}_level_{1}".format(base_ep[0]['schedules'][0]
+                         ['name'], level)),
                 'days': days
             }]
         })
@@ -116,14 +132,14 @@ def main():
         # TODO: Add logic to handle non-weekly schedules
         days = create_days_of_week(file)
         # Create list of escalation policies by level
-        escalation_policy_by_level = [{
+        base_ep = [{
             'schedules': [{
                 # TODO: Use regex to parse filename
                 'name': file[8:len(file) - 4],
                 'days': days
             }]
         }]
-        escalation_policy_by_level = split_days_by_level(escalation_policy_by_level)
+        ep_by_level = split_days_by_level(base_ep)
     # 3) Check each day for time period overlaps
     # 4) If overlaps, break into new possible schedules on same level
     # 5) Break each day down by time period
