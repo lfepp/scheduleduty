@@ -28,9 +28,37 @@
 import sys
 import csv
 import glob
+import requests
+
+# TODO: Create a PDREST class for extensibility
+# PD REST API FUNCTION ################################################################################
+class PagerDutyREST():
+    """Class to house all PagerDuty REST API call methods"""
+
+
+    def __init__(self, api_key):
+        self.base_url = 'https://api.pagerduty.com'
+        self.headers = {
+            'Accept': 'application/vnd.pagerduty+json;version=2',
+            'Authorization': 'Token token={0}'.format(api_key)
+        }
+
+
+    def get_team_id(self, team_name):
+        """Get team ID from team name"""
+        url = '{0}/teams'.format(self.base_url)
+        payload = {
+            'query': team_name
+        }
+        r = requests.get(url, params=json.dumps(payload), headers=self.headers)
+        if r.status_code == 200:
+            return r.json['teams'][0]['id']
+        else:
+            print "Error: get_team_id returned status code {0}".format(r.status_code)
 
 
 # TODO: Create a WeeklyUserLogic class for extensibility
+# WEEKLY IMPORT FUNCTIONS ################################################################################
 def create_days_of_week(file):
     """Parse CSV file into days of week"""
 
