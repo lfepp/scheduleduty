@@ -86,7 +86,7 @@ def create_days_of_week(file):
             saturday_entries.append(entry)
             sunday_entries.append(entry)
         else:
-            print ("Error: Entry {0} has an unknown value for day_of_week: {1}"
+            print ('Error: Entry {0} has an unknown value for day_of_week: {1}'
                    .format(row['user_or_team'], row['day_of_week']))
     # Create days with entries
     sunday = {'day_of_week': 0, 'entries': sunday_entries}
@@ -126,7 +126,7 @@ def split_days_by_level(base_ep):
                     i += 1
         ep_by_level.insert(int(level), {
             'schedules': [{
-                'name': ("{0}_level_{1}".format(base_ep[0]['schedules'][0]
+                'name': ('{0}_level_{1}'.format(base_ep[0]['schedules'][0]
                          ['name'], level)),
                 'days': days
             }]
@@ -190,6 +190,7 @@ def check_for_overlap(ep_by_level):
                 }
             ]
         })
+        base_name = level['schedules'][0]['name']
         for j, day in enumerate(level['schedules'][0]['days']):
             output[i]['schedules'][0]['days'].append({'time_periods': []})
             if len(day['time_periods']) == 0:
@@ -197,32 +198,40 @@ def check_for_overlap(ep_by_level):
             for k, period in enumerate(day['time_periods']):
                 if len(period['entries']) > 1:
                     for l, entry in enumerate(period['entries']):
-                        if l > 0:
-                            output[i]['schedules'].insert(l, {'name': output[i]['schedules'][0]['days']})
-                            output[i]['schedules'].insert(l, {'days': []})
-                        if j > len(output[i]['schedules'][l]['days']):
-                            for x in range(len(output[i]['schedules'][l]['days']), j):
-                                output[i]['schedules'][l]['days'].append({'time_periods': []})
-                        output[i]['schedules'][l]['days'].insert(j, {'time_periods': []})
-                        output[i]['schedules'][l]['days'][j]['time_periods'].insert(k, {
-                            'start_time': period['start_time'],
-                            'end_time': period['end_time'],
-                            'id': entry['id'],
-                            'type': entry['type']
-                        })
+                        try:
+                            output[i]['schedules'][l]['name'] = '{0}_multi_{1}'.format(base_name, l + 1)
+                            output[i]['schedules'][l]['days'][j]['time_periods'].append({
+                                'start_time': period['start_time'],
+                                'end_time': period['end_time'],
+                                'id': entry['id'],
+                                'type': entry['type']
+                            })
+                        except IndexError:
+                            output[i]['schedules'].insert(
+                                l,
+                                {
+                                    'name': '{0}_multi_{1}'.format(base_name, l + 1),
+                                    'days': [{'time_periods': []},{'time_periods': []},{'time_periods': []},{'time_periods': []},{'time_periods': []},{'time_periods': []},{'time_periods': []}]
+                                }
+                            )
+                            output[i]['schedules'][l]['days'][j]['time_periods'].append({
+                                'start_time': period['start_time'],
+                                'end_time': period['end_time'],
+                                'id': entry['id'],
+                                'type': entry['type']
+                            })
                 else:
-                    output[i]['schedules'][0]['days'][j]['time_periods'].insert(k, {
+                    output[i]['schedules'][0]['days'][j]['time_periods'].append({
                         'start_time': period['start_time'],
                         'end_time': period['end_time'],
                         'id': period['entries'][0]['id'],
                         'type': period['entries'][0]['type']
                     })
-    print output
     return output
 
 
 def main():
-    # FIXME: Need to handle breaking teams into users on multi schedules earlier
+    # FIXME: Need to handle breaking teams into users on multi schedules earlier # NOQA
     # Loop through all CSV files
     files = glob.glob('src/csv/*.csv')
     for file in files:

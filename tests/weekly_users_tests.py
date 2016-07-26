@@ -1179,37 +1179,21 @@ check_for_overlap_expected = [
             "time_periods": [
               {
                 "start_time": "0:00",
+                "type": "Team",
                 "end_time": "9:00",
-                "entries": [
-                  {
-                    "id": "Import Team",
-                    "type": "Team"
-                  }
-                ]
+                "id": "Import Team"
               },
               {
                 "start_time": "9:00",
+                "type": "User",
                 "end_time": "18:30",
-                "entries": [
-                  {
-                    "id": "Import User 2",
-                    "type": "User"
-                  },
-                  {
-                    "id": "Import User 3",
-                    "type": "User"
-                  }
-                ]
+                "id": "Import User 2"
               },
               {
                 "start_time": "18:30",
+                "type": "Team",
                 "end_time": "24:00",
-                "entries": [
-                  {
-                    "id": "Import Team",
-                    "type": "Team"
-                  }
-                ]
+                "id": "Import Team"
               }
             ]
           },
@@ -1217,37 +1201,21 @@ check_for_overlap_expected = [
             "time_periods": [
               {
                 "start_time": "0:00",
+                "type": "Team",
                 "end_time": "9:00",
-                "entries": [
-                  {
-                    "id": "Import Team",
-                    "type": "Team"
-                  }
-                ]
+                "id": "Import Team"
               },
               {
                 "start_time": "9:00",
+                "type": "User",
                 "end_time": "18:30",
-                "entries": [
-                  {
-                    "id": "Import User 2",
-                    "type": "User"
-                  },
-                  {
-                    "id": "Import User 3",
-                    "type": "User"
-                  }
-                ]
+                "id": "Import User 2"
               },
               {
                 "start_time": "18:30",
+                "type": "Team",
                 "end_time": "24:00",
-                "entries": [
-                  {
-                    "id": "Import Team",
-                    "type": "Team"
-                  }
-                ]
+                "id": "Import Team"
               }
             ]
           },
@@ -1255,37 +1223,21 @@ check_for_overlap_expected = [
             "time_periods": [
               {
                 "start_time": "0:00",
+                "type": "Team",
                 "end_time": "9:00",
-                "entries": [
-                  {
-                    "id": "Import Team",
-                    "type": "Team"
-                  }
-                ]
+                "id": "Import Team"
               },
               {
                 "start_time": "9:00",
+                "type": "User",
                 "end_time": "18:30",
-                "entries": [
-                  {
-                    "id": "Import User 2",
-                    "type": "User"
-                  },
-                  {
-                    "id": "Import User 3",
-                    "type": "User"
-                  }
-                ]
+                "id": "Import User 2"
               },
               {
                 "start_time": "18:30",
+                "type": "Team",
                 "end_time": "24:00",
-                "entries": [
-                  {
-                    "id": "Import Team",
-                    "type": "Team"
-                  }
-                ]
+                "id": "Import Team"
               }
             ]
           },
@@ -1293,37 +1245,21 @@ check_for_overlap_expected = [
             "time_periods": [
               {
                 "start_time": "0:00",
+                "type": "Team",
                 "end_time": "9:00",
-                "entries": [
-                  {
-                    "id": "Import Team",
-                    "type": "Team"
-                  }
-                ]
+                "id": "Import Team"
               },
               {
                 "start_time": "9:00",
+                "type": "User",
                 "end_time": "18:30",
-                "entries": [
-                  {
-                    "id": "Import User 2",
-                    "type": "User"
-                  },
-                  {
-                    "id": "Import User 3",
-                    "type": "User"
-                  }
-                ]
+                "id": "Import User 2"
               },
               {
                 "start_time": "18:30",
+                "type": "Team",
                 "end_time": "24:00",
-                "entries": [
-                  {
-                    "id": "Import Team",
-                    "type": "Team"
-                  }
-                ]
+                "id": "Import Team"
               }
             ]
           },
@@ -1331,37 +1267,21 @@ check_for_overlap_expected = [
             "time_periods": [
               {
                 "start_time": "0:00",
+                "type": "Team",
                 "end_time": "9:00",
-                "entries": [
-                  {
-                    "id": "Import Team",
-                    "type": "Team"
-                  }
-                ]
+                "id": "Import Team"
               },
               {
                 "start_time": "9:00",
+                "type": "User",
                 "end_time": "18:30",
-                "entries": [
-                  {
-                    "id": "Import User 2",
-                    "type": "User"
-                  },
-                  {
-                    "id": "Import User 3",
-                    "type": "User"
-                  }
-                ]
+                "id": "Import User 2"
               },
               {
                 "start_time": "18:30",
+                "type": "Team",
                 "end_time": "24:00",
-                "entries": [
-                  {
-                    "id": "Import Team",
-                    "type": "Team"
-                  }
-                ]
+                "id": "Import Team"
               }
             ]
           },
@@ -1369,37 +1289,21 @@ check_for_overlap_expected = [
             "time_periods": [
               {
                 "start_time": "0:00",
+                "type": "Team",
                 "end_time": "9:00",
-                "entries": [
-                  {
-                    "id": "Import Team",
-                    "type": "Team"
-                  }
-                ]
+                "id": "Import Team"
               },
               {
                 "start_time": "9:00",
+                "type": "User",
                 "end_time": "18:30",
-                "entries": [
-                  {
-                    "id": "Import User 2",
-                    "type": "User"
-                  },
-                  {
-                    "id": "Import User 3",
-                    "type": "User"
-                  }
-                ]
+                "id": "Import User 2"
               },
               {
                 "start_time": "18:30",
+                "type": "Team",
                 "end_time": "24:00",
-                "entries": [
-                  {
-                    "id": "Import Team",
-                    "type": "Team"
-                  }
-                ]
+                "id": "Import Team"
               }
             ]
           },
@@ -1407,113 +1311,97 @@ check_for_overlap_expected = [
             "time_periods": [
               {
                 "start_time": "0:00",
+                "type": "Team",
                 "end_time": "9:00",
-                "entries": [
-                  {
-                    "id": "Import Team",
-                    "type": "Team"
-                  }
-                ]
+                "id": "Import Team"
               },
               {
                 "start_time": "9:00",
+                "type": "User",
                 "end_time": "18:30",
-                "entries": [
-                  {
-                    "id": "Import User 2",
-                    "type": "User"
-                  },
-                  {
-                    "id": "Import User 3",
-                    "type": "User"
-                  }
-                ]
+                "id": "Import User 2"
               },
               {
                 "start_time": "18:30",
+                "type": "Team",
                 "end_time": "24:00",
-                "entries": [
-                  {
-                    "id": "Import Team",
-                    "type": "Team"
-                  }
-                ]
+                "id": "Import Team"
               }
             ]
           }
         ]
       },
       {
-        "name": "weekly_users_tests_level_1_multi_2",
+        "name": "weekly_users_test_level_1_multi_2",
         "days": [
           {
-            "start_time": "9:00",
-            "end_time": "18:30",
-            "entries": [
-              {
-                "id": "Import User 3",
-                "type": "User"
-              }
+            "time_periods": [
+                {
+                    "start_time": "9:00",
+                    "type": "User",
+                    "end_time": "18:30",
+                    "id": "Import User 3"
+                }
             ]
           },
           {
-            "start_time": "9:00",
-            "end_time": "18:30",
-            "entries": [
-              {
-                "id": "Import User 3",
-                "type": "User"
-              }
+            "time_periods": [
+                {
+                    "start_time": "9:00",
+                    "type": "User",
+                    "end_time": "18:30",
+                    "id": "Import User 3"
+                }
             ]
           },
           {
-            "start_time": "9:00",
-            "end_time": "18:30",
-            "entries": [
-              {
-                "id": "Import User 3",
-                "type": "User"
-              }
+            "time_periods": [
+                {
+                    "start_time": "9:00",
+                    "type": "User",
+                    "end_time": "18:30",
+                    "id": "Import User 3"
+                }
             ]
           },
           {
-            "start_time": "9:00",
-            "end_time": "18:30",
-            "entries": [
-              {
-                "id": "Import User 3",
-                "type": "User"
-              }
+            "time_periods": [
+                {
+                    "start_time": "9:00",
+                    "type": "User",
+                    "end_time": "18:30",
+                    "id": "Import User 3"
+                }
             ]
           },
           {
-            "start_time": "9:00",
-            "end_time": "18:30",
-            "entries": [
-              {
-                "id": "Import User 3",
-                "type": "User"
-              }
+            "time_periods": [
+                {
+                    "start_time": "9:00",
+                    "type": "User",
+                    "end_time": "18:30",
+                    "id": "Import User 3"
+                }
             ]
           },
           {
-            "start_time": "9:00",
-            "end_time": "18:30",
-            "entries": [
-              {
-                "id": "Import User 3",
-                "type": "User"
-              }
+            "time_periods": [
+                {
+                    "start_time": "9:00",
+                    "type": "User",
+                    "end_time": "18:30",
+                    "id": "Import User 3"
+                }
             ]
           },
           {
-            "start_time": "9:00",
-            "end_time": "18:30",
-            "entries": [
-              {
-                "id": "Import User 3",
-                "type": "User"
-              }
+            "time_periods": [
+                {
+                    "start_time": "9:00",
+                    "type": "User",
+                    "end_time": "18:30",
+                    "id": "Import User 3"
+                }
             ]
           }
         ]
@@ -1529,23 +1417,15 @@ check_for_overlap_expected = [
             "time_periods": [
               {
                 "start_time": "0:00",
+                "type": "User",
                 "end_time": "9:00",
-                "entries": [
-                  {
-                    "id": "Import User 1",
-                    "type": "User"
-                  }
-                ]
+                "id": "Import User 1"
               },
               {
                 "start_time": "18:30",
+                "type": "User",
                 "end_time": "24:00",
-                "entries": [
-                  {
-                    "id": "Import User 1",
-                    "type": "User"
-                  }
-                ]
+                "id": "Import User 1"
               }
             ]
           },
@@ -1553,23 +1433,15 @@ check_for_overlap_expected = [
             "time_periods": [
               {
                 "start_time": "0:00",
+                "type": "User",
                 "end_time": "9:00",
-                "entries": [
-                  {
-                    "id": "Import User 1",
-                    "type": "User"
-                  }
-                ]
+                "id": "Import User 1"
               },
               {
                 "start_time": "18:30",
+                "type": "User",
                 "end_time": "24:00",
-                "entries": [
-                  {
-                    "id": "Import User 1",
-                    "type": "User"
-                  }
-                ]
+                "id": "Import User 1"
               }
             ]
           },
@@ -1577,23 +1449,15 @@ check_for_overlap_expected = [
             "time_periods": [
               {
                 "start_time": "0:00",
+                "type": "User",
                 "end_time": "9:00",
-                "entries": [
-                  {
-                    "id": "Import User 1",
-                    "type": "User"
-                  }
-                ]
+                "id": "Import User 1"
               },
               {
                 "start_time": "18:30",
+                "type": "User",
                 "end_time": "24:00",
-                "entries": [
-                  {
-                    "id": "Import User 1",
-                    "type": "User"
-                  }
-                ]
+                "id": "Import User 1"
               }
             ]
           },
@@ -1601,23 +1465,15 @@ check_for_overlap_expected = [
             "time_periods": [
               {
                 "start_time": "0:00",
+                "type": "User",
                 "end_time": "9:00",
-                "entries": [
-                  {
-                    "id": "Import User 1",
-                    "type": "User"
-                  }
-                ]
+                "id": "Import User 1"
               },
               {
                 "start_time": "18:30",
+                "type": "User",
                 "end_time": "24:00",
-                "entries": [
-                  {
-                    "id": "Import User 1",
-                    "type": "User"
-                  }
-                ]
+                "id": "Import User 1"
               }
             ]
           },
@@ -1625,23 +1481,15 @@ check_for_overlap_expected = [
             "time_periods": [
               {
                 "start_time": "0:00",
+                "type": "User",
                 "end_time": "9:00",
-                "entries": [
-                  {
-                    "id": "Import User 1",
-                    "type": "User"
-                  }
-                ]
+                "id": "Import User 1"
               },
               {
                 "start_time": "18:30",
+                "type": "User",
                 "end_time": "24:00",
-                "entries": [
-                  {
-                    "id": "Import User 1",
-                    "type": "User"
-                  }
-                ]
+                "id": "Import User 1"
               }
             ]
           },
@@ -1649,23 +1497,15 @@ check_for_overlap_expected = [
             "time_periods": [
               {
                 "start_time": "0:00",
+                "type": "User",
                 "end_time": "9:00",
-                "entries": [
-                  {
-                    "id": "Import User 1",
-                    "type": "User"
-                  }
-                ]
+                "id": "Import User 1"
               },
               {
                 "start_time": "18:30",
+                "type": "User",
                 "end_time": "24:00",
-                "entries": [
-                  {
-                    "id": "Import User 1",
-                    "type": "User"
-                  }
-                ]
+                "id": "Import User 1"
               }
             ]
           },
@@ -1673,23 +1513,15 @@ check_for_overlap_expected = [
             "time_periods": [
               {
                 "start_time": "0:00",
+                "type": "User",
                 "end_time": "9:00",
-                "entries": [
-                  {
-                    "id": "Import User 1",
-                    "type": "User"
-                  }
-                ]
+                "id": "Import User 1"
               },
               {
                 "start_time": "18:30",
+                "type": "User",
                 "end_time": "24:00",
-                "entries": [
-                  {
-                    "id": "Import User 1",
-                    "type": "User"
-                  }
-                ]
+                "id": "Import User 1"
               }
             ]
           }
@@ -1705,25 +1537,29 @@ class WeeklyUserTests(unittest.TestCase):
     def create_days_of_week(self):
         expected_result = create_days_of_week_expected
         actual_result = import_schedules.create_days_of_week(
-         "tests/csv/weekly_users_test.csv")
+         "tests/csv/weekly_users_test.csv"
+        )
         self.assertEqual(expected_result, actual_result)
 
     def split_days_by_level(self):
         expected_result = split_days_by_level_expected
         actual_result = import_schedules.split_days_by_level(
-         split_days_by_level_input)
+         split_days_by_level_input
+        )
         self.assertEqual(expected_result, actual_result)
 
     def get_time_periods(self):
         expected_result = get_time_periods_expected
         actual_result = import_schedules.get_time_periods(
-         split_days_by_level_expected)
+         split_days_by_level_expected
+        )
         self.assertEqual(expected_result, actual_result)
 
     def check_for_overlap(self):
         expected_result = check_for_overlap_expected
         actual_result = import_schedules.check_for_overlap(
-         get_time_periods_expected)
+         get_time_periods_expected
+        )
         self.assertEqual(expected_result, actual_result)
 
 
