@@ -57,6 +57,7 @@ class PagerDutyREST():
                 r.status_code
             )
 
+    # TODO: Handle limit & pagination when >25 users
     def get_users_in_team(self, team_id):
         """GET a list of users from the team ID"""
         url = '{0}/users'.format(self.base_url)
@@ -65,7 +66,7 @@ class PagerDutyREST():
         }
         r = requests.get(url, params=payload, headers=self.headers)
         if r.status_code == 200:
-            return r.json()
+            return r.json()['users']
         else:
             print "Error: get_team_id returned status code {0}".format(
                 r.status_code
@@ -140,6 +141,30 @@ def create_days_of_week(file):
     friday = {'day_of_week': 5, 'entries': friday_entries}
     saturday = {'day_of_week': 6, 'entries': saturday_entries}
     return [sunday, monday, tuesday, wednesday, thursday, friday, saturday]
+
+
+def split_teams_into_users(pd_rest, days):
+    """Split teams into multiple user entries"""
+
+    output = []
+    for i, day in enumerate(days):
+        output.append({'day_of_week': i, 'entries': []})
+        for j, entry in enumerate(day['entries']):
+            if entry['type'].lower() == 'team':
+                users = pd_rest.get_users_in_team(pd_rest.get_team_id(entry['id']))
+                for user in users:
+                    output[i]['entries'].append({
+                        'escalation_level': entry['escalation_level'],
+                        'id': user['name'],
+                        'type': 'user',
+                        'start_time': entry['start_time'],
+                        'end_time': entry['end_time']
+                    })
+            elif entry['type'].lower() == 'user':
+                output[i]['entries'].append(entry)
+            else:
+                raise ValueError('Type must be of user or team')
+
 
 
 def split_days_by_level(base_ep):
@@ -295,6 +320,8 @@ def main():
     for file in files:
         # TODO: Add logic to handle non-weekly schedules
         days = create_days_of_week(file)
+        # Split teams into their particular users
+        days = split_teams_into_users(days)
         # Create list of escalation policies by level
         base_ep = [{
             'schedules': [{

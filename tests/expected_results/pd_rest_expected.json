@@ -1,114 +1,108 @@
 {
-  "get_users_in_team": {
-    "users": [
-      {
-        "name": "Import User 4",
-        "email": "lucas+import4@pagerduty.com",
-        "time_zone": "America/Los_Angeles",
-        "color": "deep-pink",
-        "avatar_url": "https://secure.gravatar.com/avatar/3ed4fb9bf8ceb501024ca6dfe0c151ba.png?d=mm&r=PG",
-        "billed": true,
-        "role": "user",
-        "description": null,
-        "invitation_sent": false,
-        "contact_methods": [
-          {
-            "id": "PSW6THL",
-            "type": "email_contact_method_reference",
-            "summary": "Default",
-            "self": "https://api.pagerduty.com/users/PNBLWIT/contact_methods/PSW6THL",
-            "html_url": null
-          }
-        ],
-        "notification_rules": [
-          {
-            "id": "PPI5CMV",
-            "type": "assignment_notification_rule_reference",
-            "summary": "0 minutes: channel 4285510",
-            "self": "https://api.pagerduty.com/users/PNBLWIT/notification_rules/PPI5CMV",
-            "html_url": null
-          },
-          {
-            "id": "PAD2F3Y",
-            "type": "assignment_notification_rule_reference",
-            "summary": "0 minutes: channel 4285510",
-            "self": "https://api.pagerduty.com/users/PNBLWIT/notification_rules/PAD2F3Y",
-            "html_url": null
-          }
-        ],
-        "job_title": null,
-        "teams": [
-          {
-            "id": "PXK9W2R",
-            "type": "team_reference",
-            "summary": "Import Team",
-            "self": "https://api.pagerduty.com/teams/PXK9W2R",
-            "html_url": "https://pdt-lucas.pagerduty.com/teams/PXK9W2R"
-          }
-        ],
-        "coordinated_incidents": [],
-        "id": "PNBLWIT",
-        "type": "user",
-        "summary": "Import User 4",
-        "self": "https://api.pagerduty.com/users/PNBLWIT",
-        "html_url": "https://pdt-lucas.pagerduty.com/users/PNBLWIT"
-      },
-      {
-        "name": "Import User 5",
-        "email": "lucas+import5@pagerduty.com",
-        "time_zone": "America/Los_Angeles",
-        "color": "dark-green",
-        "avatar_url": "https://secure.gravatar.com/avatar/e849db5b51739e825d1abb49603b19c1.png?d=mm&r=PG",
-        "billed": true,
-        "role": "user",
-        "description": null,
-        "invitation_sent": false,
-        "contact_methods": [
-          {
-            "id": "P4B9RDI",
-            "type": "email_contact_method_reference",
-            "summary": "Default",
-            "self": "https://api.pagerduty.com/users/PMPYVDK/contact_methods/P4B9RDI",
-            "html_url": null
-          }
-        ],
-        "notification_rules": [
-          {
-            "id": "PDAIZDJ",
-            "type": "assignment_notification_rule_reference",
-            "summary": "0 minutes: channel 4285513",
-            "self": "https://api.pagerduty.com/users/PMPYVDK/notification_rules/PDAIZDJ",
-            "html_url": null
-          },
-          {
-            "id": "P208AIS",
-            "type": "assignment_notification_rule_reference",
-            "summary": "0 minutes: channel 4285513",
-            "self": "https://api.pagerduty.com/users/PMPYVDK/notification_rules/P208AIS",
-            "html_url": null
-          }
-        ],
-        "job_title": null,
-        "teams": [
-          {
-            "id": "PXK9W2R",
-            "type": "team_reference",
-            "summary": "Import Team",
-            "self": "https://api.pagerduty.com/teams/PXK9W2R",
-            "html_url": "https://pdt-lucas.pagerduty.com/teams/PXK9W2R"
-          }
-        ],
-        "coordinated_incidents": [],
-        "id": "PMPYVDK",
-        "type": "user",
-        "summary": "Import User 5",
-        "self": "https://api.pagerduty.com/users/PMPYVDK",
-        "html_url": "https://pdt-lucas.pagerduty.com/users/PMPYVDK"
-      }
-    ],
-    "limit": 25,
-    "offset": 0,
-    "total": null,
-    "more": false
-  }
+  "get_users_in_team": [
+    {
+      "name": "Import User 4",
+      "email": "lucas+import4@pagerduty.com",
+      "time_zone": "America/Los_Angeles",
+      "color": "deep-pink",
+      "avatar_url": "https://secure.gravatar.com/avatar/3ed4fb9bf8ceb501024ca6dfe0c151ba.png?d=mm&r=PG",
+      "billed": true,
+      "role": "user",
+      "description": null,
+      "invitation_sent": false,
+      "contact_methods": [
+        {
+          "id": "PSW6THL",
+          "type": "email_contact_method_reference",
+          "summary": "Default",
+          "self": "https://api.pagerduty.com/users/PNBLWIT/contact_methods/PSW6THL",
+          "html_url": null
+        }
+      ],
+      "notification_rules": [
+        {
+          "id": "PPI5CMV",
+          "type": "assignment_notification_rule_reference",
+          "summary": "0 minutes: channel 4285510",
+          "self": "https://api.pagerduty.com/users/PNBLWIT/notification_rules/PPI5CMV",
+          "html_url": null
+        },
+        {
+          "id": "PAD2F3Y",
+          "type": "assignment_notification_rule_reference",
+          "summary": "0 minutes: channel 4285510",
+          "self": "https://api.pagerduty.com/users/PNBLWIT/notification_rules/PAD2F3Y",
+          "html_url": null
+        }
+      ],
+      "job_title": null,
+      "teams": [
+        {
+          "id": "PXK9W2R",
+          "type": "team_reference",
+          "summary": "Import Team",
+          "self": "https://api.pagerduty.com/teams/PXK9W2R",
+          "html_url": "https://pdt-lucas.pagerduty.com/teams/PXK9W2R"
+        }
+      ],
+      "coordinated_incidents": [],
+      "id": "PNBLWIT",
+      "type": "user",
+      "summary": "Import User 4",
+      "self": "https://api.pagerduty.com/users/PNBLWIT",
+      "html_url": "https://pdt-lucas.pagerduty.com/users/PNBLWIT"
+    },
+    {
+      "name": "Import User 5",
+      "email": "lucas+import5@pagerduty.com",
+      "time_zone": "America/Los_Angeles",
+      "color": "dark-green",
+      "avatar_url": "https://secure.gravatar.com/avatar/e849db5b51739e825d1abb49603b19c1.png?d=mm&r=PG",
+      "billed": true,
+      "role": "user",
+      "description": null,
+      "invitation_sent": false,
+      "contact_methods": [
+        {
+          "id": "P4B9RDI",
+          "type": "email_contact_method_reference",
+          "summary": "Default",
+          "self": "https://api.pagerduty.com/users/PMPYVDK/contact_methods/P4B9RDI",
+          "html_url": null
+        }
+      ],
+      "notification_rules": [
+        {
+          "id": "PDAIZDJ",
+          "type": "assignment_notification_rule_reference",
+          "summary": "0 minutes: channel 4285513",
+          "self": "https://api.pagerduty.com/users/PMPYVDK/notification_rules/PDAIZDJ",
+          "html_url": null
+        },
+        {
+          "id": "P208AIS",
+          "type": "assignment_notification_rule_reference",
+          "summary": "0 minutes: channel 4285513",
+          "self": "https://api.pagerduty.com/users/PMPYVDK/notification_rules/P208AIS",
+          "html_url": null
+        }
+      ],
+      "job_title": null,
+      "teams": [
+        {
+          "id": "PXK9W2R",
+          "type": "team_reference",
+          "summary": "Import Team",
+          "self": "https://api.pagerduty.com/teams/PXK9W2R",
+          "html_url": "https://pdt-lucas.pagerduty.com/teams/PXK9W2R"
+        }
+      ],
+      "coordinated_incidents": [],
+      "id": "PMPYVDK",
+      "type": "user",
+      "summary": "Import User 5",
+      "self": "https://api.pagerduty.com/users/PMPYVDK",
+      "html_url": "https://pdt-lucas.pagerduty.com/users/PMPYVDK"
+    }
+  ]
 }
