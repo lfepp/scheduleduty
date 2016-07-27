@@ -398,6 +398,28 @@ def check_for_overlap(ep_by_level):
     return output
 
 
+def concatenate_time_periods(schedule):
+    """Concatenate any time periods that cross multiple days together"""
+
+    output = {'name': schedule['name'], 'time_periods': []}
+    for i, day in enumerate(schedule['days']):
+        for period in day['time_periods']:
+            foundMatch = False
+            for j, tp in enumerate(output['time_periods']):
+                if period['start_time'] == tp['start_time'] and period['end_time'] == tp['end_time'] and period['id'] == tp['id']:
+                    output['time_periods'][j]['days'].append(i)
+                    foundMatch = True
+                    break
+            if not foundMatch:
+                output['time_periods'].append({
+                    'start_time': period['start_time'],
+                    'end_time': period['end_time'],
+                    'id': period['id'],
+                    'days': [i]
+                })
+    return output
+
+
 def main():
     # FIXME: Need to handle breaking teams into users on multi schedules earlier # NOQA
     # Loop through all CSV files

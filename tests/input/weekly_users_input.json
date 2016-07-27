@@ -1094,5 +1094,164 @@
               }
           ]
       }
-  ]
+  ],
+  "concatenate_time_periods": {
+    "name": "weekly_users_test_level_1_multi_1",
+    "days": [
+      {
+        "time_periods": [
+          {
+            "start_time": "0:00",
+            "type": "User",
+            "end_time": "9:00",
+            "id": "PYWIYMW"
+          },
+          {
+            "start_time": "9:00",
+            "type": "User",
+            "end_time": "18:30",
+            "id": "PJRFB3Z"
+          },
+          {
+            "start_time": "18:30",
+            "type": "User",
+            "end_time": "24:00",
+            "id": "PNBLWIT"
+          }
+        ]
+      },
+      {
+        "time_periods": [
+          {
+            "start_time": "0:00",
+            "type": "User",
+            "end_time": "9:00",
+            "id": "PYWIYMW"
+          },
+          {
+            "start_time": "9:00",
+            "type": "User",
+            "end_time": "18:30",
+            "id": "PJRFB3Z"
+          },
+          {
+            "start_time": "18:30",
+            "type": "User",
+            "end_time": "24:00",
+            "id": "PNBLWIT"
+          }
+        ]
+      },
+      {
+        "time_periods": [
+          {
+            "start_time": "0:00",
+            "type": "User",
+            "end_time": "9:00",
+            "id": "PYWIYMW"
+          },
+          {
+            "start_time": "9:00",
+            "type": "User",
+            "end_time": "18:30",
+            "id": "PJRFB3Z"
+          },
+          {
+            "start_time": "18:30",
+            "type": "User",
+            "end_time": "24:00",
+            "id": "PNBLWIT"
+          }
+        ]
+      },
+      {
+        "time_periods": [
+          {
+            "start_time": "0:00",
+            "type": "User",
+            "end_time": "9:00",
+            "id": "PYWIYMW"
+          },
+          {
+            "start_time": "9:00",
+            "type": "User",
+            "end_time": "18:30",
+            "id": "PJRFB3Z"
+          },
+          {
+            "start_time": "18:30",
+            "type": "User",
+            "end_time": "24:00",
+            "id": "PNBLWIT"
+          }
+        ]
+      },
+      {
+        "time_periods": [
+          {
+            "start_time": "0:00",
+            "type": "User",
+            "end_time": "9:00",
+            "id": "PYWIYMW"
+          },
+          {
+            "start_time": "9:00",
+            "type": "User",
+            "end_time": "18:30",
+            "id": "PJRFB3Z"
+          },
+          {
+            "start_time": "18:30",
+            "type": "User",
+            "end_time": "24:00",
+            "id": "PNBLWIT"
+          }
+        ]
+      },
+      {
+        "time_periods": [
+          {
+            "start_time": "0:00",
+            "type": "User",
+            "end_time": "9:00",
+            "id": "PYWIYMW"
+          },
+          {
+            "start_time": "9:00",
+            "type": "User",
+            "end_time": "18:30",
+            "id": "PJRFB3Z"
+          },
+          {
+            "start_time": "18:30",
+            "type": "User",
+            "end_time": "24:00",
+            "id": "PNBLWIT"
+          }
+        ]
+      },
+      {
+        "time_periods": [
+          {
+            "start_time": "0:00",
+            "type": "User",
+            "end_time": "9:00",
+            "id": "PYWIYMW"
+          },
+          {
+            "start_time": "9:00",
+            "type": "User",
+            "end_time": "18:30",
+            "id": "PJRFB3Z"
+          },
+          {
+            "start_time": "18:30",
+            "type": "User",
+            "end_time": "24:00",
+            "id": "PNBLWIT"
+          }
+        ]
+      }
+    ]
+  }
 }

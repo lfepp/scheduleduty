@@ -48,6 +48,7 @@ with open(config_filname) as config_file:
 pd_rest = import_schedules.PagerDutyREST(config['api_key'])
 
 
+# TODO: Need to update inputs from expected to be from input
 class WeeklyUserTests(unittest.TestCase):
 
     def create_days_of_week(self):
@@ -94,6 +95,13 @@ class WeeklyUserTests(unittest.TestCase):
         )
         self.assertEqual(expected_result, actual_result)
 
+    def concatenate_time_periods(self):
+        expected_result = expected['concatenate_time_periods']
+        actual_result = import_schedules.concatenate_time_periods(
+         input['concatenate_time_periods']
+        )
+        self.assertEqual(expected_result, actual_result)
+
 
 def suite():
     suite = unittest.TestSuite()
@@ -103,4 +111,5 @@ def suite():
     suite.addTest(WeeklyUserTests('split_days_by_level'))
     suite.addTest(WeeklyUserTests('get_time_periods'))
     suite.addTest(WeeklyUserTests('check_for_overlap'))
+    suite.addTest(WeeklyUserTests('concatenate_time_periods'))
     return suite

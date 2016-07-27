@@ -2344,5 +2344,28 @@
               }
           ]
       }
-  ]
+  ],
+  "concatenate_time_periods": {
+    "name": "weekly_users_test_level_1_multi_1",
+    "time_periods": [
+      {
+        "start_time": "0:00",
+        "end_time": "9:00",
+        "id": "PYWIYMW",
+        "days": [0, 1, 2, 3, 4, 5, 6]
+      },
+      {
+        "start_time": "9:00",
+        "end_time": "18:30",
+        "id": "PJRFB3Z",
+        "days": [0, 1, 2, 3, 4, 5, 6]
+      },
+      {
+        "start_time": "18:30",
+        "end_time": "24:00",
+        "id": "PNBLWIT",
+        "days": [0, 1, 2, 3, 4, 5, 6]
+      }
+    ]
+  }
 }
