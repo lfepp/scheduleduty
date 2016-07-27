@@ -30,11 +30,10 @@ import csv
 import glob
 import requests
 
-# TODO: Create a PDREST class for extensibility
-# PD REST API FUNCTION ################################################################################
+
+# PD REST API FUNCTION #######################################################
 class PagerDutyREST():
     """Class to house all PagerDuty REST API call methods"""
-
 
     def __init__(self, api_key):
         self.base_url = 'https://api.pagerduty.com'
@@ -42,7 +41,6 @@ class PagerDutyREST():
             'Accept': 'application/vnd.pagerduty+json;version=2',
             'Authorization': 'Token token={0}'.format(api_key)
         }
-
 
     def get_team_id(self, team_name):
         """Get team ID from team name"""
