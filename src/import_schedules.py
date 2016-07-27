@@ -44,7 +44,7 @@ class PagerDutyREST():
         }
 
     def get_team_id(self, team_name):
-        """Get team ID from team name"""
+        """GET the team ID from team name"""
         url = '{0}/teams'.format(self.base_url)
         payload = {
             'query': team_name
@@ -53,11 +53,27 @@ class PagerDutyREST():
         if r.status_code == 200:
             return r.json()['teams'][0]['id']
         else:
-            print "Error: get_team_id returned status code {0}".format(r.status_code)
+            print "Error: get_team_id returned status code {0}".format(
+                r.status_code
+            )
+
+    def get_users_in_team(self, team_id):
+        """GET a list of users from the team ID"""
+        url = '{0}/users'.format(self.base_url)
+        payload = {
+            'team_ids[]': team_id
+        }
+        r = requests.get(url, params=payload, headers=self.headers)
+        if r.status_code == 200:
+            return r.json()
+        else:
+            print "Error: get_team_id returned status code {0}".format(
+                r.status_code
+            )
 
 
 # TODO: Create a WeeklyUserLogic class for extensibility
-# WEEKLY IMPORT FUNCTIONS ################################################################################
+# WEEKLY IMPORT FUNCTIONS ##################################################
 def create_days_of_week(file):
     """Parse CSV file into days of week"""
 
@@ -226,34 +242,49 @@ def check_for_overlap(ep_by_level):
                 if len(period['entries']) > 1:
                     for l, entry in enumerate(period['entries']):
                         try:
-                            output[i]['schedules'][l]['name'] = '{0}_multi_{1}'.format(base_name, l + 1)
-                            output[i]['schedules'][l]['days'][j]['time_periods'].append({
-                                'start_time': period['start_time'],
-                                'end_time': period['end_time'],
-                                'id': entry['id'],
-                                'type': entry['type']
-                            })
+                            output[i]['schedules'][l]['name'] = (
+                                '{0}_multi_{1}'.format(base_name, l + 1)
+                            )
+                            (output[i]['schedules'][l]['days'][j]
+                                ['time_periods']).append({
+                                    'start_time': period['start_time'],
+                                    'end_time': period['end_time'],
+                                    'id': entry['id'],
+                                    'type': entry['type']
+                                })
                         except IndexError:
                             output[i]['schedules'].insert(
                                 l,
                                 {
-                                    'name': '{0}_multi_{1}'.format(base_name, l + 1),
-                                    'days': [{'time_periods': []},{'time_periods': []},{'time_periods': []},{'time_periods': []},{'time_periods': []},{'time_periods': []},{'time_periods': []}]
+                                    'name': '{0}_multi_{1}'.format(
+                                        base_name, l + 1
+                                    ),
+                                    'days': [
+                                        {'time_periods': []},
+                                        {'time_periods': []},
+                                        {'time_periods': []},
+                                        {'time_periods': []},
+                                        {'time_periods': []},
+                                        {'time_periods': []},
+                                        {'time_periods': []}
+                                    ]
                                 }
                             )
-                            output[i]['schedules'][l]['days'][j]['time_periods'].append({
-                                'start_time': period['start_time'],
-                                'end_time': period['end_time'],
-                                'id': entry['id'],
-                                'type': entry['type']
-                            })
+                            (output[i]['schedules'][l]['days'][j]
+                                ['time_periods']).append({
+                                    'start_time': period['start_time'],
+                                    'end_time': period['end_time'],
+                                    'id': entry['id'],
+                                    'type': entry['type']
+                                })
                 else:
-                    output[i]['schedules'][0]['days'][j]['time_periods'].append({
-                        'start_time': period['start_time'],
-                        'end_time': period['end_time'],
-                        'id': period['entries'][0]['id'],
-                        'type': period['entries'][0]['type']
-                    })
+                    (output[i]['schedules'][0]['days'][j]
+                        ['time_periods']).append({
+                            'start_time': period['start_time'],
+                            'end_time': period['end_time'],
+                            'id': period['entries'][0]['id'],
+                            'type': period['entries'][0]['type']
+                        })
     return output
 
 

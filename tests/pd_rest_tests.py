@@ -30,9 +30,13 @@ import sys
 import json
 import os
 sys.path.append(os.path.join(os.path.dirname(__file__), '../src'))
+expected_filename = os.path.join(os.path.dirname(__file__), './expected_results/pd_rest_expected.json')
 config_filname = os.path.join(os.path.dirname(__file__), './config.json')
 
 import import_schedules
+
+with open(expected_filename) as expected_file:
+    expected = json.load(expected_file)
 
 with open(config_filname) as config_file:
     config = json.load(config_file)
@@ -47,8 +51,14 @@ class PagerDutyRESTTests(unittest.TestCase):
         actual_result = pd_rest.get_team_id('Import Team')
         self.assertEqual(expected_result, actual_result)
 
+    def get_users_in_team(self):
+        expected_result = expected['get_users_in_team']
+        actual_result = pd_rest.get_users_in_team('PXK9W2R')
+        self.assertEqual(expected_result, actual_result)
+
 
 def suite():
     suite = unittest.TestSuite()
     suite.addTest(PagerDutyRESTTests('get_team_id'))
+    suite.addTest(PagerDutyRESTTests('get_users_in_team'))
     return suite
