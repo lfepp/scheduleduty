@@ -184,6 +184,7 @@ def split_teams_into_users(pd_rest, days):
                 output[i]['entries'].append(entry)
             else:
                 raise ValueError('Type must be of user or team')
+    return output
 
 
 

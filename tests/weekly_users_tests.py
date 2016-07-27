@@ -32,6 +32,7 @@ import os
 sys.path.append(os.path.join(os.path.dirname(__file__), '../src'))
 expected_filename = os.path.join(os.path.dirname(__file__), './expected_results/weekly_users_expected.json')
 input_filename = os.path.join(os.path.dirname(__file__), './input/weekly_users_input.json')
+config_filname = os.path.join(os.path.dirname(__file__), './config.json')
 
 import import_schedules
 
@@ -41,12 +42,26 @@ with open(expected_filename) as expected_file:
 with open(input_filename) as input_file:
     input = json.load(input_file)
 
+with open(config_filname) as config_file:
+    config = json.load(config_file)
+
+pd_rest = import_schedules.PagerDutyREST(config['api_key'])
+
+
 class WeeklyUserTests(unittest.TestCase):
 
     def create_days_of_week(self):
         expected_result = expected['create_days_of_week']
         actual_result = import_schedules.create_days_of_week(
          "tests/csv/weekly_users_test.csv"
+        )
+        self.assertEqual(expected_result, actual_result)
+
+    def split_teams_into_users(self):
+        expected_result = expected['split_teams_into_users']
+        actual_result = import_schedules.split_teams_into_users(
+         pd_rest,
+         input['split_teams_into_users']
         )
         self.assertEqual(expected_result, actual_result)
 
@@ -75,6 +90,7 @@ class WeeklyUserTests(unittest.TestCase):
 def suite():
     suite = unittest.TestSuite()
     suite.addTest(WeeklyUserTests('create_days_of_week'))
+    suite.addTest(WeeklyUserTests('split_teams_into_users'))
     suite.addTest(WeeklyUserTests('split_days_by_level'))
     suite.addTest(WeeklyUserTests('get_time_periods'))
     suite.addTest(WeeklyUserTests('check_for_overlap'))
