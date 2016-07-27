@@ -102,6 +102,13 @@ class WeeklyUserTests(unittest.TestCase):
         )
         self.assertEqual(expected_result, actual_result)
 
+    def get_schedule_payload(self):
+        expected_result = expected['get_schedule_payload']
+        actual_result = import_schedules.get_schedule_payload(
+         input['get_schedule_payload']
+        )
+        self.assertEqual(expected_result, actual_result)
+
 
 def suite():
     suite = unittest.TestSuite()
@@ -112,4 +119,5 @@ def suite():
     suite.addTest(WeeklyUserTests('get_time_periods'))
     suite.addTest(WeeklyUserTests('check_for_overlap'))
     suite.addTest(WeeklyUserTests('concatenate_time_periods'))
+    suite.addTest(WeeklyUserTests('get_schedule_payload'))
     return suite

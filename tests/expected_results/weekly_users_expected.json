@@ -2367,5 +2367,74 @@
         "days": [0, 1, 2, 3, 4, 5, 6]
       }
     ]
+  },
+  "get_schedule_payload": {
+    "schedule": {
+      "name": "weekly_users_test_level_1_multi_1",
+      "type": "schedule",
+      "time_zone": "UTC",
+      "schedule_layers": [
+        {
+          "start": "2017-01-01",
+          "rotation_virtual_start": "2017-01-01",
+          "rotation_turn_length_seconds": 3600,
+          "users": [
+            {
+              "user": {
+                "id": "PYWIYMW",
+                "type": "user_reference"
+              }
+            }
+          ],
+          "restrictions": [
+            {
+              "type": "daily_restriction",
+              "start_time_of_day": "00:00:00",
+              "duration_seconds": 32400
+            }
+          ]
+        },
+        {
+          "start": "2017-01-01",
+          "rotation_virtual_start": "2017-01-01",
+          "rotation_turn_length_seconds": 3600,
+          "users": [
+            {
+              "user": {
+                "id": "PJRFB3Z",
+                "type": "user_reference"
+              }
+            }
+          ],
+          "restrictions": [
+            {
+              "type": "daily_restriction",
+              "start_time_of_day": "09:00:00",
+              "duration_seconds": 34200
+            }
+          ]
+        },
+        {
+          "start": "2017-01-01",
+          "rotation_virtual_start": "2017-01-01",
+          "rotation_turn_length_seconds": 3600,
+          "users": [
+            {
+              "user": {
+                "id": "PNBLWIT",
+                "type": "user_reference"
+              }
+            }
+          ],
+          "restrictions": [
+            {
+              "type": "daily_restriction",
+              "start_time_of_day": "18:30:00",
+              "duration_seconds": 19800
+            }
+          ]
+        }
+      ]
+    }
   }
 }
