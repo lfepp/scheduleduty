@@ -32,7 +32,7 @@ import requests
 
 # TODO: Create a PDREST class for extensibility
 # PD REST API FUNCTION ################################################################################
-class PagerDutyREST(self, api_key):
+class PagerDutyREST():
     """Class to house all PagerDuty REST API call methods"""
 
 
