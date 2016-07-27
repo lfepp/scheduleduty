@@ -56,9 +56,15 @@ class PagerDutyRESTTests(unittest.TestCase):
         actual_result = pd_rest.get_users_in_team('PXK9W2R')
         self.assertEqual(expected_result, actual_result)
 
+    def get_user_id(self):
+        expected_result = 'PNBLWIT'
+        actual_result = pd_rest.get_user_id('Import User 4')
+        self.assertEqual(expected_result, actual_result)
+
 
 def suite():
     suite = unittest.TestSuite()
     suite.addTest(PagerDutyRESTTests('get_team_id'))
     suite.addTest(PagerDutyRESTTests('get_users_in_team'))
+    suite.addTest(PagerDutyRESTTests('get_user_id'))
     return suite

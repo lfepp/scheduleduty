@@ -45,21 +45,23 @@ class PagerDutyREST():
 
     def get_team_id(self, team_name):
         """GET the team ID from team name"""
+
         url = '{0}/teams'.format(self.base_url)
         payload = {
             'query': team_name
         }
-        r = requests.get(url, params=json.dumps(payload), headers=self.headers)
+        r = requests.get(url, params=payload, headers=self.headers)
         if r.status_code == 200:
             return r.json()['teams'][0]['id']
         else:
-            print "Error: get_team_id returned status code {0}".format(
+            raise ConnectionError('get_team_id returned status code {0}'.format(
                 r.status_code
-            )
+            ))
 
     # TODO: Handle limit & pagination when >25 users
     def get_users_in_team(self, team_id):
         """GET a list of users from the team ID"""
+
         url = '{0}/users'.format(self.base_url)
         payload = {
             'team_ids[]': team_id
@@ -68,9 +70,27 @@ class PagerDutyREST():
         if r.status_code == 200:
             return r.json()['users']
         else:
-            print "Error: get_team_id returned status code {0}".format(
+            raise ConnectionError('get_team_id returned status code {0}'.format(
                 r.status_code
-            )
+            ))
+
+    def get_user_id(self, user_query):
+        """GET the user ID from the user name or email"""
+
+        url = '{0}/users'.format(self.base_url)
+        payload = {
+            'query': user_query
+        }
+        r = requests.get(url, params=payload, headers=self.headers)
+        if r.status_code == 200:
+            if len(r.json()['users']) > 1:
+                raise ValueError('Found more than one user for {0}. Please use a unique identifier'.format(user_query))
+            else:
+                return r.json()['users'][0]['id']
+        else:
+            raise ConnectionError('get_user_id returned status code {0}'.format(
+                r.status_code
+            ))
 
 
 # TODO: Create a WeeklyUserLogic class for extensibility
@@ -155,7 +175,7 @@ def split_teams_into_users(pd_rest, days):
                 for user in users:
                     output[i]['entries'].append({
                         'escalation_level': entry['escalation_level'],
-                        'id': user['name'],
+                        'id': user['email'],
                         'type': 'user',
                         'start_time': entry['start_time'],
                         'end_time': entry['end_time']
