@@ -121,6 +121,32 @@ class PagerDutyREST():
                 r.text
             ))
 
+    def create_escalation_policy(self, payload):
+        """Create an escalation policy"""
+
+        url = '{0}/escalation_policies'.format(self.base_url)
+        r = requests.post(url, data=json.dumps(payload), headers=self.headers)
+        if r.status_code == 201:
+            return r.json()
+        else:
+            raise ValueError('create_escalation_policy returned status code {0}\n{1}'.format(
+                r.status_code,
+                r.text
+            ))
+
+    def delete_escalation_policy(self, escalation_policy_id):
+        """Delete an escalation policy"""
+
+        url = '{0}/escalation_policies/{1}'.format(self.base_url, escalation_policy_id)
+        r = requests.delete(url, headers=self.headers)
+        if r.status_code == 204:
+            return r.status_code
+        else:
+            raise ValueError('delete_escalation_policy returned status code {0}\n{1}'.format(
+                r.status_code,
+                r.text
+            ))
+
 
 # TODO: Create a WeeklyUserLogic class for extensibility
 # WEEKLY IMPORT FUNCTIONS ##################################################
@@ -306,6 +332,7 @@ def check_for_overlap(ep_by_level):
     """Checks time periods for multiple entries and breaks the entries into \
     multiple schedules
     """
+
     output = []
     for i, level in enumerate(ep_by_level):
         output.append({

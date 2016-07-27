@@ -67,13 +67,24 @@ class PagerDutyRESTTests(unittest.TestCase):
 
     # TODO: Improve these tests
     def schedules(self):
-        # Test create_schedule
+        # create_schedule test
         expected_result = {}
         actual_result = pd_rest.create_schedule(input['create_schedule'])
         self.assertEqual(type(expected_result), type(actual_result))
-        # Test delete_schedule
+        # delete_schedule test
         expected_result = 204
         actual_result = pd_rest.delete_schedule(actual_result['schedule']['id'])
+        self.assertEqual(expected_result, actual_result)
+
+    # TODO: Improve these tests
+    def escalation_policies(self):
+        # create_escalation_policy test
+        expected_result = {}
+        actual_result = pd_rest.create_escalation_policy(input['create_escalation_policy'])
+        self.assertEqual(type(expected_result), type(actual_result))
+        # delete_escalation_policy test
+        expected_result = 204
+        actual_result = pd_rest.delete_escalation_policy(actual_result['escalation_policy']['id'])
         self.assertEqual(expected_result, actual_result)
 
 
@@ -83,4 +94,5 @@ def suite():
     suite.addTest(PagerDutyRESTTests('get_users_in_team'))
     suite.addTest(PagerDutyRESTTests('get_user_id'))
     suite.addTest(PagerDutyRESTTests('schedules'))
+    suite.addTest(PagerDutyRESTTests('escalation_policies'))
     return suite

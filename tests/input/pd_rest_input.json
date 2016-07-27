@@ -47,5 +47,37 @@
         }
       ]
     }
+  },
+  "create_escalation_policy": {
+    "escalation_policy": {
+      "name": "weekly_users_test",
+      "type": "escalation_policy",
+      "repeat_enabled": true,
+      "num_loops": 1,
+      "escalation_rules": [
+        {
+          "escalation_delay_in_minutes": 30,
+          "targets": [
+            {
+              "id": "P50VWO1",
+              "type": "schedule"
+            },
+            {
+              "id": "PQGK38L",
+              "type": "schedule"
+            }
+          ]
+        },
+        {
+          "escalation_delay_in_minutes": 30,
+          "targets": [
+            {
+              "id": "PEZA00P",
+              "type": "schedule"
+            }
+          ]
+        }
+      ]
+    }
   }
 }
