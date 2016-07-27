@@ -187,6 +187,14 @@ def split_teams_into_users(pd_rest, days):
     return output
 
 
+def get_user_ids(pd_rest, days):
+    """Replace user names and emails with user IDs"""
+
+    for i, day in enumerate(days):
+        for j, entry in enumerate(day['entries']):
+            days[i]['entries'][j]['id'] = pd_rest.get_user_id(entry['id'])
+    return days
+
 
 def split_days_by_level(base_ep):
     """Split days in escalation policy by level"""

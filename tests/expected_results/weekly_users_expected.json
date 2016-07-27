@@ -1915,5 +1915,434 @@
               }
           ]
       }
+  ],
+  "get_user_ids": [
+      {
+          "day_of_week": 0,
+          "entries": [
+              {
+                  "escalation_level": 1,
+                  "id": "PNBLWIT",
+                  "type": "user",
+                  "start_time": "0:00",
+                  "end_time": "9:00"
+              },
+              {
+                  "escalation_level": 1,
+                  "id": "PMPYVDK",
+                  "type": "user",
+                  "start_time": "0:00",
+                  "end_time": "9:00"
+              },
+              {
+                  "escalation_level": 2,
+                  "id": "P7E5C85",
+                  "type": "User",
+                  "start_time": "0:00",
+                  "end_time": "9:00"
+              },
+              {
+                "escalation_level": 1,
+                "id": "PJRFB3Z",
+                "type": "User",
+                "start_time": "9:00",
+                "end_time": "18:30"
+              },
+              {
+                "escalation_level": 1,
+                "id": "PYWIYMW",
+                "type": "User",
+                "start_time": "9:00",
+                "end_time": "18:30"
+              },
+              {
+                  "escalation_level": 1,
+                  "id": "PNBLWIT",
+                  "type": "user",
+                  "start_time": "18:30",
+                  "end_time": "24:00"
+              },
+              {
+                  "escalation_level": 1,
+                  "id": "PMPYVDK",
+                  "type": "user",
+                  "start_time": "18:30",
+                  "end_time": "24:00"
+              },
+              {
+                  "escalation_level": 2,
+                  "id": "P7E5C85",
+                  "type": "User",
+                  "start_time": "18:30",
+                  "end_time": "24:00"
+              }
+          ]
+      },
+      {
+          "day_of_week": 1,
+          "entries": [
+              {
+                  "escalation_level": 1,
+                  "id": "PNBLWIT",
+                  "type": "user",
+                  "start_time": "0:00",
+                  "end_time": "9:00"
+              },
+              {
+                  "escalation_level": 1,
+                  "id": "PMPYVDK",
+                  "type": "user",
+                  "start_time": "0:00",
+                  "end_time": "9:00"
+              },
+              {
+                  "escalation_level": 2,
+                  "id": "P7E5C85",
+                  "type": "User",
+                  "start_time": "0:00",
+                  "end_time": "9:00"
+              },
+              {
+                "escalation_level": 1,
+                "id": "PJRFB3Z",
+                "type": "User",
+                "start_time": "9:00",
+                "end_time": "18:30"
+              },
+              {
+                "escalation_level": 1,
+                "id": "PYWIYMW",
+                "type": "User",
+                "start_time": "9:00",
+                "end_time": "18:30"
+              },
+              {
+                  "escalation_level": 1,
+                  "id": "PNBLWIT",
+                  "type": "user",
+                  "start_time": "18:30",
+                  "end_time": "24:00"
+              },
+              {
+                  "escalation_level": 1,
+                  "id": "PMPYVDK",
+                  "type": "user",
+                  "start_time": "18:30",
+                  "end_time": "24:00"
+              },
+              {
+                  "escalation_level": 2,
+                  "id": "P7E5C85",
+                  "type": "User",
+                  "start_time": "18:30",
+                  "end_time": "24:00"
+              }
+          ]
+      },
+      {
+          "day_of_week": 2,
+          "entries": [
+              {
+                  "escalation_level": 1,
+                  "id": "PNBLWIT",
+                  "type": "user",
+                  "start_time": "0:00",
+                  "end_time": "9:00"
+              },
+              {
+                  "escalation_level": 1,
+                  "id": "PMPYVDK",
+                  "type": "user",
+                  "start_time": "0:00",
+                  "end_time": "9:00"
+              },
+              {
+                  "escalation_level": 2,
+                  "id": "P7E5C85",
+                  "type": "User",
+                  "start_time": "0:00",
+                  "end_time": "9:00"
+              },
+              {
+                "escalation_level": 1,
+                "id": "PJRFB3Z",
+                "type": "User",
+                "start_time": "9:00",
+                "end_time": "18:30"
+              },
+              {
+                "escalation_level": 1,
+                "id": "PYWIYMW",
+                "type": "User",
+                "start_time": "9:00",
+                "end_time": "18:30"
+              },
+              {
+                  "escalation_level": 1,
+                  "id": "PNBLWIT",
+                  "type": "user",
+                  "start_time": "18:30",
+                  "end_time": "24:00"
+              },
+              {
+                  "escalation_level": 1,
+                  "id": "PMPYVDK",
+                  "type": "user",
+                  "start_time": "18:30",
+                  "end_time": "24:00"
+              },
+              {
+                  "escalation_level": 2,
+                  "id": "P7E5C85",
+                  "type": "User",
+                  "start_time": "18:30",
+                  "end_time": "24:00"
+              }
+          ]
+      },
+      {
+          "day_of_week": 3,
+          "entries": [
+              {
+                  "escalation_level": 1,
+                  "id": "PNBLWIT",
+                  "type": "user",
+                  "start_time": "0:00",
+                  "end_time": "9:00"
+              },
+              {
+                  "escalation_level": 1,
+                  "id": "PMPYVDK",
+                  "type": "user",
+                  "start_time": "0:00",
+                  "end_time": "9:00"
+              },
+              {
+                  "escalation_level": 2,
+                  "id": "P7E5C85",
+                  "type": "User",
+                  "start_time": "0:00",
+                  "end_time": "9:00"
+              },
+              {
+                "escalation_level": 1,
+                "id": "PJRFB3Z",
+                "type": "User",
+                "start_time": "9:00",
+                "end_time": "18:30"
+              },
+              {
+                "escalation_level": 1,
+                "id": "PYWIYMW",
+                "type": "User",
+                "start_time": "9:00",
+                "end_time": "18:30"
+              },
+              {
+                  "escalation_level": 1,
+                  "id": "PNBLWIT",
+                  "type": "user",
+                  "start_time": "18:30",
+                  "end_time": "24:00"
+              },
+              {
+                  "escalation_level": 1,
+                  "id": "PMPYVDK",
+                  "type": "user",
+                  "start_time": "18:30",
+                  "end_time": "24:00"
+              },
+              {
+                  "escalation_level": 2,
+                  "id": "P7E5C85",
+                  "type": "User",
+                  "start_time": "18:30",
+                  "end_time": "24:00"
+              }
+          ]
+      },
+      {
+          "day_of_week": 4,
+          "entries": [
+              {
+                  "escalation_level": 1,
+                  "id": "PNBLWIT",
+                  "type": "user",
+                  "start_time": "0:00",
+                  "end_time": "9:00"
+              },
+              {
+                  "escalation_level": 1,
+                  "id": "PMPYVDK",
+                  "type": "user",
+                  "start_time": "0:00",
+                  "end_time": "9:00"
+              },
+              {
+                  "escalation_level": 2,
+                  "id": "P7E5C85",
+                  "type": "User",
+                  "start_time": "0:00",
+                  "end_time": "9:00"
+              },
+              {
+                "escalation_level": 1,
+                "id": "PJRFB3Z",
+                "type": "User",
+                "start_time": "9:00",
+                "end_time": "18:30"
+              },
+              {
+                "escalation_level": 1,
+                "id": "PYWIYMW",
+                "type": "User",
+                "start_time": "9:00",
+                "end_time": "18:30"
+              },
+              {
+                  "escalation_level": 1,
+                  "id": "PNBLWIT",
+                  "type": "user",
+                  "start_time": "18:30",
+                  "end_time": "24:00"
+              },
+              {
+                  "escalation_level": 1,
+                  "id": "PMPYVDK",
+                  "type": "user",
+                  "start_time": "18:30",
+                  "end_time": "24:00"
+              },
+              {
+                  "escalation_level": 2,
+                  "id": "P7E5C85",
+                  "type": "User",
+                  "start_time": "18:30",
+                  "end_time": "24:00"
+              }
+          ]
+      },
+      {
+          "day_of_week": 5,
+          "entries": [
+              {
+                  "escalation_level": 1,
+                  "id": "PNBLWIT",
+                  "type": "user",
+                  "start_time": "0:00",
+                  "end_time": "9:00"
+              },
+              {
+                  "escalation_level": 1,
+                  "id": "PMPYVDK",
+                  "type": "user",
+                  "start_time": "0:00",
+                  "end_time": "9:00"
+              },
+              {
+                  "escalation_level": 2,
+                  "id": "P7E5C85",
+                  "type": "User",
+                  "start_time": "0:00",
+                  "end_time": "9:00"
+              },
+              {
+                "escalation_level": 1,
+                "id": "PJRFB3Z",
+                "type": "User",
+                "start_time": "9:00",
+                "end_time": "18:30"
+              },
+              {
+                "escalation_level": 1,
+                "id": "PYWIYMW",
+                "type": "User",
+                "start_time": "9:00",
+                "end_time": "18:30"
+              },
+              {
+                  "escalation_level": 1,
+                  "id": "PNBLWIT",
+                  "type": "user",
+                  "start_time": "18:30",
+                  "end_time": "24:00"
+              },
+              {
+                  "escalation_level": 1,
+                  "id": "PMPYVDK",
+                  "type": "user",
+                  "start_time": "18:30",
+                  "end_time": "24:00"
+              },
+              {
+                  "escalation_level": 2,
+                  "id": "P7E5C85",
+                  "type": "User",
+                  "start_time": "18:30",
+                  "end_time": "24:00"
+              }
+          ]
+      },
+      {
+          "day_of_week": 6,
+          "entries": [
+              {
+                  "escalation_level": 1,
+                  "id": "PNBLWIT",
+                  "type": "user",
+                  "start_time": "0:00",
+                  "end_time": "9:00"
+              },
+              {
+                  "escalation_level": 1,
+                  "id": "PMPYVDK",
+                  "type": "user",
+                  "start_time": "0:00",
+                  "end_time": "9:00"
+              },
+              {
+                  "escalation_level": 2,
+                  "id": "P7E5C85",
+                  "type": "User",
+                  "start_time": "0:00",
+                  "end_time": "9:00"
+              },
+              {
+                "escalation_level": 1,
+                "id": "PJRFB3Z",
+                "type": "User",
+                "start_time": "9:00",
+                "end_time": "18:30"
+              },
+              {
+                "escalation_level": 1,
+                "id": "PYWIYMW",
+                "type": "User",
+                "start_time": "9:00",
+                "end_time": "18:30"
+              },
+              {
+                  "escalation_level": 1,
+                  "id": "PNBLWIT",
+                  "type": "user",
+                  "start_time": "18:30",
+                  "end_time": "24:00"
+              },
+              {
+                  "escalation_level": 1,
+                  "id": "PMPYVDK",
+                  "type": "user",
+                  "start_time": "18:30",
+                  "end_time": "24:00"
+              },
+              {
+                  "escalation_level": 2,
+                  "id": "P7E5C85",
+                  "type": "User",
+                  "start_time": "18:30",
+                  "end_time": "24:00"
+              }
+          ]
+      }
   ]
 }

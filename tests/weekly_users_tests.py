@@ -65,6 +65,14 @@ class WeeklyUserTests(unittest.TestCase):
         )
         self.assertEqual(expected_result, actual_result)
 
+    def get_user_ids(self):
+        expected_result = expected['get_user_ids']
+        actual_result = import_schedules.get_user_ids(
+         pd_rest,
+         input['get_user_ids']
+        )
+        self.assertEqual(expected_result, actual_result)
+
     def split_days_by_level(self):
         expected_result = expected['split_days_by_level']
         actual_result = import_schedules.split_days_by_level(
@@ -91,6 +99,7 @@ def suite():
     suite = unittest.TestSuite()
     suite.addTest(WeeklyUserTests('create_days_of_week'))
     suite.addTest(WeeklyUserTests('split_teams_into_users'))
+    suite.addTest(WeeklyUserTests('get_user_ids'))
     suite.addTest(WeeklyUserTests('split_days_by_level'))
     suite.addTest(WeeklyUserTests('get_time_periods'))
     suite.addTest(WeeklyUserTests('check_for_overlap'))
