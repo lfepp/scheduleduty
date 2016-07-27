@@ -31,12 +31,16 @@ import json
 import os
 sys.path.append(os.path.join(os.path.dirname(__file__), '../src'))
 expected_filename = os.path.join(os.path.dirname(__file__), './expected_results/pd_rest_expected.json')
+input_filename = os.path.join(os.path.dirname(__file__), './input/pd_rest_input.json')
 config_filname = os.path.join(os.path.dirname(__file__), './config.json')
 
 import import_schedules
 
 with open(expected_filename) as expected_file:
     expected = json.load(expected_file)
+
+with open(input_filename) as input_file:
+    input = json.load(input_file)
 
 with open(config_filname) as config_file:
     config = json.load(config_file)
@@ -61,10 +65,22 @@ class PagerDutyRESTTests(unittest.TestCase):
         actual_result = pd_rest.get_user_id('Import User 4')
         self.assertEqual(expected_result, actual_result)
 
+    # TODO: Improve these tests
+    def schedules(self):
+        # Test create_schedule
+        expected_result = {}
+        actual_result = pd_rest.create_schedule(input['create_schedule'])
+        self.assertEqual(type(expected_result), type(actual_result))
+        # Test delete_schedule
+        expected_result = 204
+        actual_result = pd_rest.delete_schedule(actual_result['schedule']['id'])
+        self.assertEqual(expected_result, actual_result)
+
 
 def suite():
     suite = unittest.TestSuite()
     suite.addTest(PagerDutyRESTTests('get_team_id'))
     suite.addTest(PagerDutyRESTTests('get_users_in_team'))
     suite.addTest(PagerDutyRESTTests('get_user_id'))
+    suite.addTest(PagerDutyRESTTests('schedules'))
     return suite

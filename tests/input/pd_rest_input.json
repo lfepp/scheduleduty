@@ -1,0 +1,51 @@
+{
+  "create_schedule": {
+    "schedule": {
+      "name": "weekly_users_test_level_1_multi_1",
+      "type": "schedule",
+      "time_zone": "UTC",
+      "schedule_layers": [
+        {
+          "start": "2017-01-01",
+          "rotation_virtual_start": "2017-01-01",
+          "rotation_turn_length_seconds": 3600,
+          "users": [
+            {
+              "user": {
+                "id": "PMPYVDK",
+                "type": "user_reference"
+              }
+            }
+          ],
+          "restrictions": [
+            {
+              "type": "daily_restriction",
+              "start_time_of_day": "00:00:00",
+              "duration_seconds": 43200
+            }
+          ]
+        },
+        {
+          "start": "2017-01-01",
+          "rotation_virtual_start": "2017-01-01",
+          "rotation_turn_length_seconds": 3600,
+          "users": [
+            {
+              "user": {
+                "id": "PNBLWIT",
+                "type": "user_reference"
+              }
+            }
+          ],
+          "restrictions": [
+            {
+              "type": "daily_restriction",
+              "start_time_of_day": "12:00:00",
+              "duration_seconds": 43200
+            }
+          ]
+        }
+      ]
+    }
+  }
+}

@@ -40,6 +40,7 @@ class PagerDutyREST():
         self.base_url = 'https://api.pagerduty.com'
         self.headers = {
             'Accept': 'application/vnd.pagerduty+json;version=2',
+            'Content-type': 'application/json',
             'Authorization': 'Token token={0}'.format(api_key)
         }
 
@@ -54,7 +55,7 @@ class PagerDutyREST():
         if r.status_code == 200:
             return r.json()['teams'][0]['id']
         else:
-            raise ConnectionError('get_team_id returned status code {0}'.format(
+            raise ValueError('get_team_id returned status code {0}'.format(
                 r.status_code
             ))
 
@@ -70,8 +71,9 @@ class PagerDutyREST():
         if r.status_code == 200:
             return r.json()['users']
         else:
-            raise ConnectionError('get_team_id returned status code {0}'.format(
-                r.status_code
+            raise ValueError('get_team_id returned status code {0}\n{1}'.format(
+                r.status_code,
+                r.text
             ))
 
     def get_user_id(self, user_query):
@@ -88,8 +90,35 @@ class PagerDutyREST():
             else:
                 return r.json()['users'][0]['id']
         else:
-            raise ConnectionError('get_user_id returned status code {0}'.format(
-                r.status_code
+            raise ValueError('get_user_id returned status code {0}\n{1}'.format(
+                r.status_code,
+                r.text
+            ))
+
+    def create_schedule(self, payload):
+        """Create a schedule"""
+
+        url = '{0}/schedules'.format(self.base_url)
+        r = requests.post(url, data=json.dumps(payload), headers=self.headers)
+        if r.status_code == 201:
+            return r.json()
+        else:
+            raise ValueError('create_schedule returned status code {0}\n{1}'.format(
+                r.status_code,
+                r.text
+            ))
+
+    def delete_schedule(self, schedule_id):
+        """Delete a schedule"""
+
+        url = '{0}/schedules/{1}'.format(self.base_url, schedule_id)
+        r = requests.delete(url, headers=self.headers)
+        if r.status_code == 204:
+            return r.status_code
+        else:
+            raise ValueError('delete_schedule returned status code {0}\n{1}'.format(
+                r.status_code,
+                r.text
             ))
 
 
