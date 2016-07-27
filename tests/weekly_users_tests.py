@@ -32,6 +32,11 @@ sys.path.append(os.path.join(os.path.dirname(__file__), '../src'))
 
 import import_schedules
 
+with open('config.json') as config_file:
+    config = json.loads(config_file)
+    
+pd_rest = import_schedules.PagerDutyREST(config.api_key)
+
 create_days_of_week_expected = [
     {
         'day_of_week': 0,
