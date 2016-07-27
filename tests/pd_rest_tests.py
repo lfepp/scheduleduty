@@ -43,7 +43,9 @@ pd_rest = import_schedules.PagerDutyREST(config['api_key'])
 class PagerDutyRESTTests(unittest.TestCase):
 
     def get_team_id(self):
-        self.assertEqual(1, 1)
+        expected_result = 'PXK9W2R'
+        actual_result = pd_rest.get_team_id('Import Team')
+        self.assertEqual(expected_result, actual_result)
 
 
 def suite():

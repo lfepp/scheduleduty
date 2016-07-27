@@ -29,6 +29,7 @@ import sys
 import csv
 import glob
 import requests
+import json
 
 
 # PD REST API FUNCTION #######################################################
@@ -50,7 +51,7 @@ class PagerDutyREST():
         }
         r = requests.get(url, params=json.dumps(payload), headers=self.headers)
         if r.status_code == 200:
-            return r.json['teams'][0]['id']
+            return r.json()['teams'][0]['id']
         else:
             print "Error: get_team_id returned status code {0}".format(r.status_code)
 
