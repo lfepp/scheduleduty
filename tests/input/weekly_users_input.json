@@ -1279,5 +1279,16 @@
       ]
     },
     "start_date": "2017-01-01"
+  },
+  "get_escalation_policy_payload": {
+    "ep_by_level": [
+      {
+        "schedules": ["P50VWO1", "PQGK38L"]
+      },
+      {
+        "schedules": ["PEZA00P"]
+      }
+    ],
+    "name": "weekly_users_test"
   }
 }

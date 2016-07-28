@@ -471,6 +471,32 @@ def get_schedule_payload(schedule, start_date=None):
     return output
 
 
+def get_escalation_policy_payload(ep_by_level, name):
+    # TODO: Allow users to set repeat_enabled & num_loops
+    output = {
+        'escalation_policy': {
+            'name': name,
+            'type': 'escalation_policy',
+            'escalation_rules': [],
+            'repeat_enabled': True,
+            'num_loops': 1
+        }
+    }
+    for i, level in enumerate(ep_by_level):
+        # TODO: Allow users to set an escalation delay
+        output['escalation_policy']['escalation_rules'].append({
+            'escalation_delay_in_minutes': 30,
+            'targets': []
+        })
+        for schedule in level['schedules']:
+            output['escalation_policy']['escalation_rules'][i]['targets'].append({
+                'id': schedule,
+                'type': 'schedule_reference'
+            })
+    return output
+
+
+# HELPER FUNCTIONS ############################################################
 def get_seconds(time):
     """Helper function to get the seconds since 00:00:00"""
 
@@ -487,6 +513,8 @@ def main():
     # Loop through all CSV files
     files = glob.glob('src/csv/*.csv')
     for file in files:
+        # TODO: Use regex to parse filename
+        filename = file[8:len(file) - 4]
         # TODO: Add logic to handle non-weekly schedules
         days = create_days_of_week(file)
         # Split teams into their particular users
@@ -494,8 +522,7 @@ def main():
         # Create list of escalation policies by level
         base_ep = [{
             'schedules': [{
-                # TODO: Use regex to parse filename
-                'name': file[8:len(file) - 4],
+                'name': filename,
                 'days': days
             }]
         }]

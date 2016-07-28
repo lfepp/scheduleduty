@@ -2436,5 +2436,37 @@
         }
       ]
     }
+  },
+  "get_escalation_policy_payload": {
+    "escalation_policy": {
+      "name": "weekly_users_test",
+      "type": "escalation_policy",
+      "escalation_rules": [
+        {
+          "escalation_delay_in_minutes": 30,
+          "targets": [
+            {
+              "id": "P50VWO1",
+              "type": "schedule_reference"
+            },
+            {
+              "id": "PQGK38L",
+              "type": "schedule_reference"
+            }
+          ]
+        },
+        {
+          "escalation_delay_in_minutes": 30,
+          "targets": [
+            {
+              "id": "PEZA00P",
+              "type": "schedule_reference"
+            }
+          ]
+        }
+      ],
+      "repeat_enabled": true,
+      "num_loops": 1
+    }
   }
 }

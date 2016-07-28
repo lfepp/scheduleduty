@@ -108,7 +108,14 @@ class WeeklyUserTests(unittest.TestCase):
          input['get_schedule_payload']['schedule'],
          input['get_schedule_payload']['start_date']
         )
-        self.maxDiff = None
+        self.assertEqual(expected_result, actual_result)
+
+    def get_escalation_policy_payload(self):
+        expected_result = expected['get_escalation_policy_payload']
+        actual_result = import_schedules.get_escalation_policy_payload(
+         input['get_escalation_policy_payload']['ep_by_level'],
+         input['get_escalation_policy_payload']['name']
+        )
         self.assertEqual(expected_result, actual_result)
 
 
@@ -122,4 +129,5 @@ def suite():
     suite.addTest(WeeklyUserTests('check_for_overlap'))
     suite.addTest(WeeklyUserTests('concatenate_time_periods'))
     suite.addTest(WeeklyUserTests('get_schedule_payload'))
+    suite.addTest(WeeklyUserTests('get_escalation_policy_payload'))
     return suite
