@@ -105,8 +105,10 @@ class WeeklyUserTests(unittest.TestCase):
     def get_schedule_payload(self):
         expected_result = expected['get_schedule_payload']
         actual_result = import_schedules.get_schedule_payload(
-         input['get_schedule_payload']
+         input['get_schedule_payload']['schedule'],
+         input['get_schedule_payload']['start_date']
         )
+        self.maxDiff = None
         self.assertEqual(expected_result, actual_result)
 
 

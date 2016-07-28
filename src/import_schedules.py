@@ -423,11 +423,15 @@ def concatenate_time_periods(schedule):
     return output
 
 
-def get_schedule_payload(schedule):
-    # TODO: Allow users to set UTC
+def get_schedule_payload(schedule, start_date=None):
+    # TODO: Allow users to set time zone to something other than UTC
     # TODO: Allow users to set start date
     # TODO: Allow users to set end date
     # TODO: Handle rotations and rotation lengths or at least don't hard code a random value
+    if start_date is None:
+        start_date = datetime.now()
+    else:
+        start_date = datetime.strptime(start_date, '%Y-%m-%d')
     tz = pytz.timezone('UTC')
     output = {
         'schedule': {
@@ -439,32 +443,32 @@ def get_schedule_payload(schedule):
     }
     for i, period in enumerate(schedule['time_periods']):
         output['schedule']['schedule_layers'].append({
-            'start': tz.localize(datetime.now().isoformat()),
-            'rotation_virtual_start': tz.localize(datetime.now().isoformat()),
+            'start': tz.localize(start_date).isoformat(),
+            'rotation_virtual_start': tz.localize(start_date).isoformat(),
             'rotation_turn_length_seconds': 3600,
-            'users': [
-                {
+            'users': [{
+                'user': {
                     'id': period['id'],
                     'type': 'user_reference'
                 }
-            ],
+            }],
             'restrictions': []
         })
         # Set to daily_restriction if the period exists for all days
         if len(period['days']) == 7:
             output['schedule']['schedule_layers'][i]['restrictions'].append({
                 'type': 'daily_restriction',
-                'start_time_of_day': time.strftime('%H:%M:%S', get_seconds(period['start_time'])),
+                'start_time_of_day': time.strftime('%H:%M:%S', time.gmtime(get_seconds(period['start_time']))),
                 'duration_seconds': get_seconds(period['end_time']) - get_seconds(period['start_time'])
             })
         else:
             for day in period['days']:
                 output['schedule']['schedule_layers'][i]['restrictions'].append({
                     'type': 'weekly_restriction',
-                    'start_time_of_day': time.strftime('%H:%M:%S', get_seconds(period['start_time'])),
-                    'duration_seconds': get_seconds(period['end_time']) - get_seconds(period['start_time']),
-                    'start_day_of_week': day + 1
+                    'start_time_of_day': time.strftime('%H:%M:%S', time.gmtime(get_seconds(period['start_time']))),
+                    'duration_seconds': get_seconds(period['end_time']) - get_seconds(period['start_time'])
                 })
+    return output
 
 
 def get_seconds(time):
@@ -480,7 +484,6 @@ def get_seconds(time):
 
 
 def main():
-    # FIXME: Need to handle breaking teams into users on multi schedules earlier # NOQA
     # Loop through all CSV files
     files = glob.glob('src/csv/*.csv')
     for file in files:
@@ -501,6 +504,13 @@ def main():
         ep_by_level = get_time_periods(ep_by_level)
         ep_by_level = check_for_overlap(ep_by_level)
         print ep_by_level
+    # 5) Remove entries list from the ep_by_level object
+    # 6) Break each day down by time period
+    # 7) Loop through consecutive days for patterns
+    # 8) Each batch of user/time period/consecutive days becomes a new layer
+    # 9) When a batch has a team, get the users on that team instead
+    # 10) Each possible schedule on each EP level becomes a schedule based on layers in 7 # NOQA
+    # 11) EP is created
 
 if __name__ == '__main__':
     sys.exit(main())
