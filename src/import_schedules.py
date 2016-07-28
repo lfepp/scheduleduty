@@ -509,7 +509,10 @@ def get_seconds(time):
         raise ValueError('Invalid input. Time must be of format HH:MM:SS or HH:MM: {0}'.format(time))
 
 
-def main():
+# TODO: Write a unit test for main()
+def main(api_key):
+    # Declare an instance of PagerDutyREST
+    pd_rest = PagerDutyREST(api_key)
     # Loop through all CSV files
     files = glob.glob('src/csv/*.csv')
     for file in files:
@@ -518,7 +521,9 @@ def main():
         # TODO: Add logic to handle non-weekly schedules
         days = create_days_of_week(file)
         # Split teams into their particular users
-        days = split_teams_into_users(days)
+        days = split_teams_into_users(pd_rest, days)
+        # Update user names/emails to user IDs
+        days = get_user_ids(pd_rest, days)
         # Create list of escalation policies by level
         base_ep = [{
             'schedules': [{
@@ -530,14 +535,20 @@ def main():
         # TODO: Handle cominbing cases where one on-call starts at 0:00 and another ends at 24:00 # NOQA
         ep_by_level = get_time_periods(ep_by_level)
         ep_by_level = check_for_overlap(ep_by_level)
-        print ep_by_level
-    # 5) Remove entries list from the ep_by_level object
-    # 6) Break each day down by time period
-    # 7) Loop through consecutive days for patterns
-    # 8) Each batch of user/time period/consecutive days becomes a new layer
-    # 9) When a batch has a team, get the users on that team instead
-    # 10) Each possible schedule on each EP level becomes a schedule based on layers in 7 # NOQA
-    # 11) EP is created
+        # Create schedules in PagerDuty
+        for i, level in enumerate(ep_by_level):
+            for j, schedule in enumerate(level['schedules']):
+                schedule_by_periods = concatenate_time_periods(schedule)
+                schedule_payload = get_schedule_payload(schedule_by_periods)
+                schedule_id = pd_rest.create_schedule(schedule_payload)['schedule']['id']
+                ep_by_level[i]['schedules'][j] = schedule_id
+        # Create escalation policy in PagerDuty
+        escalation_policy_payload = get_escalation_policy_payload(ep_by_level, filename)
+        res = pd_rest.create_escalation_policy(escalation_policy_payload)
+        print "Successfully create escalation policy: {0}".format(res['escalation_policy']['id'])
 
 if __name__ == '__main__':
-    sys.exit(main())
+    if len(sys.argv) == 1:
+        print "Error: Please input a v2 API key as the first argument"
+    else:
+        sys.exit(main(sys.argv[1]))
