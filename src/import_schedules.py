@@ -33,6 +33,7 @@ import json
 from datetime import datetime
 import pytz
 import time
+import argparse
 
 
 # PD REST API FUNCTION #######################################################
@@ -548,7 +549,14 @@ def main(api_key):
         print "Successfully create escalation policy: {0}".format(res['escalation_policy']['id'])
 
 if __name__ == '__main__':
-    if len(sys.argv) == 1:
-        print "Error: Please input a v2 API key as the first argument"
-    else:
-        sys.exit(main(sys.argv[1]))
+    parser = argparse.ArgumentParser(description='Import weekly schedules')
+    parser.add_argument('--api-key', help='PagerDuty v2 REST API Key', dest='api_key')
+    # parser.add_argument('--base-name', help='Name of the escalation policy and base name for each schedule', dest='base_name')
+    # parser.add_argument('--layer-name', help='Base name for each new layer to be appended by the layer number', dest='layer_name')
+    # parser.add_argument('--multiple-name', help='Base name for each schedule on the same layer to be appended by the multiple number', dest='multi_name')
+    # parser.add_argument('--start-date', help='ISO 8601 formatted start date for the schedules', dest='start_date')
+    # parser.add_argument('--end-date', help='ISO 8601 formatted end date for the schedules', dest='end_date')
+    # parser.add_argument('--time-zone', help='Time zone for this schedule', dest='time_zone')
+    # parser.add_argument('--num-loops', help='The number of times to loop through the escalation policy', dest='num_loops')
+    args = parser.parse_args()
+    main(args.api_key)

@@ -59,11 +59,11 @@
           "escalation_delay_in_minutes": 30,
           "targets": [
             {
-              "id": "P50VWO1",
+              "id": "POC8DQK",
               "type": "schedule"
             },
             {
-              "id": "PQGK38L",
+              "id": "P3F4VK5",
               "type": "schedule"
             }
           ]
@@ -72,7 +72,7 @@
           "escalation_delay_in_minutes": 30,
           "targets": [
             {
-              "id": "PEZA00P",
+              "id": "P6CKQXT",
               "type": "schedule"
             }
           ]
