@@ -46,6 +46,7 @@ with open(config_filname) as config_file:
     config = json.load(config_file)
 
 pd_rest = import_schedules.PagerDutyREST(config['api_key'])
+weekly_users = import_schedules.WeeklyUserLogic(config['base_name'])
 
 
 # TODO: Need to update inputs from expected to be from input
@@ -53,14 +54,14 @@ class WeeklyUserTests(unittest.TestCase):
 
     def create_days_of_week(self):
         expected_result = expected['create_days_of_week']
-        actual_result = import_schedules.create_days_of_week(
+        actual_result = weekly_users.create_days_of_week(
          "tests/csv/weekly_users_test.csv"
         )
         self.assertEqual(expected_result, actual_result)
 
     def split_teams_into_users(self):
         expected_result = expected['split_teams_into_users']
-        actual_result = import_schedules.split_teams_into_users(
+        actual_result = weekly_users.split_teams_into_users(
          pd_rest,
          input['split_teams_into_users']
         )
@@ -68,7 +69,7 @@ class WeeklyUserTests(unittest.TestCase):
 
     def get_user_ids(self):
         expected_result = expected['get_user_ids']
-        actual_result = import_schedules.get_user_ids(
+        actual_result = weekly_users.get_user_ids(
          pd_rest,
          input['get_user_ids']
         )
@@ -76,35 +77,35 @@ class WeeklyUserTests(unittest.TestCase):
 
     def split_days_by_level(self):
         expected_result = expected['split_days_by_level']
-        actual_result = import_schedules.split_days_by_level(
+        actual_result = weekly_users.split_days_by_level(
          input['split_days_by_level']
         )
         self.assertEqual(expected_result, actual_result)
 
     def get_time_periods(self):
         expected_result = expected['get_time_periods']
-        actual_result = import_schedules.get_time_periods(
+        actual_result = weekly_users.get_time_periods(
          expected['split_days_by_level']
         )
         self.assertEqual(expected_result, actual_result)
 
     def check_for_overlap(self):
         expected_result = expected['check_for_overlap']
-        actual_result = import_schedules.check_for_overlap(
+        actual_result = weekly_users.check_for_overlap(
          expected['get_time_periods']
         )
         self.assertEqual(expected_result, actual_result)
 
     def concatenate_time_periods(self):
         expected_result = expected['concatenate_time_periods']
-        actual_result = import_schedules.concatenate_time_periods(
+        actual_result = weekly_users.concatenate_time_periods(
          input['concatenate_time_periods']
         )
         self.assertEqual(expected_result, actual_result)
 
     def get_schedule_payload(self):
         expected_result = expected['get_schedule_payload']
-        actual_result = import_schedules.get_schedule_payload(
+        actual_result = weekly_users.get_schedule_payload(
          input['get_schedule_payload']['schedule'],
          input['get_schedule_payload']['start_date']
         )
@@ -112,7 +113,7 @@ class WeeklyUserTests(unittest.TestCase):
 
     def get_escalation_policy_payload(self):
         expected_result = expected['get_escalation_policy_payload']
-        actual_result = import_schedules.get_escalation_policy_payload(
+        actual_result = weekly_users.get_escalation_policy_payload(
          input['get_escalation_policy_payload']['ep_by_level'],
          input['get_escalation_policy_payload']['name']
         )

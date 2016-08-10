@@ -154,163 +154,178 @@ class PagerDutyREST():
 
 # TODO: Create a WeeklyUserLogic class for extensibility
 # WEEKLY IMPORT FUNCTIONS ##################################################
-def create_days_of_week(file):
-    """Parse CSV file into days of week"""
+class WeeklyUserLogic():
+    """Class to house the weekly user import logic"""
 
-    sunday_entries = []
-    monday_entries = []
-    tuesday_entries = []
-    wednesday_entries = []
-    thursday_entries = []
-    friday_entries = []
-    saturday_entries = []
-    reader = csv.DictReader(open(file), fieldnames=('escalation_level',
-                                                    'user_or_team',
-                                                    'type',
-                                                    'day_of_week',
-                                                    'start_time',
-                                                    'end_time'))
-    reader.next()
-    for row in reader:
-        entry = {
-            'escalation_level': int(row['escalation_level']),
-            'id': row['user_or_team'],
-            'type': row['type'],
-            'start_time': row['start_time'],
-            'end_time': row['end_time']
-        }
-        if row['day_of_week'] == 0 or row['day_of_week'].lower() == 'sunday':
-            sunday_entries.append(entry)
-        elif row['day_of_week'] == 1 or row['day_of_week'].lower() == 'monday':
-            monday_entries.append(entry)
-        elif (row['day_of_week'] == 2 or
-              row['day_of_week'].lower() == 'tuesday'):
-            tuesday_entries.append(entry)
-        elif (row['day_of_week'] == 3 or
-              row['day_of_week'].lower() == 'wednesday'):
-            wednesday_entries.append(entry)
-        elif (row['day_of_week'] == 4 or
-              row['day_of_week'].lower() == 'thursday'):
-            thursday_entries.append(entry)
-        elif row['day_of_week'] == 5 or row['day_of_week'].lower() == 'friday':
-            friday_entries.append(entry)
-        elif (row['day_of_week'] == 6 or
-              row['day_of_week'].lower() == 'saturday'):
-            saturday_entries.append(entry)
-        elif (row['day_of_week'] == 'weekday' or
-              row['day_of_week'] == 'weekdays'):
-            monday_entries.append(entry)
-            tuesday_entries.append(entry)
-            wednesday_entries.append(entry)
-            thursday_entries.append(entry)
-            friday_entries.append(entry)
-        elif (row['day_of_week'] == 'weekend' or
-              row['day_of_week'] == 'weekends'):
-            saturday_entries.append(entry)
-            sunday_entries.append(entry)
-        else:
-            print ('Error: Entry {0} has an unknown value for day_of_week: {1}'
-                   .format(row['user_or_team'], row['day_of_week']))
-    # Create days with entries
-    sunday = {'day_of_week': 0, 'entries': sunday_entries}
-    monday = {'day_of_week': 1, 'entries': monday_entries}
-    tuesday = {'day_of_week': 2, 'entries': tuesday_entries}
-    wednesday = {'day_of_week': 3, 'entries': wednesday_entries}
-    thursday = {'day_of_week': 4, 'entries': thursday_entries}
-    friday = {'day_of_week': 5, 'entries': friday_entries}
-    saturday = {'day_of_week': 6, 'entries': saturday_entries}
-    return [sunday, monday, tuesday, wednesday, thursday, friday, saturday]
+    def __init__(self, base_name):
+        self.base_name = base_name
 
+    def create_days_of_week(self, file):
+        """Parse CSV file into days of week"""
 
-def split_teams_into_users(pd_rest, days):
-    """Split teams into multiple user entries"""
-
-    output = []
-    for i, day in enumerate(days):
-        output.append({'day_of_week': i, 'entries': []})
-        for j, entry in enumerate(day['entries']):
-            if entry['type'].lower() == 'team':
-                users = pd_rest.get_users_in_team(pd_rest.get_team_id(entry['id']))
-                for user in users:
-                    output[i]['entries'].append({
-                        'escalation_level': entry['escalation_level'],
-                        'id': user['email'],
-                        'type': 'user',
-                        'start_time': entry['start_time'],
-                        'end_time': entry['end_time']
-                    })
-            elif entry['type'].lower() == 'user':
-                output[i]['entries'].append(entry)
+        sunday_entries = []
+        monday_entries = []
+        tuesday_entries = []
+        wednesday_entries = []
+        thursday_entries = []
+        friday_entries = []
+        saturday_entries = []
+        reader = csv.DictReader(open(file), fieldnames=('escalation_level',
+                                                        'user_or_team',
+                                                        'type',
+                                                        'day_of_week',
+                                                        'start_time',
+                                                        'end_time'))
+        reader.next()
+        for row in reader:
+            entry = {
+                'escalation_level': int(row['escalation_level']),
+                'id': row['user_or_team'],
+                'type': row['type'],
+                'start_time': row['start_time'],
+                'end_time': row['end_time']
+            }
+            if row['day_of_week'] == 0 or row['day_of_week'].lower() == 'sunday':
+                sunday_entries.append(entry)
+            elif row['day_of_week'] == 1 or row['day_of_week'].lower() == 'monday':
+                monday_entries.append(entry)
+            elif (row['day_of_week'] == 2 or
+                  row['day_of_week'].lower() == 'tuesday'):
+                tuesday_entries.append(entry)
+            elif (row['day_of_week'] == 3 or
+                  row['day_of_week'].lower() == 'wednesday'):
+                wednesday_entries.append(entry)
+            elif (row['day_of_week'] == 4 or
+                  row['day_of_week'].lower() == 'thursday'):
+                thursday_entries.append(entry)
+            elif row['day_of_week'] == 5 or row['day_of_week'].lower() == 'friday':
+                friday_entries.append(entry)
+            elif (row['day_of_week'] == 6 or
+                  row['day_of_week'].lower() == 'saturday'):
+                saturday_entries.append(entry)
+            elif (row['day_of_week'] == 'weekday' or
+                  row['day_of_week'] == 'weekdays'):
+                monday_entries.append(entry)
+                tuesday_entries.append(entry)
+                wednesday_entries.append(entry)
+                thursday_entries.append(entry)
+                friday_entries.append(entry)
+            elif (row['day_of_week'] == 'weekend' or
+                  row['day_of_week'] == 'weekends'):
+                saturday_entries.append(entry)
+                sunday_entries.append(entry)
             else:
-                raise ValueError('Type must be of user or team')
-    return output
+                print ('Error: Entry {0} has an unknown value for day_of_week: {1}'
+                       .format(row['user_or_team'], row['day_of_week']))
+        # Create days with entries
+        sunday = {'day_of_week': 0, 'entries': sunday_entries}
+        monday = {'day_of_week': 1, 'entries': monday_entries}
+        tuesday = {'day_of_week': 2, 'entries': tuesday_entries}
+        wednesday = {'day_of_week': 3, 'entries': wednesday_entries}
+        thursday = {'day_of_week': 4, 'entries': thursday_entries}
+        friday = {'day_of_week': 5, 'entries': friday_entries}
+        saturday = {'day_of_week': 6, 'entries': saturday_entries}
+        return [sunday, monday, tuesday, wednesday, thursday, friday, saturday]
 
 
-def get_user_ids(pd_rest, days):
-    """Replace user names and emails with user IDs"""
+    def split_teams_into_users(self, pd_rest, days):
+        """Split teams into multiple user entries"""
 
-    for i, day in enumerate(days):
-        for j, entry in enumerate(day['entries']):
-            days[i]['entries'][j]['id'] = pd_rest.get_user_id(entry['id'])
-    return days
-
-
-def split_days_by_level(base_ep):
-    """Split days in escalation policy by level"""
-
-    levels = {}
-    ep_by_level = []
-    for day in base_ep[0]['schedules'][0]['days']:
-        for entry in day['entries']:
-            if str(entry['escalation_level']) in levels:
-                (levels[str(entry['escalation_level'])]['days']
-                 [str(day['day_of_week'])].append(entry))
-            else:
-                levels[str(entry['escalation_level'])] = ({'days': {'0': [],
-                                                          '1': [], '2': [],
-                                                          '3': [], '4': [],
-                                                          '5': [], '6': []}})
-                (levels[str(entry['escalation_level'])]['days']
-                 [str(day['day_of_week'])].append(entry))
-    for level in levels.keys():
-        days = []
-        i = 0
-        while i <= 6:
-            for day in levels[level]['days']:
-                if int(day) == i:
-                    days.append(levels[level]['days'][day])
-                    i += 1
-        ep_by_level.insert(int(level), {
-            'schedules': [{
-                'name': ('{0}_level_{1}'.format(base_ep[0]['schedules'][0]
-                         ['name'], level)),
-                'days': days
-            }]
-        })
-    return ep_by_level
+        output = []
+        for i, day in enumerate(days):
+            output.append({'day_of_week': i, 'entries': []})
+            for j, entry in enumerate(day['entries']):
+                if entry['type'].lower() == 'team':
+                    users = pd_rest.get_users_in_team(pd_rest.get_team_id(entry['id']))
+                    for user in users:
+                        output[i]['entries'].append({
+                            'escalation_level': entry['escalation_level'],
+                            'id': user['email'],
+                            'type': 'user',
+                            'start_time': entry['start_time'],
+                            'end_time': entry['end_time']
+                        })
+                elif entry['type'].lower() == 'user':
+                    output[i]['entries'].append(entry)
+                else:
+                    raise ValueError('Type must be of user or team')
+        return output
 
 
-def get_time_periods(ep_by_level):
-    """Breaks out each day by time period"""
+    def get_user_ids(self, pd_rest, days):
+        """Replace user names and emails with user IDs"""
 
-    for level in ep_by_level:
-        for i, day in enumerate(level['schedules'][0]['days']):
-            time_periods = []
-            for entry in day:
-                # Loop through current time_periods to check for overlaps
-                if len(time_periods) > 0:
-                    overlap = False
-                    for period in time_periods:
-                        # TODO: Handle cases where times overlap but are not exactly the same start & end # NOQA
-                        if (entry['start_time'] == period['start_time'] and
-                           entry['end_time'] == period['end_time']):
-                            period['entries'].append({
-                                'id': entry['id'],
-                                'type': entry['type']
+        for i, day in enumerate(days):
+            for j, entry in enumerate(day['entries']):
+                days[i]['entries'][j]['id'] = pd_rest.get_user_id(entry['id'])
+        return days
+
+
+    def split_days_by_level(self, base_ep):
+        """Split days in escalation policy by level"""
+
+        levels = {}
+        ep_by_level = []
+        for day in base_ep[0]['schedules'][0]['days']:
+            for entry in day['entries']:
+                if str(entry['escalation_level']) in levels:
+                    (levels[str(entry['escalation_level'])]['days']
+                     [str(day['day_of_week'])].append(entry))
+                else:
+                    levels[str(entry['escalation_level'])] = ({'days': {'0': [],
+                                                              '1': [], '2': [],
+                                                              '3': [], '4': [],
+                                                              '5': [], '6': []}})
+                    (levels[str(entry['escalation_level'])]['days']
+                     [str(day['day_of_week'])].append(entry))
+        for level in levels.keys():
+            days = []
+            i = 0
+            while i <= 6:
+                for day in levels[level]['days']:
+                    if int(day) == i:
+                        days.append(levels[level]['days'][day])
+                        i += 1
+            ep_by_level.insert(int(level), {
+                'schedules': [{
+                    'name': ('{0}_level_{1}'.format(base_ep[0]['schedules'][0]
+                             ['name'], level)),
+                    'days': days
+                }]
+            })
+        return ep_by_level
+
+
+    def get_time_periods(self, ep_by_level):
+        """Breaks out each day by time period"""
+
+        for level in ep_by_level:
+            for i, day in enumerate(level['schedules'][0]['days']):
+                time_periods = []
+                for entry in day:
+                    # Loop through current time_periods to check for overlaps
+                    if len(time_periods) > 0:
+                        overlap = False
+                        for period in time_periods:
+                            # TODO: Handle cases where times overlap but are not exactly the same start & end # NOQA
+                            if (entry['start_time'] == period['start_time'] and
+                               entry['end_time'] == period['end_time']):
+                                period['entries'].append({
+                                    'id': entry['id'],
+                                    'type': entry['type']
+                                })
+                                overlap = True
+                                break
+                        if not overlap:
+                            time_periods.append({
+                                'start_time': entry['start_time'],
+                                'end_time': entry['end_time'],
+                                'entries': [{
+                                    'id': entry['id'],
+                                    'type': entry['type']
+                                }]
                             })
-                            overlap = True
-                            break
-                    if not overlap:
+                    else:
                         time_periods.append({
                             'start_time': entry['start_time'],
                             'end_time': entry['end_time'],
@@ -319,195 +334,186 @@ def get_time_periods(ep_by_level):
                                 'type': entry['type']
                             }]
                         })
-                else:
-                    time_periods.append({
-                        'start_time': entry['start_time'],
-                        'end_time': entry['end_time'],
-                        'entries': [{
-                            'id': entry['id'],
-                            'type': entry['type']
-                        }]
+                level['schedules'][0]['days'][i] = {"time_periods": time_periods}
+        return ep_by_level
+
+
+    def check_for_overlap(self, ep_by_level):
+        """Checks time periods for multiple entries and breaks the entries into \
+        multiple schedules
+        """
+
+        output = []
+        for i, level in enumerate(ep_by_level):
+            output.append({
+                'schedules': [
+                    {
+                        'name': level['schedules'][0]['name'],
+                        'days': []
+                    }
+                ]
+            })
+            new_base_name = level['schedules'][0]['name']
+            for j, day in enumerate(level['schedules'][0]['days']):
+                output[i]['schedules'][0]['days'].append({'time_periods': []})
+                if len(day['time_periods']) == 0:
+                    continue
+                for k, period in enumerate(day['time_periods']):
+                    if len(period['entries']) > 1:
+                        for l, entry in enumerate(period['entries']):
+                            try:
+                                output[i]['schedules'][l]['name'] = (
+                                    '{0}_multi_{1}'.format(new_base_name, l + 1)
+                                )
+                                (output[i]['schedules'][l]['days'][j]
+                                    ['time_periods']).append({
+                                        'start_time': period['start_time'],
+                                        'end_time': period['end_time'],
+                                        'id': entry['id'],
+                                        'type': entry['type']
+                                    })
+                            except IndexError:
+                                output[i]['schedules'].insert(
+                                    l,
+                                    {
+                                        'name': '{0}_multi_{1}'.format(
+                                            new_base_name, l + 1
+                                        ),
+                                        'days': [
+                                            {'time_periods': []},
+                                            {'time_periods': []},
+                                            {'time_periods': []},
+                                            {'time_periods': []},
+                                            {'time_periods': []},
+                                            {'time_periods': []},
+                                            {'time_periods': []}
+                                        ]
+                                    }
+                                )
+                                (output[i]['schedules'][l]['days'][j]
+                                    ['time_periods']).append({
+                                        'start_time': period['start_time'],
+                                        'end_time': period['end_time'],
+                                        'id': entry['id'],
+                                        'type': entry['type']
+                                    })
+                    else:
+                        (output[i]['schedules'][0]['days'][j]
+                            ['time_periods']).append({
+                                'start_time': period['start_time'],
+                                'end_time': period['end_time'],
+                                'id': period['entries'][0]['id'],
+                                'type': period['entries'][0]['type']
+                            })
+        return output
+
+
+    def concatenate_time_periods(self, schedule):
+        """Concatenate any time periods that cross multiple days together"""
+
+        output = {'name': schedule['name'], 'time_periods': []}
+        for i, day in enumerate(schedule['days']):
+            for period in day['time_periods']:
+                foundMatch = False
+                for j, tp in enumerate(output['time_periods']):
+                    if period['start_time'] == tp['start_time'] and period['end_time'] == tp['end_time'] and period['id'] == tp['id']:
+                        output['time_periods'][j]['days'].append(i)
+                        foundMatch = True
+                        break
+                if not foundMatch:
+                    output['time_periods'].append({
+                        'start_time': period['start_time'],
+                        'end_time': period['end_time'],
+                        'id': period['id'],
+                        'days': [i]
                     })
-            level['schedules'][0]['days'][i] = {"time_periods": time_periods}
-    return ep_by_level
+        return output
 
 
-def check_for_overlap(ep_by_level):
-    """Checks time periods for multiple entries and breaks the entries into \
-    multiple schedules
-    """
-
-    output = []
-    for i, level in enumerate(ep_by_level):
-        output.append({
-            'schedules': [
-                {
-                    'name': level['schedules'][0]['name'],
-                    'days': []
-                }
-            ]
-        })
-        base_name = level['schedules'][0]['name']
-        for j, day in enumerate(level['schedules'][0]['days']):
-            output[i]['schedules'][0]['days'].append({'time_periods': []})
-            if len(day['time_periods']) == 0:
-                continue
-            for k, period in enumerate(day['time_periods']):
-                if len(period['entries']) > 1:
-                    for l, entry in enumerate(period['entries']):
-                        try:
-                            output[i]['schedules'][l]['name'] = (
-                                '{0}_multi_{1}'.format(base_name, l + 1)
-                            )
-                            (output[i]['schedules'][l]['days'][j]
-                                ['time_periods']).append({
-                                    'start_time': period['start_time'],
-                                    'end_time': period['end_time'],
-                                    'id': entry['id'],
-                                    'type': entry['type']
-                                })
-                        except IndexError:
-                            output[i]['schedules'].insert(
-                                l,
-                                {
-                                    'name': '{0}_multi_{1}'.format(
-                                        base_name, l + 1
-                                    ),
-                                    'days': [
-                                        {'time_periods': []},
-                                        {'time_periods': []},
-                                        {'time_periods': []},
-                                        {'time_periods': []},
-                                        {'time_periods': []},
-                                        {'time_periods': []},
-                                        {'time_periods': []}
-                                    ]
-                                }
-                            )
-                            (output[i]['schedules'][l]['days'][j]
-                                ['time_periods']).append({
-                                    'start_time': period['start_time'],
-                                    'end_time': period['end_time'],
-                                    'id': entry['id'],
-                                    'type': entry['type']
-                                })
-                else:
-                    (output[i]['schedules'][0]['days'][j]
-                        ['time_periods']).append({
-                            'start_time': period['start_time'],
-                            'end_time': period['end_time'],
-                            'id': period['entries'][0]['id'],
-                            'type': period['entries'][0]['type']
-                        })
-    return output
-
-
-def concatenate_time_periods(schedule):
-    """Concatenate any time periods that cross multiple days together"""
-
-    output = {'name': schedule['name'], 'time_periods': []}
-    for i, day in enumerate(schedule['days']):
-        for period in day['time_periods']:
-            foundMatch = False
-            for j, tp in enumerate(output['time_periods']):
-                if period['start_time'] == tp['start_time'] and period['end_time'] == tp['end_time'] and period['id'] == tp['id']:
-                    output['time_periods'][j]['days'].append(i)
-                    foundMatch = True
-                    break
-            if not foundMatch:
-                output['time_periods'].append({
-                    'start_time': period['start_time'],
-                    'end_time': period['end_time'],
-                    'id': period['id'],
-                    'days': [i]
-                })
-    return output
-
-
-def get_schedule_payload(schedule, start_date=None):
-    # TODO: Allow users to set time zone to something other than UTC
-    # TODO: Allow users to set start date
-    # TODO: Allow users to set end date
-    # TODO: Handle rotations and rotation lengths or at least don't hard code a random value
-    if start_date is None:
-        start_date = datetime.now()
-    else:
-        start_date = datetime.strptime(start_date, '%Y-%m-%d')
-    tz = pytz.timezone('UTC')
-    output = {
-        'schedule': {
-            'name': schedule['name'],
-            'type': 'schedule',
-            'time_zone': 'UTC',
-            'schedule_layers': []
-        }
-    }
-    for i, period in enumerate(schedule['time_periods']):
-        output['schedule']['schedule_layers'].append({
-            'start': tz.localize(start_date).isoformat(),
-            'rotation_virtual_start': tz.localize(start_date).isoformat(),
-            'rotation_turn_length_seconds': 3600,
-            'users': [{
-                'user': {
-                    'id': period['id'],
-                    'type': 'user_reference'
-                }
-            }],
-            'restrictions': []
-        })
-        # Set to daily_restriction if the period exists for all days
-        if len(period['days']) == 7:
-            output['schedule']['schedule_layers'][i]['restrictions'].append({
-                'type': 'daily_restriction',
-                'start_time_of_day': time.strftime('%H:%M:%S', time.gmtime(get_seconds(period['start_time']))),
-                'duration_seconds': get_seconds(period['end_time']) - get_seconds(period['start_time'])
-            })
+    def get_schedule_payload(self, schedule, start_date=None):
+        # TODO: Allow users to set time zone to something other than UTC
+        # TODO: Allow users to set start date
+        # TODO: Allow users to set end date
+        # TODO: Handle rotations and rotation lengths or at least don't hard code a random value
+        if start_date is None:
+            start_date = datetime.now()
         else:
-            for day in period['days']:
-                output['schedule']['schedule_layers'][i]['restrictions'].append({
-                    'type': 'weekly_restriction',
-                    'start_time_of_day': time.strftime('%H:%M:%S', time.gmtime(get_seconds(period['start_time']))),
-                    'duration_seconds': get_seconds(period['end_time']) - get_seconds(period['start_time'])
-                })
-    return output
-
-
-def get_escalation_policy_payload(ep_by_level, name):
-    # TODO: Allow users to set repeat_enabled & num_loops
-    output = {
-        'escalation_policy': {
-            'name': name,
-            'type': 'escalation_policy',
-            'escalation_rules': [],
-            'repeat_enabled': True,
-            'num_loops': 1
+            start_date = datetime.strptime(start_date, '%Y-%m-%d')
+        tz = pytz.timezone('UTC')
+        output = {
+            'schedule': {
+                'name': schedule['name'],
+                'type': 'schedule',
+                'time_zone': 'UTC',
+                'schedule_layers': []
+            }
         }
-    }
-    for i, level in enumerate(ep_by_level):
-        # TODO: Allow users to set an escalation delay
-        output['escalation_policy']['escalation_rules'].append({
-            'escalation_delay_in_minutes': 30,
-            'targets': []
-        })
-        for schedule in level['schedules']:
-            output['escalation_policy']['escalation_rules'][i]['targets'].append({
-                'id': schedule,
-                'type': 'schedule_reference'
+        for i, period in enumerate(schedule['time_periods']):
+            output['schedule']['schedule_layers'].append({
+                'start': tz.localize(start_date).isoformat(),
+                'rotation_virtual_start': tz.localize(start_date).isoformat(),
+                'rotation_turn_length_seconds': 3600,
+                'users': [{
+                    'user': {
+                        'id': period['id'],
+                        'type': 'user_reference'
+                    }
+                }],
+                'restrictions': []
             })
-    return output
+            # Set to daily_restriction if the period exists for all days
+            if len(period['days']) == 7:
+                output['schedule']['schedule_layers'][i]['restrictions'].append({
+                    'type': 'daily_restriction',
+                    'start_time_of_day': time.strftime('%H:%M:%S', time.gmtime(self.get_seconds(period['start_time']))),
+                    'duration_seconds': self.get_seconds(period['end_time']) - self.get_seconds(period['start_time'])
+                })
+            else:
+                for day in period['days']:
+                    output['schedule']['schedule_layers'][i]['restrictions'].append({
+                        'type': 'weekly_restriction',
+                        'start_time_of_day': time.strftime('%H:%M:%S', time.gmtime(self.get_seconds(period['start_time']))),
+                        'duration_seconds': self.get_seconds(period['end_time']) - self.get_seconds(period['start_time'])
+                    })
+        return output
 
 
-# HELPER FUNCTIONS ############################################################
-def get_seconds(time):
-    """Helper function to get the seconds since 00:00:00"""
+    def get_escalation_policy_payload(self, ep_by_level, name):
+        # TODO: Allow users to set repeat_enabled & num_loops
+        output = {
+            'escalation_policy': {
+                'name': name,
+                'type': 'escalation_policy',
+                'escalation_rules': [],
+                'repeat_enabled': True,
+                'num_loops': 1
+            }
+        }
+        for i, level in enumerate(ep_by_level):
+            # TODO: Allow users to set an escalation delay
+            output['escalation_policy']['escalation_rules'].append({
+                'escalation_delay_in_minutes': 30,
+                'targets': []
+            })
+            for schedule in level['schedules']:
+                output['escalation_policy']['escalation_rules'][i]['targets'].append({
+                    'id': schedule,
+                    'type': 'schedule_reference'
+                })
+        return output
 
-    time_list = time.split(':')
-    if len(time_list) == 3:
-        return int(time_list[0]) * 3600 + int(time_list[1]) * 60 + int(time_list[2])
-    elif len(time_list) == 2:
-        return int(time_list[0]) * 3600 + int(time_list[1]) * 60
-    else:
-        raise ValueError('Invalid input. Time must be of format HH:MM:SS or HH:MM: {0}'.format(time))
+
+    # HELPER FUNCTIONS ############################################################
+    def get_seconds(self, time):
+        """Helper function to get the seconds since 00:00:00"""
+
+        time_list = time.split(':')
+        if len(time_list) == 3:
+            return int(time_list[0]) * 3600 + int(time_list[1]) * 60 + int(time_list[2])
+        elif len(time_list) == 2:
+            return int(time_list[0]) * 3600 + int(time_list[1]) * 60
+        else:
+            raise ValueError('Invalid input. Time must be of format HH:MM:SS or HH:MM: {0}'.format(time))
 
 
 # TODO: Write a unit test for main()
@@ -519,32 +525,34 @@ def main(api_key):
     for file in files:
         # TODO: Use regex to parse filename
         filename = file[8:len(file) - 4]
+        # TODO: Make base_name a command line argument
+        weekly_users = WeeklyUserLogic(filename)
         # TODO: Add logic to handle non-weekly schedules
-        days = create_days_of_week(file)
+        days = weekly_users.create_days_of_week(file)
         # Split teams into their particular users
-        days = split_teams_into_users(pd_rest, days)
+        days = weekly_users.split_teams_into_users(pd_rest, days)
         # Update user names/emails to user IDs
-        days = get_user_ids(pd_rest, days)
+        days = weekly_users.get_user_ids(pd_rest, days)
         # Create list of escalation policies by level
         base_ep = [{
             'schedules': [{
-                'name': filename,
+                'name': weekly_users.base_name,
                 'days': days
             }]
         }]
-        ep_by_level = split_days_by_level(base_ep)
+        ep_by_level = weekly_users.split_days_by_level(base_ep)
         # TODO: Handle cominbing cases where one on-call starts at 0:00 and another ends at 24:00 # NOQA
-        ep_by_level = get_time_periods(ep_by_level)
-        ep_by_level = check_for_overlap(ep_by_level)
+        ep_by_level = weekly_users.get_time_periods(ep_by_level)
+        ep_by_level = weekly_users.check_for_overlap(ep_by_level)
         # Create schedules in PagerDuty
         for i, level in enumerate(ep_by_level):
             for j, schedule in enumerate(level['schedules']):
-                schedule_by_periods = concatenate_time_periods(schedule)
-                schedule_payload = get_schedule_payload(schedule_by_periods)
+                schedule_by_periods = weekly_users.concatenate_time_periods(schedule)
+                schedule_payload = weekly_users.get_schedule_payload(schedule_by_periods)
                 schedule_id = pd_rest.create_schedule(schedule_payload)['schedule']['id']
                 ep_by_level[i]['schedules'][j] = schedule_id
         # Create escalation policy in PagerDuty
-        escalation_policy_payload = get_escalation_policy_payload(ep_by_level, filename)
+        escalation_policy_payload = weekly_users.get_escalation_policy_payload(ep_by_level, filename)
         res = pd_rest.create_escalation_policy(escalation_policy_payload)
         print "Successfully create escalation policy: {0}".format(res['escalation_policy']['id'])
 
