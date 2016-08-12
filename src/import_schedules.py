@@ -25,7 +25,6 @@
 # (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 # SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-import sys
 import csv
 import glob
 import requests
@@ -75,10 +74,11 @@ class PagerDutyREST():
         if r.status_code == 200:
             return r.json()['users']
         else:
-            raise ValueError('get_team_id returned status code {0}\n{1}'.format(
-                r.status_code,
-                r.text
-            ))
+            raise ValueError('get_team_id returned status code {0}\n{1}'
+                             .format(
+                                r.status_code,
+                                r.text
+                             ))
 
     def get_user_id(self, user_query):
         """GET the user ID from the user name or email"""
@@ -90,14 +90,18 @@ class PagerDutyREST():
         r = requests.get(url, params=payload, headers=self.headers)
         if r.status_code == 200:
             if len(r.json()['users']) > 1:
-                raise ValueError('Found more than one user for {0}. Please use a unique identifier'.format(user_query))
+                raise ValueError(
+                    'Found more than one user for {0}. \
+                    Please use a unique identifier'.format(user_query)
+                )
             else:
                 return r.json()['users'][0]['id']
         else:
-            raise ValueError('get_user_id returned status code {0}\n{1}'.format(
-                r.status_code,
-                r.text
-            ))
+            raise ValueError('get_user_id returned status code {0}\n{1}'
+                             .format(
+                                r.status_code,
+                                r.text
+                             ))
 
     def create_schedule(self, payload):
         """Create a schedule"""
@@ -107,10 +111,11 @@ class PagerDutyREST():
         if r.status_code == 201:
             return r.json()
         else:
-            raise ValueError('create_schedule returned status code {0}\n{1}'.format(
-                r.status_code,
-                r.text
-            ))
+            raise ValueError('create_schedule returned status code {0}\n{1}'
+                             .format(
+                                r.status_code,
+                                r.text
+                             ))
 
     def delete_schedule(self, schedule_id):
         """Delete a schedule"""
@@ -120,10 +125,11 @@ class PagerDutyREST():
         if r.status_code == 204:
             return r.status_code
         else:
-            raise ValueError('delete_schedule returned status code {0}\n{1}'.format(
-                r.status_code,
-                r.text
-            ))
+            raise ValueError('delete_schedule returned status code {0}\n{1}'
+                             .format(
+                                r.status_code,
+                                r.text
+                             ))
 
     def create_escalation_policy(self, payload):
         """Create an escalation policy"""
@@ -133,23 +139,30 @@ class PagerDutyREST():
         if r.status_code == 201:
             return r.json()
         else:
-            raise ValueError('create_escalation_policy returned status code {0}\n{1}'.format(
-                r.status_code,
-                r.text
-            ))
+            raise ValueError(
+                'create_escalation_policy returned status code {0}\n{1}'
+                .format(
+                    r.status_code,
+                    r.text
+                ))
 
     def delete_escalation_policy(self, escalation_policy_id):
         """Delete an escalation policy"""
 
-        url = '{0}/escalation_policies/{1}'.format(self.base_url, escalation_policy_id)
+        url = '{0}/escalation_policies/{1}'.format(
+            self.base_url,
+            escalation_policy_id
+        )
         r = requests.delete(url, headers=self.headers)
         if r.status_code == 204:
             return r.status_code
         else:
-            raise ValueError('delete_escalation_policy returned status code {0}\n{1}'.format(
-                r.status_code,
-                r.text
-            ))
+            raise ValueError(
+                'delete_escalation_policy returned status code {0}\n{1}'
+                .format(
+                    r.status_code,
+                    r.text
+                ))
 
 
 # TODO: Create a WeeklyUserLogic class for extensibility
@@ -185,9 +198,11 @@ class WeeklyUserLogic():
                 'start_time': row['start_time'],
                 'end_time': row['end_time']
             }
-            if row['day_of_week'] == 0 or row['day_of_week'].lower() == 'sunday':
+            if (row['day_of_week'] == 0 or
+                    row['day_of_week'].lower() == 'sunday'):
                 sunday_entries.append(entry)
-            elif row['day_of_week'] == 1 or row['day_of_week'].lower() == 'monday':
+            elif (row['day_of_week'] == 1 or
+                    row['day_of_week'].lower() == 'monday'):
                 monday_entries.append(entry)
             elif (row['day_of_week'] == 2 or
                   row['day_of_week'].lower() == 'tuesday'):
@@ -198,7 +213,8 @@ class WeeklyUserLogic():
             elif (row['day_of_week'] == 4 or
                   row['day_of_week'].lower() == 'thursday'):
                 thursday_entries.append(entry)
-            elif row['day_of_week'] == 5 or row['day_of_week'].lower() == 'friday':
+            elif (row['day_of_week'] == 5 or
+                    row['day_of_week'].lower() == 'friday'):
                 friday_entries.append(entry)
             elif (row['day_of_week'] == 6 or
                   row['day_of_week'].lower() == 'saturday'):
@@ -215,8 +231,8 @@ class WeeklyUserLogic():
                 saturday_entries.append(entry)
                 sunday_entries.append(entry)
             else:
-                print ('Error: Entry {0} has an unknown value for day_of_week: {1}'
-                       .format(row['user_or_team'], row['day_of_week']))
+                print ('Error: Entry {0} has an unknown value for day_of_week: \
+                    {1}'.format(row['user_or_team'], row['day_of_week']))
         # Create days with entries
         sunday = {'day_of_week': 0, 'entries': sunday_entries}
         monday = {'day_of_week': 1, 'entries': monday_entries}
@@ -227,7 +243,6 @@ class WeeklyUserLogic():
         saturday = {'day_of_week': 6, 'entries': saturday_entries}
         return [sunday, monday, tuesday, wednesday, thursday, friday, saturday]
 
-
     def split_teams_into_users(self, pd_rest, days):
         """Split teams into multiple user entries"""
 
@@ -236,7 +251,9 @@ class WeeklyUserLogic():
             output.append({'day_of_week': i, 'entries': []})
             for j, entry in enumerate(day['entries']):
                 if entry['type'].lower() == 'team':
-                    users = pd_rest.get_users_in_team(pd_rest.get_team_id(entry['id']))
+                    users = pd_rest.get_users_in_team(pd_rest.get_team_id(
+                        entry['id'])
+                    )
                     for user in users:
                         output[i]['entries'].append({
                             'escalation_level': entry['escalation_level'],
@@ -251,7 +268,6 @@ class WeeklyUserLogic():
                     raise ValueError('Type must be of user or team')
         return output
 
-
     def get_user_ids(self, pd_rest, days):
         """Replace user names and emails with user IDs"""
 
@@ -259,7 +275,6 @@ class WeeklyUserLogic():
             for j, entry in enumerate(day['entries']):
                 days[i]['entries'][j]['id'] = pd_rest.get_user_id(entry['id'])
         return days
-
 
     def split_days_by_level(self, base_ep):
         """Split days in escalation policy by level"""
@@ -272,10 +287,17 @@ class WeeklyUserLogic():
                     (levels[str(entry['escalation_level'])]['days']
                      [str(day['day_of_week'])].append(entry))
                 else:
-                    levels[str(entry['escalation_level'])] = ({'days': {'0': [],
-                                                              '1': [], '2': [],
-                                                              '3': [], '4': [],
-                                                              '5': [], '6': []}})
+                    levels[str(entry['escalation_level'])] = (
+                        {'days': {
+                            '0': [],
+                            '1': [],
+                            '2': [],
+                            '3': [],
+                            '4': [],
+                            '5': [],
+                            '6': []
+                        }}
+                    )
                     (levels[str(entry['escalation_level'])]['days']
                      [str(day['day_of_week'])].append(entry))
         for level in levels.keys():
@@ -294,7 +316,6 @@ class WeeklyUserLogic():
                 }]
             })
         return ep_by_level
-
 
     def get_time_periods(self, ep_by_level):
         """Breaks out each day by time period"""
@@ -334,9 +355,10 @@ class WeeklyUserLogic():
                                 'type': entry['type']
                             }]
                         })
-                level['schedules'][0]['days'][i] = {"time_periods": time_periods}
+                level['schedules'][0]['days'][i] = {
+                    "time_periods": time_periods
+                }
         return ep_by_level
-
 
     def check_for_overlap(self, ep_by_level):
         """Checks time periods for multiple entries and breaks the entries into \
@@ -363,7 +385,10 @@ class WeeklyUserLogic():
                         for l, entry in enumerate(period['entries']):
                             try:
                                 output[i]['schedules'][l]['name'] = (
-                                    '{0}_multi_{1}'.format(new_base_name, l + 1)
+                                    '{0}_multi_{1}'.format(
+                                        new_base_name,
+                                        l + 1
+                                    )
                                 )
                                 (output[i]['schedules'][l]['days'][j]
                                     ['time_periods']).append({
@@ -407,7 +432,6 @@ class WeeklyUserLogic():
                             })
         return output
 
-
     def concatenate_time_periods(self, schedule):
         """Concatenate any time periods that cross multiple days together"""
 
@@ -416,7 +440,9 @@ class WeeklyUserLogic():
             for period in day['time_periods']:
                 foundMatch = False
                 for j, tp in enumerate(output['time_periods']):
-                    if period['start_time'] == tp['start_time'] and period['end_time'] == tp['end_time'] and period['id'] == tp['id']:
+                    if (period['start_time'] == tp['start_time'] and
+                            period['end_time'] == tp['end_time'] and
+                            period['id'] == tp['id']):
                         output['time_periods'][j]['days'].append(i)
                         foundMatch = True
                         break
@@ -429,12 +455,11 @@ class WeeklyUserLogic():
                     })
         return output
 
-
     def get_schedule_payload(self, schedule, start_date=None):
         # TODO: Allow users to set time zone to something other than UTC
         # TODO: Allow users to set start date
         # TODO: Allow users to set end date
-        # TODO: Handle rotations and rotation lengths or at least don't hard code a random value
+        # TODO: Handle rotations and rotation lengths or at least don't hard code a random value # NOQA
         if start_date is None:
             start_date = datetime.now()
         else:
@@ -463,20 +488,32 @@ class WeeklyUserLogic():
             })
             # Set to daily_restriction if the period exists for all days
             if len(period['days']) == 7:
-                output['schedule']['schedule_layers'][i]['restrictions'].append({
+                output
+                ['schedule']['schedule_layers'][i]['restrictions'].append({
                     'type': 'daily_restriction',
-                    'start_time_of_day': time.strftime('%H:%M:%S', time.gmtime(self.get_seconds(period['start_time']))),
-                    'duration_seconds': self.get_seconds(period['end_time']) - self.get_seconds(period['start_time'])
+                    'start_time_of_day': time.strftime('%H:%M:%S', time.gmtime(
+                        self.get_seconds(period['start_time']))
+                    ),
+                    'duration_seconds': (self.get_seconds(period['end_time']) -
+                                         self.get_seconds(period['start_time'])
+                                         )
                 })
             else:
                 for day in period['days']:
-                    output['schedule']['schedule_layers'][i]['restrictions'].append({
+                    output
+                    ['schedule']['schedule_layers'][i]['restrictions'].append({
                         'type': 'weekly_restriction',
-                        'start_time_of_day': time.strftime('%H:%M:%S', time.gmtime(self.get_seconds(period['start_time']))),
-                        'duration_seconds': self.get_seconds(period['end_time']) - self.get_seconds(period['start_time'])
+                        'start_time_of_day': time.strftime(
+                            '%H:%M:%S',
+                            time.gmtime(self.get_seconds(period['start_time']))
+                        ),
+                        'duration_seconds': (self.get_seconds(
+                            period['end_time']
+                        ) - self.get_seconds(
+                            period['start_time']
+                        ))
                     })
         return output
-
 
     def get_escalation_policy_payload(self, ep_by_level, name):
         # TODO: Allow users to set repeat_enabled & num_loops
@@ -496,24 +533,28 @@ class WeeklyUserLogic():
                 'targets': []
             })
             for schedule in level['schedules']:
-                output['escalation_policy']['escalation_rules'][i]['targets'].append({
+                output['escalation_policy']
+                ['escalation_rules'][i]['targets'].append({
                     'id': schedule,
                     'type': 'schedule_reference'
                 })
         return output
 
-
-    # HELPER FUNCTIONS ############################################################
+    # HELPER FUNCTIONS ########################################################
     def get_seconds(self, time):
         """Helper function to get the seconds since 00:00:00"""
 
         time_list = time.split(':')
         if len(time_list) == 3:
-            return int(time_list[0]) * 3600 + int(time_list[1]) * 60 + int(time_list[2])
+            return (int(time_list[0]) * 3600 + int(time_list[1]) * 60 +
+                    int(time_list[2]))
         elif len(time_list) == 2:
             return int(time_list[0]) * 3600 + int(time_list[1]) * 60
         else:
-            raise ValueError('Invalid input. Time must be of format HH:MM:SS or HH:MM: {0}'.format(time))
+            raise ValueError(
+                'Invalid input. Time must be of format HH:MM:SS or HH:MM: {0}'
+                .format(time)
+            )
 
 
 # TODO: Write a unit test for main()
@@ -547,24 +588,39 @@ def main(api_key):
         # Create schedules in PagerDuty
         for i, level in enumerate(ep_by_level):
             for j, schedule in enumerate(level['schedules']):
-                schedule_by_periods = weekly_users.concatenate_time_periods(schedule)
-                schedule_payload = weekly_users.get_schedule_payload(schedule_by_periods)
-                schedule_id = pd_rest.create_schedule(schedule_payload)['schedule']['id']
+                schedule_by_periods = weekly_users.concatenate_time_periods(
+                    schedule
+                )
+                schedule_payload = weekly_users.get_schedule_payload(
+                    schedule_by_periods
+                )
+                schedule_id = pd_rest.create_schedule(
+                    schedule_payload
+                )['schedule']['id']
                 ep_by_level[i]['schedules'][j] = schedule_id
         # Create escalation policy in PagerDuty
-        escalation_policy_payload = weekly_users.get_escalation_policy_payload(ep_by_level, filename)
+        escalation_policy_payload = weekly_users.get_escalation_policy_payload(
+            ep_by_level,
+            filename
+        )
         res = pd_rest.create_escalation_policy(escalation_policy_payload)
-        print "Successfully create escalation policy: {0}".format(res['escalation_policy']['id'])
+        print "Successfully create escalation policy: {0}".format(
+            res['escalation_policy']['id']
+        )
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Import weekly schedules')
-    parser.add_argument('--api-key', help='PagerDuty v2 REST API Key', dest='api_key')
-    # parser.add_argument('--base-name', help='Name of the escalation policy and base name for each schedule', dest='base_name')
-    # parser.add_argument('--layer-name', help='Base name for each new layer to be appended by the layer number', dest='layer_name')
-    # parser.add_argument('--multiple-name', help='Base name for each schedule on the same layer to be appended by the multiple number', dest='multi_name')
-    # parser.add_argument('--start-date', help='ISO 8601 formatted start date for the schedules', dest='start_date')
-    # parser.add_argument('--end-date', help='ISO 8601 formatted end date for the schedules', dest='end_date')
-    # parser.add_argument('--time-zone', help='Time zone for this schedule', dest='time_zone')
-    # parser.add_argument('--num-loops', help='The number of times to loop through the escalation policy', dest='num_loops')
+    parser.add_argument(
+        '--api-key',
+        help='PagerDuty v2 REST API Key',
+        dest='api_key'
+    )
+    # parser.add_argument('--base-name', help='Name of the escalation policy and base name for each schedule', dest='base_name') # NOQA
+    # parser.add_argument('--layer-name', help='Base name for each new layer to be appended by the layer number', dest='layer_name') # NOQA
+    # parser.add_argument('--multiple-name', help='Base name for each schedule on the same layer to be appended by the multiple number', dest='multi_name') # NOQA
+    # parser.add_argument('--start-date', help='ISO 8601 formatted start date for the schedules', dest='start_date') # NOQA
+    # parser.add_argument('--end-date', help='ISO 8601 formatted end date for the schedules', dest='end_date') # NOQA
+    # parser.add_argument('--time-zone', help='Time zone for this schedule', dest='time_zone') # NOQA
+    # parser.add_argument('--num-loops', help='The number of times to loop through the escalation policy', dest='num_loops') # NOQA
     args = parser.parse_args()
     main(args.api_key)
