@@ -30,11 +30,17 @@ import sys
 import json
 import os
 sys.path.append(os.path.join(os.path.dirname(__file__), '../src'))
-expected_filename = os.path.join(os.path.dirname(__file__), './expected_results/pd_rest_expected.json')
-input_filename = os.path.join(os.path.dirname(__file__), './input/pd_rest_input.json')
+expected_filename = os.path.join(
+    os.path.dirname(__file__),
+    './expected_results/pd_rest_expected.json'
+)
+input_filename = os.path.join(
+    os.path.dirname(__file__),
+    './input/pd_rest_input.json'
+)
 config_filname = os.path.join(os.path.dirname(__file__), './config.json')
 
-import import_schedules
+import import_schedules  # NOQA
 
 with open(expected_filename) as expected_file:
     expected = json.load(expected_file)
@@ -73,18 +79,24 @@ class PagerDutyRESTTests(unittest.TestCase):
         self.assertEqual(type(expected_result), type(actual_result))
         # delete_schedule test
         expected_result = 204
-        actual_result = pd_rest.delete_schedule(actual_result['schedule']['id'])
+        actual_result = pd_rest.delete_schedule(
+            actual_result['schedule']['id']
+        )
         self.assertEqual(expected_result, actual_result)
 
     # TODO: Improve these tests
     def escalation_policies(self):
         # create_escalation_policy test
         expected_result = {}
-        actual_result = pd_rest.create_escalation_policy(input['create_escalation_policy'])
+        actual_result = pd_rest.create_escalation_policy(
+            input['create_escalation_policy']
+        )
         self.assertEqual(type(expected_result), type(actual_result))
         # delete_escalation_policy test
         expected_result = 204
-        actual_result = pd_rest.delete_escalation_policy(actual_result['escalation_policy']['id'])
+        actual_result = pd_rest.delete_escalation_policy(
+            actual_result['escalation_policy']['id']
+        )
         self.assertEqual(expected_result, actual_result)
 
 

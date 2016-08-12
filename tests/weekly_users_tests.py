@@ -30,11 +30,17 @@ import sys
 import json
 import os
 sys.path.append(os.path.join(os.path.dirname(__file__), '../src'))
-expected_filename = os.path.join(os.path.dirname(__file__), './expected_results/weekly_users_expected.json')
-input_filename = os.path.join(os.path.dirname(__file__), './input/weekly_users_input.json')
+expected_filename = os.path.join(
+    os.path.dirname(__file__),
+    './expected_results/weekly_users_expected.json'
+)
+input_filename = os.path.join(
+    os.path.dirname(__file__),
+    './input/weekly_users_input.json'
+)
 config_filname = os.path.join(os.path.dirname(__file__), './config.json')
 
-import import_schedules
+import import_schedules  # NOQA
 
 with open(expected_filename) as expected_file:
     expected = json.load(expected_file)
