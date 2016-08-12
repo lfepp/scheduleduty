@@ -517,11 +517,11 @@ class WeeklyUserLogic():
                      })
         return output
 
-    def get_escalation_policy_payload(self, ep_by_level, name):
+    def get_escalation_policy_payload(self, ep_by_level):
         # TODO: Allow users to set repeat_enabled & num_loops
         output = {
             'escalation_policy': {
-                'name': name,
+                'name': self.base_name,
                 'type': 'escalation_policy',
                 'escalation_rules': [],
                 'repeat_enabled': True,
@@ -561,16 +561,13 @@ class WeeklyUserLogic():
 
 
 # TODO: Write a unit test for main()
-def main(api_key):
+def main(api_key, base_name):
     # Declare an instance of PagerDutyREST
     pd_rest = PagerDutyREST(api_key)
     # Loop through all CSV files
     files = glob.glob('src/csv/*.csv')
     for file in files:
-        # TODO: Use regex to parse filename
-        filename = file[8:len(file) - 4]
-        # TODO: Make base_name a command line argument
-        weekly_users = WeeklyUserLogic(filename)
+        weekly_users = WeeklyUserLogic(base_name)
         # TODO: Add logic to handle non-weekly schedules
         days = weekly_users.create_days_of_week(file)
         # Split teams into their particular users
@@ -603,8 +600,7 @@ def main(api_key):
                 ep_by_level[i]['schedules'][j] = schedule_id
         # Create escalation policy in PagerDuty
         escalation_policy_payload = weekly_users.get_escalation_policy_payload(
-            ep_by_level,
-            filename
+            ep_by_level
         )
         res = pd_rest.create_escalation_policy(escalation_policy_payload)
         print "Successfully create escalation policy: {0}".format(
@@ -618,7 +614,11 @@ if __name__ == '__main__':
         help='PagerDuty v2 REST API Key',
         dest='api_key'
     )
-    # parser.add_argument('--base-name', help='Name of the escalation policy and base name for each schedule', dest='base_name') # NOQA
+    parser.add_argument(
+        '--base-name',
+        help='Name of the escalation policy and base name for each schedule',
+        dest='base_name'
+    )
     # parser.add_argument('--layer-name', help='Base name for each new layer to be appended by the layer number', dest='layer_name') # NOQA
     # parser.add_argument('--multiple-name', help='Base name for each schedule on the same layer to be appended by the multiple number', dest='multi_name') # NOQA
     # parser.add_argument('--start-date', help='ISO 8601 formatted start date for the schedules', dest='start_date') # NOQA
@@ -626,4 +626,4 @@ if __name__ == '__main__':
     # parser.add_argument('--time-zone', help='Time zone for this schedule', dest='time_zone') # NOQA
     # parser.add_argument('--num-loops', help='The number of times to loop through the escalation policy', dest='num_loops') # NOQA
     args = parser.parse_args()
-    main(args.api_key)
+    main(args.api_key, args.base_name)

@@ -114,8 +114,7 @@ class WeeklyUserTests(unittest.TestCase):
     def get_escalation_policy_payload(self):
         expected_result = expected['get_escalation_policy_payload']
         actual_result = weekly_users.get_escalation_policy_payload(
-         input['get_escalation_policy_payload']['ep_by_level'],
-         input['get_escalation_policy_payload']['name']
+         input['get_escalation_policy_payload']['ep_by_level']
         )
         self.assertEqual(expected_result, actual_result)
 
