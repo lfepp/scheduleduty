@@ -488,8 +488,9 @@ class WeeklyUserLogic():
             })
             # Set to daily_restriction if the period exists for all days
             if len(period['days']) == 7:
-                output
-                ['schedule']['schedule_layers'][i]['restrictions'].append({
+                (output
+                 ['schedule']['schedule_layers'][i]['restrictions']
+                 ).append({
                     'type': 'daily_restriction',
                     'start_time_of_day': time.strftime('%H:%M:%S', time.gmtime(
                         self.get_seconds(period['start_time']))
@@ -497,11 +498,12 @@ class WeeklyUserLogic():
                     'duration_seconds': (self.get_seconds(period['end_time']) -
                                          self.get_seconds(period['start_time'])
                                          )
-                })
+                 })
             else:
                 for day in period['days']:
-                    output
-                    ['schedule']['schedule_layers'][i]['restrictions'].append({
+                    (output
+                     ['schedule']['schedule_layers'][i]['restrictions']
+                     ).append({
                         'type': 'weekly_restriction',
                         'start_time_of_day': time.strftime(
                             '%H:%M:%S',
@@ -512,7 +514,7 @@ class WeeklyUserLogic():
                         ) - self.get_seconds(
                             period['start_time']
                         ))
-                    })
+                     })
         return output
 
     def get_escalation_policy_payload(self, ep_by_level, name):
@@ -533,11 +535,12 @@ class WeeklyUserLogic():
                 'targets': []
             })
             for schedule in level['schedules']:
-                output['escalation_policy']
-                ['escalation_rules'][i]['targets'].append({
+                (output
+                 ['escalation_policy']['escalation_rules'][i]['targets']
+                 ).append({
                     'id': schedule,
                     'type': 'schedule_reference'
-                })
+                 })
         return output
 
     # HELPER FUNCTIONS ########################################################
