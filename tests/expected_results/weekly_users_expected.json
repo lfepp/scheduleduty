@@ -334,7 +334,7 @@
     {
       "schedules": [
         {
-          "name": "weekly_users_test_level_1",
+          "name": "weekly_users_test Level 1",
           "days": [
             [
               {
@@ -553,7 +553,7 @@
     {
       "schedules": [
         {
-          "name": "weekly_users_test_level_2",
+          "name": "weekly_users_test Level 2",
           "days": [
             [
               {
@@ -676,7 +676,7 @@
     {
       "schedules": [
         {
-          "name": "weekly_users_test_level_1",
+          "name": "weekly_users_test Level 1",
           "days": [
             {
               "time_periods": [
@@ -951,7 +951,7 @@
     {
       "schedules": [
         {
-          "name": "weekly_users_test_level_2",
+          "name": "weekly_users_test Level 2",
           "days": [
             {
               "time_periods": [
@@ -1130,7 +1130,7 @@
     {
       "schedules": [
         {
-          "name": "weekly_users_test_level_1_multi_1",
+          "name": "weekly_users_test Level 1 Multi 1",
           "days": [
             {
               "time_periods": [
@@ -1289,7 +1289,7 @@
           ]
         },
         {
-          "name": "weekly_users_test_level_1_multi_2",
+          "name": "weekly_users_test Level 1 Multi 2",
           "days": [
             {
               "time_periods": [
@@ -1368,7 +1368,7 @@
     {
       "schedules": [
         {
-          "name": "weekly_users_test_level_2",
+          "name": "weekly_users_test Level 2",
           "days": [
             {
               "time_periods": [
@@ -2346,7 +2346,7 @@
       }
   ],
   "concatenate_time_periods": {
-    "name": "weekly_users_test_level_1_multi_1",
+    "name": "weekly_users_test Level 1 Multi 1",
     "time_periods": [
       {
         "start_time": "0:00",
@@ -2370,7 +2370,7 @@
   },
   "get_schedule_payload": {
     "schedule": {
-      "name": "weekly_users_test_level_1_multi_1",
+      "name": "weekly_users_test Level 1 Multi 1",
       "type": "schedule",
       "time_zone": "UTC",
       "schedule_layers": [

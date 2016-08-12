@@ -1096,7 +1096,7 @@
       }
   ],
   "concatenate_time_periods": {
-    "name": "weekly_users_test_level_1_multi_1",
+    "name": "weekly_users_test Level 1 Multi 1",
     "days": [
       {
         "time_periods": [
@@ -1256,7 +1256,7 @@
   },
   "get_schedule_payload": {
     "schedule": {
-      "name": "weekly_users_test_level_1_multi_1",
+      "name": "weekly_users_test Level 1 Multi 1",
       "time_periods": [
         {
           "start_time": "0:00",

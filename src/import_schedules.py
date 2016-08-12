@@ -310,7 +310,7 @@ class WeeklyUserLogic():
                         i += 1
             ep_by_level.insert(int(level), {
                 'schedules': [{
-                    'name': ('{0}_level_{1}'.format(base_ep[0]['schedules'][0]
+                    'name': ('{0} Level {1}'.format(base_ep[0]['schedules'][0]
                              ['name'], level)),
                     'days': days
                 }]
@@ -385,7 +385,7 @@ class WeeklyUserLogic():
                         for l, entry in enumerate(period['entries']):
                             try:
                                 output[i]['schedules'][l]['name'] = (
-                                    '{0}_multi_{1}'.format(
+                                    '{0} Multi {1}'.format(
                                         new_base_name,
                                         l + 1
                                     )
@@ -401,7 +401,7 @@ class WeeklyUserLogic():
                                 output[i]['schedules'].insert(
                                     l,
                                     {
-                                        'name': '{0}_multi_{1}'.format(
+                                        'name': '{0} Multi {1}'.format(
                                             new_base_name, l + 1
                                         ),
                                         'days': [
