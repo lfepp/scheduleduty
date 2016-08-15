@@ -52,10 +52,12 @@ with open(config_filname) as config_file:
     config = json.load(config_file)
 
 pd_rest = import_schedules.PagerDutyREST(config['api_key'])
-weekly_users = import_schedules.WeeklyUserLogic(config['base_name'])
+weekly_users = import_schedules.WeeklyUserLogic(
+    config['base_name'],
+    config['layer_name']
+)
 
 
-# TODO: Need to update inputs from expected to be from input
 class WeeklyUserTests(unittest.TestCase):
 
     def create_days_of_week(self):
