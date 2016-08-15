@@ -55,7 +55,8 @@ pd_rest = import_schedules.PagerDutyREST(config['api_key'])
 weekly_users = import_schedules.WeeklyUserLogic(
     config['base_name'],
     config['level_name'],
-    config['multi_name']
+    config['multi_name'],
+    config['start_date']
 )
 
 
@@ -115,8 +116,7 @@ class WeeklyUserTests(unittest.TestCase):
     def get_schedule_payload(self):
         expected_result = expected['get_schedule_payload']
         actual_result = weekly_users.get_schedule_payload(
-         input['get_schedule_payload']['schedule'],
-         input['get_schedule_payload']['start_date']
+         input['get_schedule_payload']
         )
         self.assertEqual(expected_result, actual_result)
 

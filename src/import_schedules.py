@@ -169,10 +169,11 @@ class PagerDutyREST():
 class WeeklyUserLogic():
     """Class to house the weekly user import logic"""
 
-    def __init__(self, base_name, level_name, multi_name):
+    def __init__(self, base_name, level_name, multi_name, start_date):
         self.base_name = base_name
         self.level_name = level_name
         self.multi_name = multi_name
+        self.start_date = start_date
 
     def create_days_of_week(self, file):
         """Parse CSV file into days of week"""
@@ -459,15 +460,12 @@ class WeeklyUserLogic():
                     })
         return output
 
-    def get_schedule_payload(self, schedule, start_date=None):
+    def get_schedule_payload(self, schedule):
         # TODO: Allow users to set time zone to something other than UTC
-        # TODO: Allow users to set start date
         # TODO: Allow users to set end date
         # TODO: Handle rotations and rotation lengths or at least don't hard code a random value # NOQA
-        if start_date is None:
-            start_date = datetime.now()
-        else:
-            start_date = datetime.strptime(start_date, '%Y-%m-%d')
+        # TODO: Handle different start date formats
+        start_date = datetime.strptime(self.start_date, '%Y-%m-%d')
         tz = pytz.timezone('UTC')
         output = {
             'schedule': {
@@ -565,13 +563,18 @@ class WeeklyUserLogic():
 
 
 # TODO: Write a unit test for main()
-def main(api_key, base_name, level_name, multi_name):
+def main(api_key, base_name, level_name, multi_name, start_date):
     # Declare an instance of PagerDutyREST
     pd_rest = PagerDutyREST(api_key)
     # Loop through all CSV files
     files = glob.glob('src/csv/*.csv')
     for file in files:
-        weekly_users = WeeklyUserLogic(base_name, level_name, multi_name)
+        weekly_users = WeeklyUserLogic(
+            base_name,
+            level_name,
+            multi_name,
+            start_date
+        )
         # TODO: Add logic to handle non-weekly schedules
         days = weekly_users.create_days_of_week(file)
         # Split teams into their particular users
@@ -634,9 +637,19 @@ if __name__ == '__main__':
         the multiple number',
         dest='multi_name'
     )
-    # parser.add_argument('--start-date', help='ISO 8601 formatted start date for the schedules', dest='start_date') # NOQA
+    parser.add_argument(
+        '--start-date',
+        help='ISO 8601 formatted start date for the schedules',
+        dest='start_date'
+    )
     # parser.add_argument('--end-date', help='ISO 8601 formatted end date for the schedules', dest='end_date') # NOQA
     # parser.add_argument('--time-zone', help='Time zone for this schedule', dest='time_zone') # NOQA
     # parser.add_argument('--num-loops', help='The number of times to loop through the escalation policy', dest='num_loops') # NOQA
     args = parser.parse_args()
-    main(args.api_key, args.base_name, args.level_name, args.multi_name)
+    main(
+        args.api_key,
+        args.base_name,
+        args.level_name,
+        args.multi_name,
+        args.start_date
+    )

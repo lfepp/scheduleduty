@@ -1255,30 +1255,27 @@
     ]
   },
   "get_schedule_payload": {
-    "schedule": {
-      "name": "Weekly Users Test Level 1 Multi 1",
-      "time_periods": [
-        {
-          "start_time": "0:00",
-          "end_time": "9:00",
-          "id": "PYWIYMW",
-          "days": [0, 1, 2, 3, 4, 5, 6]
-        },
-        {
-          "start_time": "9:00",
-          "end_time": "18:30",
-          "id": "PJRFB3Z",
-          "days": [0, 1, 2, 3, 4, 5, 6]
-        },
-        {
-          "start_time": "18:30",
-          "end_time": "24:00",
-          "id": "PNBLWIT",
-          "days": [0, 1, 2, 3, 4, 5, 6]
-        }
-      ]
-    },
-    "start_date": "2017-01-01"
+    "name": "Weekly Users Test Level 1 Multi 1",
+    "time_periods": [
+      {
+        "start_time": "0:00",
+        "end_time": "9:00",
+        "id": "PYWIYMW",
+        "days": [0, 1, 2, 3, 4, 5, 6]
+      },
+      {
+        "start_time": "9:00",
+        "end_time": "18:30",
+        "id": "PJRFB3Z",
+        "days": [0, 1, 2, 3, 4, 5, 6]
+      },
+      {
+        "start_time": "18:30",
+        "end_time": "24:00",
+        "id": "PNBLWIT",
+        "days": [0, 1, 2, 3, 4, 5, 6]
+      }
+    ]
   },
   "get_escalation_policy_payload": {
     "ep_by_level": [
