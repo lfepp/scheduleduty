@@ -27,7 +27,7 @@ Import schedules from a CSV file. Currently only supports weekly shift-based sch
 1. Run the `import_schedules.py` script:
 
     ```
-    ./src/import_schedules.py --api-key EXAMPLE_KEY --base-name "Weekly Shifts" --level-name Level
+    ./src/import_schedules.py --api-key EXAMPLE_KEY --base-name "Weekly Shifts" --level-name Level --multiple-name Multi
     ```
 
 ## Command Line Arguments
@@ -38,6 +38,8 @@ Import schedules from a CSV file. Currently only supports weekly shift-based sch
 
 `--layer-name`: The base name for each new escalation policy level to be appended by the integer value of the level number
 
+`--multiple-name`: The base name for each schedule on the same escalation policy level to be appended by the integer value of the schedule number
+
 ## Testing
 
 1. Create a file `config.json` that includes your command-line arguments for testing:
@@ -46,7 +48,8 @@ Import schedules from a CSV file. Currently only supports weekly shift-based sch
     {
       "api_key": "EXAMPLE_KEY",
       "base_name": "Weekly Shifts",
-      "level_name": "Level"
+      "level_name": "Level",
+      "multi_name": "Multi"
     }
     ```
 

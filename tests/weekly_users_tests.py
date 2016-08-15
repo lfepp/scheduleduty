@@ -54,7 +54,8 @@ with open(config_filname) as config_file:
 pd_rest = import_schedules.PagerDutyREST(config['api_key'])
 weekly_users = import_schedules.WeeklyUserLogic(
     config['base_name'],
-    config['level_name']
+    config['level_name'],
+    config['multi_name']
 )
 
 

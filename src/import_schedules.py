@@ -169,9 +169,10 @@ class PagerDutyREST():
 class WeeklyUserLogic():
     """Class to house the weekly user import logic"""
 
-    def __init__(self, base_name, level_name):
+    def __init__(self, base_name, level_name, multi_name):
         self.base_name = base_name
         self.level_name = level_name
+        self.multi_name = multi_name
 
     def create_days_of_week(self, file):
         """Parse CSV file into days of week"""
@@ -385,8 +386,9 @@ class WeeklyUserLogic():
                         for l, entry in enumerate(period['entries']):
                             try:
                                 output[i]['schedules'][l]['name'] = (
-                                    '{0} Multi {1}'.format(
+                                    '{0} {1} {2}'.format(
                                         new_base_name,
+                                        self.multi_name,
                                         l + 1
                                     )
                                 )
@@ -401,8 +403,10 @@ class WeeklyUserLogic():
                                 output[i]['schedules'].insert(
                                     l,
                                     {
-                                        'name': '{0} Multi {1}'.format(
-                                            new_base_name, l + 1
+                                        'name': '{0} {1} {2}'.format(
+                                            new_base_name,
+                                            self.multi_name,
+                                            l + 1
                                         ),
                                         'days': [
                                             {'time_periods': []},
@@ -561,13 +565,13 @@ class WeeklyUserLogic():
 
 
 # TODO: Write a unit test for main()
-def main(api_key, base_name, level_name):
+def main(api_key, base_name, level_name, multi_name):
     # Declare an instance of PagerDutyREST
     pd_rest = PagerDutyREST(api_key)
     # Loop through all CSV files
     files = glob.glob('src/csv/*.csv')
     for file in files:
-        weekly_users = WeeklyUserLogic(base_name, level_name)
+        weekly_users = WeeklyUserLogic(base_name, level_name, multi_name)
         # TODO: Add logic to handle non-weekly schedules
         days = weekly_users.create_days_of_week(file)
         # Split teams into their particular users
@@ -624,10 +628,15 @@ if __name__ == '__main__':
         help='Base name for each new level to be appended by the level number',
         dest='level_name'
     )
-    # parser.add_argument('--multiple-name', help='Base name for each schedule on the same layer to be appended by the multiple number', dest='multi_name') # NOQA
+    parser.add_argument(
+        '--multiple-name',
+        help='Base name for each schedule on the same layer to be appended by \
+        the multiple number',
+        dest='multi_name'
+    )
     # parser.add_argument('--start-date', help='ISO 8601 formatted start date for the schedules', dest='start_date') # NOQA
     # parser.add_argument('--end-date', help='ISO 8601 formatted end date for the schedules', dest='end_date') # NOQA
     # parser.add_argument('--time-zone', help='Time zone for this schedule', dest='time_zone') # NOQA
     # parser.add_argument('--num-loops', help='The number of times to loop through the escalation policy', dest='num_loops') # NOQA
     args = parser.parse_args()
-    main(args.api_key, args.base_name, args.level_name)
+    main(args.api_key, args.base_name, args.level_name, args.multi_name)
