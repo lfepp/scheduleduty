@@ -27,7 +27,7 @@ Import schedules from a CSV file. Currently only supports weekly shift-based sch
 1. Run the `import_schedules.py` script:
 
     ```
-    ./src/import_schedules.py --api-key EXAMPLE_KEY --base-name "Weekly Shifts" --level-name Level --multiple-name Multi --start-date 2017-01-01
+    ./src/import_schedules.py --api-key EXAMPLE_KEY --base-name "Weekly Shifts" --level-name Level --multiple-name Multi --start-date 2017-01-01 --end-date 2017-02-01 --time-zone UTC
     ```
 
 ## Command Line Arguments
@@ -42,6 +42,10 @@ Import schedules from a CSV file. Currently only supports weekly shift-based sch
 
 `--start-date`: The start date for the schedule to begin in the format YYYY-MM-DD
 
+`--end-date` *(optional)*: The end date for the schedule to end in the format YYYY-MM-DD
+
+`--time-zone`: The time zone for the schedule in the format of an option from the [IANA time zone database](https://www.iana.org/time-zones)
+
 ## Testing
 
 1. Create a file `config.json` that includes your command-line arguments for testing:
@@ -52,7 +56,9 @@ Import schedules from a CSV file. Currently only supports weekly shift-based sch
       "base_name": "Weekly Shifts",
       "level_name": "Level",
       "multi_name": "Multi",
-      "start_date": "2017-01-01"
+      "start_date": "2017-01-01",
+      "end_date": null,
+      "time_zone": "UTC"
     }
     ```
 

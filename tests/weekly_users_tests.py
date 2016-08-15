@@ -56,7 +56,9 @@ weekly_users = import_schedules.WeeklyUserLogic(
     config['base_name'],
     config['level_name'],
     config['multi_name'],
-    config['start_date']
+    config['start_date'],
+    config['end_date'],
+    config['time_zone']
 )
 
 
@@ -118,6 +120,7 @@ class WeeklyUserTests(unittest.TestCase):
         actual_result = weekly_users.get_schedule_payload(
          input['get_schedule_payload']
         )
+        self.maxDiff = None
         self.assertEqual(expected_result, actual_result)
 
     def get_escalation_policy_payload(self):

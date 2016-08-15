@@ -169,11 +169,14 @@ class PagerDutyREST():
 class WeeklyUserLogic():
     """Class to house the weekly user import logic"""
 
-    def __init__(self, base_name, level_name, multi_name, start_date):
+    def __init__(self, base_name, level_name,
+                 multi_name, start_date, end_date, time_zone):
         self.base_name = base_name
         self.level_name = level_name
         self.multi_name = multi_name
         self.start_date = start_date
+        self.end_date = end_date
+        self.time_zone = time_zone
 
     def create_days_of_week(self, file):
         """Parse CSV file into days of week"""
@@ -461,62 +464,117 @@ class WeeklyUserLogic():
         return output
 
     def get_schedule_payload(self, schedule):
-        # TODO: Allow users to set time zone to something other than UTC
-        # TODO: Allow users to set end date
         # TODO: Handle rotations and rotation lengths or at least don't hard code a random value # NOQA
-        # TODO: Handle different start date formats
+        # TODO: Handle different date formats
         start_date = datetime.strptime(self.start_date, '%Y-%m-%d')
-        tz = pytz.timezone('UTC')
+        tz = pytz.timezone(self.time_zone)
         output = {
             'schedule': {
                 'name': schedule['name'],
                 'type': 'schedule',
-                'time_zone': 'UTC',
+                'time_zone': self.time_zone,
                 'schedule_layers': []
             }
         }
-        for i, period in enumerate(schedule['time_periods']):
-            output['schedule']['schedule_layers'].append({
-                'start': tz.localize(start_date).isoformat(),
-                'rotation_virtual_start': tz.localize(start_date).isoformat(),
-                'rotation_turn_length_seconds': 3600,
-                'users': [{
-                    'user': {
-                        'id': period['id'],
-                        'type': 'user_reference'
-                    }
-                }],
-                'restrictions': []
-            })
-            # Set to daily_restriction if the period exists for all days
-            if len(period['days']) == 7:
-                (output
-                 ['schedule']['schedule_layers'][i]['restrictions']
-                 ).append({
-                    'type': 'daily_restriction',
-                    'start_time_of_day': time.strftime('%H:%M:%S', time.gmtime(
-                        self.get_seconds(period['start_time']))
-                    ),
-                    'duration_seconds': (self.get_seconds(period['end_time']) -
-                                         self.get_seconds(period['start_time'])
-                                         )
-                 })
-            else:
-                for day in period['days']:
+        if not self.end_date:
+            for i, period in enumerate(schedule['time_periods']):
+                output['schedule']['schedule_layers'].append({
+                    'start': tz.localize(start_date).isoformat(),
+                    'rotation_virtual_start': tz.localize(start_date)
+                    .isoformat(),
+                    'rotation_turn_length_seconds': 3600,
+                    'users': [{
+                        'user': {
+                            'id': period['id'],
+                            'type': 'user_reference'
+                        }
+                    }],
+                    'restrictions': []
+                })
+                # Set to daily_restriction if the period exists for all days
+                if len(period['days']) == 7:
                     (output
                      ['schedule']['schedule_layers'][i]['restrictions']
                      ).append({
-                        'type': 'weekly_restriction',
+                        'type': 'daily_restriction',
                         'start_time_of_day': time.strftime(
                             '%H:%M:%S',
                             time.gmtime(self.get_seconds(period['start_time']))
                         ),
-                        'duration_seconds': (self.get_seconds(
-                            period['end_time']
-                        ) - self.get_seconds(
-                            period['start_time']
-                        ))
+                        'duration_seconds': (
+                            self.get_seconds(period['end_time']) -
+                            self.get_seconds(period['start_time'])
+                        )
                      })
+                else:
+                    for day in period['days']:
+                        (output
+                         ['schedule']['schedule_layers'][i]['restrictions']
+                         ).append({
+                            'type': 'weekly_restriction',
+                            'start_time_of_day': time.strftime(
+                                '%H:%M:%S',
+                                time.gmtime(self.get_seconds(
+                                    period['start_time']
+                                ))
+                            ),
+                            'duration_seconds': (self.get_seconds(
+                                period['end_time']
+                            ) - self.get_seconds(
+                                period['start_time']
+                            ))
+                         })
+        else:
+            for i, period in enumerate(schedule['time_periods']):
+                output['schedule']['schedule_layers'].append({
+                    'start': tz.localize(start_date).isoformat(),
+                    'end': tz.localize(datetime
+                                       .strptime(self.end_date, '%Y-%m-%d')
+                                       ).isoformat(),
+                    'rotation_virtual_start': tz.localize(start_date)
+                    .isoformat(),
+                    'rotation_turn_length_seconds': 3600,
+                    'users': [{
+                        'user': {
+                            'id': period['id'],
+                            'type': 'user_reference'
+                        }
+                    }],
+                    'restrictions': []
+                })
+                # Set to daily_restriction if the period exists for all days
+                if len(period['days']) == 7:
+                    (output
+                     ['schedule']['schedule_layers'][i]['restrictions']
+                     ).append({
+                        'type': 'daily_restriction',
+                        'start_time_of_day': time.strftime(
+                            '%H:%M:%S',
+                            time.gmtime(self.get_seconds(period['start_time']))
+                        ),
+                        'duration_seconds': (
+                            self.get_seconds(period['end_time']) -
+                            self.get_seconds(period['start_time'])
+                        )
+                     })
+                else:
+                    for day in period['days']:
+                        (output
+                         ['schedule']['schedule_layers'][i]['restrictions']
+                         ).append({
+                            'type': 'weekly_restriction',
+                            'start_time_of_day': time.strftime(
+                                '%H:%M:%S',
+                                time.gmtime(
+                                    self.get_seconds(period['start_time'])
+                                )
+                            ),
+                            'duration_seconds': (self.get_seconds(
+                                period['end_time']
+                            ) - self.get_seconds(
+                                period['start_time']
+                            ))
+                         })
         return output
 
     def get_escalation_policy_payload(self, ep_by_level):
@@ -563,7 +621,8 @@ class WeeklyUserLogic():
 
 
 # TODO: Write a unit test for main()
-def main(api_key, base_name, level_name, multi_name, start_date):
+def main(api_key, base_name, level_name, multi_name,
+         start_date, end_date, time_zone):
     # Declare an instance of PagerDutyREST
     pd_rest = PagerDutyREST(api_key)
     # Loop through all CSV files
@@ -573,7 +632,9 @@ def main(api_key, base_name, level_name, multi_name, start_date):
             base_name,
             level_name,
             multi_name,
-            start_date
+            start_date,
+            end_date,
+            time_zone
         )
         # TODO: Add logic to handle non-weekly schedules
         days = weekly_users.create_days_of_week(file)
@@ -642,8 +703,16 @@ if __name__ == '__main__':
         help='ISO 8601 formatted start date for the schedules',
         dest='start_date'
     )
-    # parser.add_argument('--end-date', help='ISO 8601 formatted end date for the schedules', dest='end_date') # NOQA
-    # parser.add_argument('--time-zone', help='Time zone for this schedule', dest='time_zone') # NOQA
+    parser.add_argument(
+        '--end-date',
+        help='ISO 8601 formatted end date for the schedules',
+        dest='end_date')
+    parser.add_argument(
+        '--time-zone',
+        help='Time zone for this schedule in the format of the IANA time zone \
+        database',
+        dest='time_zone'
+    )
     # parser.add_argument('--num-loops', help='The number of times to loop through the escalation policy', dest='num_loops') # NOQA
     args = parser.parse_args()
     main(
@@ -651,5 +720,7 @@ if __name__ == '__main__':
         args.base_name,
         args.level_name,
         args.multi_name,
-        args.start_date
+        args.start_date,
+        args.end_date,
+        args.time_zone
     )
