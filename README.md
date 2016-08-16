@@ -1,4 +1,4 @@
-# Import Schedules
+# ScheduleDuty
 
 Import schedules from a CSV file. Currently only supports weekly shift-based schedules.
 
@@ -27,7 +27,7 @@ Import schedules from a CSV file. Currently only supports weekly shift-based sch
 1. Run the `import_schedules.py` script:
 
     ```
-    ./src/import_schedules.py --api-key EXAMPLE_KEY --base-name "Weekly Shifts" --level-name Level --multiple-name Multi --start-date 2017-01-01 --end-date 2017-02-01 --time-zone UTC --num-loops 1 --escalation_delay 30
+    ./scheduleduty/scheduleduty.py --api-key EXAMPLE_KEY --base-name "Weekly Shifts" --level-name Level --multiple-name Multi --start-date 2017-01-01 --end-date 2017-02-01 --time-zone UTC --num-loops 1 --escalation_delay 30
     ```
 
 ## Command Line Arguments

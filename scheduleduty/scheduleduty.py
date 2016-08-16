@@ -643,7 +643,7 @@ def main(api_key, base_name, level_name, multi_name, start_date,
     # Declare an instance of PagerDutyREST
     pd_rest = PagerDutyREST(api_key)
     # Loop through all CSV files
-    files = glob.glob('src/csv/*.csv')
+    files = glob.glob('scheduleduty/csv/*.csv')
     for file in files:
         weekly_users = WeeklyUserLogic(
             base_name,

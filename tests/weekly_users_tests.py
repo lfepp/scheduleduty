@@ -29,7 +29,7 @@ import unittest
 import sys
 import json
 import os
-sys.path.append(os.path.join(os.path.dirname(__file__), '../src'))
+sys.path.append(os.path.join(os.path.dirname(__file__), '../scheduleduty'))
 expected_filename = os.path.join(
     os.path.dirname(__file__),
     './expected_results/weekly_users_expected.json'
@@ -40,7 +40,7 @@ input_filename = os.path.join(
 )
 config_filname = os.path.join(os.path.dirname(__file__), './config.json')
 
-import import_schedules  # NOQA
+import scheduleduty  # NOQA
 
 with open(expected_filename) as expected_file:
     expected = json.load(expected_file)
@@ -51,8 +51,8 @@ with open(input_filename) as input_file:
 with open(config_filname) as config_file:
     config = json.load(config_file)
 
-pd_rest = import_schedules.PagerDutyREST(config['api_key'])
-weekly_users = import_schedules.WeeklyUserLogic(
+pd_rest = scheduleduty.PagerDutyREST(config['api_key'])
+weekly_users = scheduleduty.WeeklyUserLogic(
     config['base_name'],
     config['level_name'],
     config['multi_name'],

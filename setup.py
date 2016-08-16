@@ -33,6 +33,8 @@ with open('README.md') as f:
 with open('LICENSE') as f:
     license = f.read()
 
+# TODO: Add test class
+
 setup(
     name = "scheduleduty",
     version = "0.1.0",

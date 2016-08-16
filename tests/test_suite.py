@@ -28,6 +28,7 @@
 import glob
 import unittest
 
+# TODO: Separate out REST tests as these take longer and change less frequently
 suite = unittest.TestSuite()
 files = glob.glob('tests/*_tests.py')
 for file in files:
