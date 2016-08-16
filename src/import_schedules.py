@@ -62,13 +62,13 @@ class PagerDutyREST():
                 r.status_code
             ))
 
-    # TODO: Handle limit & pagination when >25 users
     def get_users_in_team(self, team_id):
         """GET a list of users from the team ID"""
 
         url = '{0}/users'.format(self.base_url)
         payload = {
-            'team_ids[]': team_id
+            'team_ids[]': team_id,
+            'limit': 26
         }
         r = requests.get(url, params=payload, headers=self.headers)
         if r.status_code == 200:
@@ -256,12 +256,14 @@ class WeeklyUserLogic():
         output = []
         for i, day in enumerate(days):
             output.append({'day_of_week': i, 'entries': []})
+            total_entries = 0
             for j, entry in enumerate(day['entries']):
                 if entry['type'].lower() == 'team':
                     users = pd_rest.get_users_in_team(pd_rest.get_team_id(
                         entry['id'])
                     )
                     for user in users:
+                        total_entries += 1
                         output[i]['entries'].append({
                             'escalation_level': entry['escalation_level'],
                             'id': user['email'],
@@ -270,9 +272,15 @@ class WeeklyUserLogic():
                             'end_time': entry['end_time']
                         })
                 elif entry['type'].lower() == 'user':
+                    total_entries += 1
                     output[i]['entries'].append(entry)
                 else:
                     raise ValueError('Type must be of user or team')
+                if total_entries > 25:
+                    raise ValueError(
+                        'Can only have a maximum of 25 targets per \
+                        escalation policy level'
+                    )
         return output
 
     def get_user_ids(self, pd_rest, days):

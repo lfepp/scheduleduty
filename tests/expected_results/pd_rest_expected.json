@@ -38,11 +38,11 @@
       "job_title": null,
       "teams": [
         {
-          "id": "PXK9W2R",
+          "id": "P9NY9DM",
           "type": "team_reference",
           "summary": "Import Team",
-          "self": "https://api.pagerduty.com/teams/PXK9W2R",
-          "html_url": "https://pdt-lucas.pagerduty.com/teams/PXK9W2R"
+          "self": "https://api.pagerduty.com/teams/P9NY9DM",
+          "html_url": "https://pdt-lucas.pagerduty.com/teams/P9NY9DM"
         }
       ],
       "coordinated_incidents": [],
@@ -90,11 +90,11 @@
       "job_title": null,
       "teams": [
         {
-          "id": "PXK9W2R",
+          "id": "P9NY9DM",
           "type": "team_reference",
           "summary": "Import Team",
-          "self": "https://api.pagerduty.com/teams/PXK9W2R",
-          "html_url": "https://pdt-lucas.pagerduty.com/teams/PXK9W2R"
+          "self": "https://api.pagerduty.com/teams/P9NY9DM",
+          "html_url": "https://pdt-lucas.pagerduty.com/teams/P9NY9DM"
         }
       ],
       "coordinated_incidents": [],

@@ -57,13 +57,14 @@ pd_rest = import_schedules.PagerDutyREST(config['api_key'])
 class PagerDutyRESTTests(unittest.TestCase):
 
     def get_team_id(self):
-        expected_result = 'PXK9W2R'
+        expected_result = 'P9NY9DM'
         actual_result = pd_rest.get_team_id('Import Team')
         self.assertEqual(expected_result, actual_result)
 
     def get_users_in_team(self):
         expected_result = expected['get_users_in_team']
-        actual_result = pd_rest.get_users_in_team('PXK9W2R')
+        actual_result = pd_rest.get_users_in_team('P9NY9DM')
+        self.maxDiff = None
         self.assertEqual(expected_result, actual_result)
 
     def get_user_id(self):
