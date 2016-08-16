@@ -59,7 +59,8 @@ weekly_users = import_schedules.WeeklyUserLogic(
     config['start_date'],
     config['end_date'],
     config['time_zone'],
-    config['num_loops']
+    config['num_loops'],
+    config['escalation_delay']
 )
 
 

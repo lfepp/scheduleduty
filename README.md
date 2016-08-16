@@ -27,7 +27,7 @@ Import schedules from a CSV file. Currently only supports weekly shift-based sch
 1. Run the `import_schedules.py` script:
 
     ```
-    ./src/import_schedules.py --api-key EXAMPLE_KEY --base-name "Weekly Shifts" --level-name Level --multiple-name Multi --start-date 2017-01-01 --end-date 2017-02-01 --time-zone UTC --num-loops 1
+    ./src/import_schedules.py --api-key EXAMPLE_KEY --base-name "Weekly Shifts" --level-name Level --multiple-name Multi --start-date 2017-01-01 --end-date 2017-02-01 --time-zone UTC --num-loops 1 --escalation_delay 30
     ```
 
 ## Command Line Arguments
@@ -48,6 +48,8 @@ Import schedules from a CSV file. Currently only supports weekly shift-based sch
 
 `--num-loops`: The number of times the escalation policy will repeat after reaching the end of escalation
 
+`--escalation-delay`: The number of minutes to wait before escalating the incident to the next level
+
 ## Testing
 
 1. Create a file `config.json` that includes your command-line arguments for testing:
@@ -61,7 +63,8 @@ Import schedules from a CSV file. Currently only supports weekly shift-based sch
       "start_date": "2017-01-01",
       "end_date": null,
       "time_zone": "UTC",
-      "num_loops": 1
+      "num_loops": 1,
+      "escalation_delay": 30
     }
     ```
 

@@ -169,8 +169,8 @@ class PagerDutyREST():
 class WeeklyUserLogic():
     """Class to house the weekly user import logic"""
 
-    def __init__(self, base_name, level_name, multi_name,
-                 start_date, end_date, time_zone, num_loops):
+    def __init__(self, base_name, level_name, multi_name, start_date,
+                 end_date, time_zone, num_loops, escalation_delay):
         self.base_name = base_name
         self.level_name = level_name
         self.multi_name = multi_name
@@ -178,6 +178,7 @@ class WeeklyUserLogic():
         self.end_date = end_date
         self.time_zone = time_zone
         self.num_loops = num_loops
+        self.escalation_delay = escalation_delay
 
     def create_days_of_week(self, file):
         """Parse CSV file into days of week"""
@@ -601,7 +602,7 @@ class WeeklyUserLogic():
         for i, level in enumerate(ep_by_level):
             # TODO: Allow users to set an escalation delay
             output['escalation_policy']['escalation_rules'].append({
-                'escalation_delay_in_minutes': 30,
+                'escalation_delay_in_minutes': self.escalation_delay,
                 'targets': []
             })
             for schedule in level['schedules']:
@@ -631,8 +632,8 @@ class WeeklyUserLogic():
 
 
 # TODO: Write a unit test for main()
-def main(api_key, base_name, level_name, multi_name,
-         start_date, end_date, time_zone, num_loops):
+def main(api_key, base_name, level_name, multi_name, start_date,
+         end_date, time_zone, num_loops, escalation_delay):
     # Declare an instance of PagerDutyREST
     pd_rest = PagerDutyREST(api_key)
     # Loop through all CSV files
@@ -645,7 +646,8 @@ def main(api_key, base_name, level_name, multi_name,
             start_date,
             end_date,
             time_zone,
-            num_loops
+            num_loops,
+            escalation_delay
         )
         # TODO: Add logic to handle non-weekly schedules
         days = weekly_users.create_days_of_week(file)
@@ -730,6 +732,12 @@ if __name__ == '__main__':
         help='The number of times to loop through the escalation policy',
         dest='num_loops'
     )
+    parser.add_argument(
+        '--escalation-delay',
+        help='The number of minutes to wait before escalating the incident to \
+        the next level',
+        dest='escalation_delay'
+    )
     args = parser.parse_args()
     main(
         args.api_key,
@@ -739,5 +747,6 @@ if __name__ == '__main__':
         args.start_date,
         args.end_date,
         args.time_zone,
-        args.num_loops
+        args.num_loops,
+        args.escalation_delay
     )
