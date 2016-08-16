@@ -608,7 +608,6 @@ class WeeklyUserLogic():
                 }
             }
         for i, level in enumerate(ep_by_level):
-            # TODO: Allow users to set an escalation delay
             output['escalation_policy']['escalation_rules'].append({
                 'escalation_delay_in_minutes': self.escalation_delay,
                 'targets': []
@@ -639,7 +638,6 @@ class WeeklyUserLogic():
             )
 
 
-# TODO: Write a unit test for main()
 def main(api_key, base_name, level_name, multi_name, start_date,
          end_date, time_zone, num_loops, escalation_delay):
     # Declare an instance of PagerDutyREST
@@ -657,7 +655,6 @@ def main(api_key, base_name, level_name, multi_name, start_date,
             num_loops,
             escalation_delay
         )
-        # TODO: Add logic to handle non-weekly schedules
         days = weekly_users.create_days_of_week(file)
         # Split teams into their particular users
         days = weekly_users.split_teams_into_users(pd_rest, days)
@@ -696,7 +693,10 @@ def main(api_key, base_name, level_name, multi_name, start_date,
             res['escalation_policy']['id']
         )
 
+# TODO: Handle standard rotation formatted shcedules
 # TODO: Write tests for various arguments
+# TODO: Use list comprehension where applicable
+# TODO: Use keywords for formats or joins on lists where applicable
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Import weekly schedules')
     parser.add_argument(

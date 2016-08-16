@@ -36,7 +36,7 @@ Import schedules from a CSV file. Currently only supports weekly shift-based sch
 
 `--base-name`: The base name for the escalation policy and schedules
 
-`--layer-name`: The base name for each new escalation policy level to be appended by the integer value of the level number
+`--level-name`: The base name for each new escalation policy level to be appended by the integer value of the level number
 
 `--multiple-name`: The base name for each schedule on the same escalation policy level to be appended by the integer value of the schedule number
 
