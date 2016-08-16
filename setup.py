@@ -34,20 +34,19 @@ with open('LICENSE') as f:
     license = f.read()
 
 # TODO: Add test class
-
 setup(
-    name = "scheduleduty",
-    version = "0.1.0",
-    author = "Lucas Epp",
-    author_email = "lucas@pagerduty.com",
-    description = "Tool to import schedules saved as CSV files into PagerDuty",
-    long_description = readme,
-    packages = find_packages(exclude=('tests')),
-    install_requires = [
+    name="scheduleduty",
+    version="0.1.0",
+    author="Lucas Epp",
+    author_email="lucas@pagerduty.com",
+    description="Tool to import schedules saved as CSV files into PagerDuty",
+    long_description=readme,
+    packages=find_packages(exclude=('tests')),
+    install_requires=[
         'pytz==2013.7',
         'requests==2.10.0'
     ],
-    license = license,
-    keywords = "pagerduty pd schedule schedules",
-    url = "https://github.com/lfepp/import_schedules"
+    license=license,
+    keywords="pagerduty pd schedule schedules",
+    url="https://github.com/lfepp/scheduleduty"
 )
