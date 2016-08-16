@@ -27,7 +27,7 @@ Import schedules from a CSV file. Currently only supports weekly shift-based sch
 1. Run the `import_schedules.py` script:
 
     ```
-    ./src/import_schedules.py --api-key EXAMPLE_KEY --base-name "Weekly Shifts" --level-name Level --multiple-name Multi --start-date 2017-01-01 --end-date 2017-02-01 --time-zone UTC
+    ./src/import_schedules.py --api-key EXAMPLE_KEY --base-name "Weekly Shifts" --level-name Level --multiple-name Multi --start-date 2017-01-01 --end-date 2017-02-01 --time-zone UTC --num-loops 1
     ```
 
 ## Command Line Arguments
@@ -46,6 +46,8 @@ Import schedules from a CSV file. Currently only supports weekly shift-based sch
 
 `--time-zone`: The time zone for the schedule in the format of an option from the [IANA time zone database](https://www.iana.org/time-zones)
 
+`--num-loops`: The number of times the escalation policy will repeat after reaching the end of escalation
+
 ## Testing
 
 1. Create a file `config.json` that includes your command-line arguments for testing:
@@ -58,7 +60,8 @@ Import schedules from a CSV file. Currently only supports weekly shift-based sch
       "multi_name": "Multi",
       "start_date": "2017-01-01",
       "end_date": null,
-      "time_zone": "UTC"
+      "time_zone": "UTC",
+      "num_loops": 1
     }
     ```
 

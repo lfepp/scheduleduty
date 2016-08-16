@@ -169,14 +169,15 @@ class PagerDutyREST():
 class WeeklyUserLogic():
     """Class to house the weekly user import logic"""
 
-    def __init__(self, base_name, level_name,
-                 multi_name, start_date, end_date, time_zone):
+    def __init__(self, base_name, level_name, multi_name,
+                 start_date, end_date, time_zone, num_loops):
         self.base_name = base_name
         self.level_name = level_name
         self.multi_name = multi_name
         self.start_date = start_date
         self.end_date = end_date
         self.time_zone = time_zone
+        self.num_loops = num_loops
 
     def create_days_of_week(self, file):
         """Parse CSV file into days of week"""
@@ -578,16 +579,25 @@ class WeeklyUserLogic():
         return output
 
     def get_escalation_policy_payload(self, ep_by_level):
-        # TODO: Allow users to set repeat_enabled & num_loops
-        output = {
-            'escalation_policy': {
-                'name': self.base_name,
-                'type': 'escalation_policy',
-                'escalation_rules': [],
-                'repeat_enabled': True,
-                'num_loops': 1
+        if self.num_loops == 0:
+            output = {
+                'escalation_policy': {
+                    'name': self.base_name,
+                    'type': 'escalation_policy',
+                    'escalation_rules': [],
+                    'repeat_enabled': False
+                }
             }
-        }
+        else:
+            output = {
+                'escalation_policy': {
+                    'name': self.base_name,
+                    'type': 'escalation_policy',
+                    'escalation_rules': [],
+                    'repeat_enabled': True,
+                    'num_loops': self.num_loops
+                }
+            }
         for i, level in enumerate(ep_by_level):
             # TODO: Allow users to set an escalation delay
             output['escalation_policy']['escalation_rules'].append({
@@ -622,7 +632,7 @@ class WeeklyUserLogic():
 
 # TODO: Write a unit test for main()
 def main(api_key, base_name, level_name, multi_name,
-         start_date, end_date, time_zone):
+         start_date, end_date, time_zone, num_loops):
     # Declare an instance of PagerDutyREST
     pd_rest = PagerDutyREST(api_key)
     # Loop through all CSV files
@@ -634,7 +644,8 @@ def main(api_key, base_name, level_name, multi_name,
             multi_name,
             start_date,
             end_date,
-            time_zone
+            time_zone,
+            num_loops
         )
         # TODO: Add logic to handle non-weekly schedules
         days = weekly_users.create_days_of_week(file)
@@ -675,6 +686,7 @@ def main(api_key, base_name, level_name, multi_name,
             res['escalation_policy']['id']
         )
 
+# TODO: Write tests for various arguments
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Import weekly schedules')
     parser.add_argument(
@@ -713,7 +725,11 @@ if __name__ == '__main__':
         database',
         dest='time_zone'
     )
-    # parser.add_argument('--num-loops', help='The number of times to loop through the escalation policy', dest='num_loops') # NOQA
+    parser.add_argument(
+        '--num-loops',
+        help='The number of times to loop through the escalation policy',
+        dest='num_loops'
+    )
     args = parser.parse_args()
     main(
         args.api_key,
@@ -722,5 +738,6 @@ if __name__ == '__main__':
         args.multi_name,
         args.start_date,
         args.end_date,
-        args.time_zone
+        args.time_zone,
+        args.num_loops
     )
