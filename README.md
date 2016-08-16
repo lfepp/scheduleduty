@@ -78,4 +78,4 @@ Import schedules from a CSV file. Currently only supports weekly shift-based sch
 
 ## Author
 
-Luke Epp <lucasfepp@gmail.com>
+Luke Epp <lucas@pagerduty.com>
