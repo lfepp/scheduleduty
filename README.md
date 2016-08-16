@@ -16,7 +16,7 @@ Import schedules from a CSV file. Currently only supports weekly shift-based sch
 
     **type** (str): Must be one of user, team
 
-    **day_of_week** (str or int): Must be one of 0, 1, 2, 3, 4, 5, 6, sunday, monday, tuesday, wednesday, thursday, friday, saturday, weekday, weekdays, weekend, weekends
+    **day_of_week** (str or int): Must be one of 0, 1, 2, 3, 4, 5, 6, sunday, monday, tuesday, wednesday, thursday, friday, saturday, weekday, weekdays, weekend, weekends, all
 
     **start_time** (str): Start time of the shift for that day (i.e. 13:00)
 

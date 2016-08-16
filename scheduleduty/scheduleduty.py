@@ -237,6 +237,14 @@ class WeeklyUserLogic():
                   row['day_of_week'] == 'weekends'):
                 saturday_entries.append(entry)
                 sunday_entries.append(entry)
+            elif row['day_of_week'] == 'all':
+                monday_entries.append(entry)
+                tuesday_entries.append(entry)
+                wednesday_entries.append(entry)
+                thursday_entries.append(entry)
+                friday_entries.append(entry)
+                saturday_entries.append(entry)
+                sunday_entries.append(entry)
             else:
                 print ('Error: Entry {0} has an unknown value for day_of_week: \
                     {1}'.format(row['user_or_team'], row['day_of_week']))
