@@ -25,7 +25,10 @@
 # (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 # SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-from setuptools import setup, find_packages
+import ez_setup
+ez_setup.use_setuptools()
+
+from setuptools import setup, find_packages  # NOQA
 
 with open('README.md') as f:
     readme = f.read()
