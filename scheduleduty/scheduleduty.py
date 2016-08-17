@@ -44,13 +44,13 @@ class PagerDutyREST():
         self.headers = {
             'Accept': 'application/vnd.pagerduty+json;version=2',
             'Content-type': 'application/json',
-            'Authorization': 'Token token={0}'.format(api_key)
+            'Authorization': 'Token token={token}'.format(token=api_key)
         }
 
     def get_team_id(self, team_name):
         """GET the team ID from team name"""
 
-        url = '{0}/teams'.format(self.base_url)
+        url = '{base_url}/teams'.format(base_url=self.base_url)
         payload = {
             'query': team_name
         }
@@ -58,14 +58,13 @@ class PagerDutyREST():
         if r.status_code == 200:
             return r.json()['teams'][0]['id']
         else:
-            raise ValueError('get_team_id returned status code {0}'.format(
-                r.status_code
-            ))
+            raise ValueError('get_team_id returned status code {status_code}'
+                             .format(status_code=r.status_code))
 
     def get_users_in_team(self, team_id):
         """GET a list of users from the team ID"""
 
-        url = '{0}/users'.format(self.base_url)
+        url = '{base_url}/users'.format(base_url=self.base_url)
         payload = {
             'team_ids[]': team_id,
             'limit': 26
@@ -74,16 +73,15 @@ class PagerDutyREST():
         if r.status_code == 200:
             return r.json()['users']
         else:
-            raise ValueError('get_team_id returned status code {0}\n{1}'
-                             .format(
-                                r.status_code,
-                                r.text
-                             ))
+            raise ValueError(
+                'get_team_id returned status code {status_code}\n{error_body}'
+                .format(status_code=r.status_code, error_body=r.text)
+            )
 
     def get_user_id(self, user_query):
         """GET the user ID from the user name or email"""
 
-        url = '{0}/users'.format(self.base_url)
+        url = '{base_url}/users'.format(base_url=self.base_url)
         payload = {
             'query': user_query
         }
@@ -91,78 +89,78 @@ class PagerDutyREST():
         if r.status_code == 200:
             if len(r.json()['users']) > 1:
                 raise ValueError(
-                    'Found more than one user for {0}. \
-                    Please use a unique identifier'.format(user_query)
+                    'Found more than one user for {query}. \
+                    Please use a unique identifier'.format(query=user_query)
                 )
             else:
                 return r.json()['users'][0]['id']
         else:
-            raise ValueError('get_user_id returned status code {0}\n{1}'
-                             .format(
-                                r.status_code,
-                                r.text
-                             ))
+            raise ValueError(
+                'get_user_id returned status code {status_code}\n{error_body}'
+                .format(status_code=r.status_code, error_body=r.text)
+            )
 
     def create_schedule(self, payload):
         """Create a schedule"""
 
-        url = '{0}/schedules'.format(self.base_url)
-        r = requests.post(url, data=json.dumps(payload), headers=self.headers)
-        if r.status_code == 201:
-            return r.json()
-        else:
-            raise ValueError('create_schedule returned status code {0}\n{1}'
-                             .format(
-                                r.status_code,
-                                r.text
-                             ))
-
-    def delete_schedule(self, schedule_id):
-        """Delete a schedule"""
-
-        url = '{0}/schedules/{1}'.format(self.base_url, schedule_id)
-        r = requests.delete(url, headers=self.headers)
-        if r.status_code == 204:
-            return r.status_code
-        else:
-            raise ValueError('delete_schedule returned status code {0}\n{1}'
-                             .format(
-                                r.status_code,
-                                r.text
-                             ))
-
-    def create_escalation_policy(self, payload):
-        """Create an escalation policy"""
-
-        url = '{0}/escalation_policies'.format(self.base_url)
+        url = '{base_url}/schedules'.format(base_url=self.base_url)
         r = requests.post(url, data=json.dumps(payload), headers=self.headers)
         if r.status_code == 201:
             return r.json()
         else:
             raise ValueError(
-                'create_escalation_policy returned status code {0}\n{1}'
-                .format(
-                    r.status_code,
-                    r.text
-                ))
+                'create_schedule returned status code {status_code}\
+                \n{error_body}'
+                .format(status_code=r.status_code, error_body=r.text)
+            )
 
-    def delete_escalation_policy(self, escalation_policy_id):
-        """Delete an escalation policy"""
+    def delete_schedule(self, schedule_id):
+        """Delete a schedule"""
 
-        url = '{0}/escalation_policies/{1}'.format(
-            self.base_url,
-            escalation_policy_id
+        url = '{base_url}/schedules/{id}'.format(
+            base_url=self.base_url,
+            id=schedule_id
         )
         r = requests.delete(url, headers=self.headers)
         if r.status_code == 204:
             return r.status_code
         else:
             raise ValueError(
-                'delete_escalation_policy returned status code {0}\n{1}'
-                .format(
-                    r.status_code,
-                    r.text
-                ))
+                'delete_schedule returned status code {status_code}\
+                \n{error_body}'
+                .format(status_code=r.status_code, error_body=r.text)
+            )
+
+    def create_escalation_policy(self, payload):
+        """Create an escalation policy"""
+
+        url = '{base_url}/escalation_policies'.format(base_url=self.base_url)
+        r = requests.post(url, data=json.dumps(payload), headers=self.headers)
+        if r.status_code == 201:
+            return r.json()
+        else:
+            raise ValueError(
+                'create_escalation_policy returned status code {status_code}\
+                \n{error_body}'
+                .format(status_code=r.status_code, error_body=r.text)
+            )
+
+    def delete_escalation_policy(self, escalation_policy_id):
+        """Delete an escalation policy"""
+
+        url = '{base_url}/escalation_policies/{id}'.format(
+            base_url=self.base_url,
+            id=escalation_policy_id
+        )
+        r = requests.delete(url, headers=self.headers)
+        if r.status_code == 204:
+            return r.status_code
+        else:
+            raise ValueError(
+                'delete_escalation_policy returned status code {status_code}\
+                \n{error_body}'
+                .format(status_code=r.status_code, error_body=r.text)
+            )
 
 
 # WEEKLY IMPORT FUNCTIONS ##################################################
@@ -246,8 +244,13 @@ class WeeklyUserLogic():
                 saturday_entries.append(entry)
                 sunday_entries.append(entry)
             else:
-                print ('Error: Entry {0} has an unknown value for day_of_week: \
-                    {1}'.format(row['user_or_team'], row['day_of_week']))
+                print (
+                    'Error: Entry {name} has an unknown value for day_of_week: \
+                    {day}'.format(
+                        name=row['user_or_team'],
+                        day=row['day_of_week']
+                    )
+                )
         # Create days with entries
         sunday = {'day_of_week': 0, 'entries': sunday_entries}
         monday = {'day_of_week': 1, 'entries': monday_entries}
@@ -333,8 +336,12 @@ class WeeklyUserLogic():
                         i += 1
             ep_by_level.insert(int(level), {
                 'schedules': [{
-                    'name': ('{0} {1} {2}'.format(base_ep[0]['schedules'][0]
-                             ['name'], self.level_name, level)),
+                    'name': '{base_name} {level_name} {level}'
+                    .format(
+                        base_name=base_ep[0]['schedules'][0]['name'],
+                        level_name=self.level_name,
+                        level=level
+                    ),
                     'days': days
                 }]
             })
@@ -408,10 +415,11 @@ class WeeklyUserLogic():
                         for l, entry in enumerate(period['entries']):
                             try:
                                 output[i]['schedules'][l]['name'] = (
-                                    '{0} {1} {2}'.format(
-                                        new_base_name,
-                                        self.multi_name,
-                                        l + 1
+                                    '{base_name} {multi_name} {multiple}'
+                                    .format(
+                                        base_name=new_base_name,
+                                        multi_name=self.multi_name,
+                                        multiple=l + 1
                                     )
                                 )
                                 (output[i]['schedules'][l]['days'][j]
@@ -425,10 +433,11 @@ class WeeklyUserLogic():
                                 output[i]['schedules'].insert(
                                     l,
                                     {
-                                        'name': '{0} {1} {2}'.format(
-                                            new_base_name,
-                                            self.multi_name,
-                                            l + 1
+                                        'name': '{base_name} {multi_name} \
+                                        {multiple}'.format(
+                                            base_name=new_base_name,
+                                            multi_name=self.multi_name,
+                                            multiple=l + 1
                                         ),
                                         'days': [
                                             {'time_periods': []},
@@ -641,8 +650,8 @@ class WeeklyUserLogic():
             return int(time_list[0]) * 3600 + int(time_list[1]) * 60
         else:
             raise ValueError(
-                'Invalid input. Time must be of format HH:MM:SS or HH:MM: {0}'
-                .format(time)
+                'Invalid input. Time must be of format HH:MM:SS or HH:MM. \
+                You input: {time}'.format(time=time)
             )
 
 
@@ -697,8 +706,8 @@ def main(api_key, base_name, level_name, multi_name, start_date,
             ep_by_level
         )
         res = pd_rest.create_escalation_policy(escalation_policy_payload)
-        print "Successfully create escalation policy: {0}".format(
-            res['escalation_policy']['id']
+        print "Successfully create escalation policy: {id}".format(
+            id=res['escalation_policy']['id']
         )
 
 # TODO: Handle standard rotation formatted shcedules

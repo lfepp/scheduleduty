@@ -3,3 +3,4 @@ tests/config.json
 *.egg
 *.egg-info
 *.zip
+dist/
