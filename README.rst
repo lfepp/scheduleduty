@@ -29,16 +29,18 @@ Usage
 
    **end\_time** (str): End time of the shift for that day (i.e. 21:00)
 
-2. Save the CSV files into the ``src/csv`` directory
+2. Save all CSV files into one directory
 
 3. Run the ``import_schedules.py`` script:
 
    ::
 
-       ./scheduleduty/scheduleduty.py --api-key EXAMPLE_KEY --base-name "Weekly Shifts" --level-name Level --multiple-name Multi --start-date 2017-01-01 --end-date 2017-02-01 --time-zone UTC --num-loops 1 --escalation_delay 30
+       ./scheduleduty/scheduleduty.py --csv-dir examples/weekly_shifts --api-key EXAMPLE_KEY --base-name "Weekly Shifts" --level-name Level --multiple-name Multi --start-date 2017-01-01 --end-date 2017-02-01 --time-zone UTC --num-loops 1 --escalation-delay 30
 
 Command Line Arguments
 ----------------------
+
+``--csv-dir``: Path to the directory housing all CSVs to import into PagerDuty
 
 ``--api-key``: PagerDuty v2 API token
 

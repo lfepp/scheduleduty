@@ -33,6 +33,7 @@ from datetime import datetime
 import pytz
 import time
 import argparse
+import os
 
 
 # PD REST API FUNCTION #######################################################
@@ -655,12 +656,17 @@ class WeeklyShiftLogic():
             )
 
 
-def main(api_key, base_name, level_name, multi_name, start_date,
+def main(csv_dir, api_key, base_name, level_name, multi_name, start_date,
          end_date, time_zone, num_loops, escalation_delay):
     # Declare an instance of PagerDutyREST
     pd_rest = PagerDutyREST(api_key)
     # Loop through all CSV files
-    files = glob.glob('scheduleduty/csv/*.csv')
+    # files = glob.glob('scheduleduty/csv/*.csv')
+    if csv_dir[:1] == '/':
+        csv_dir = csv_dir[1:]
+    if csv_dir[-1:] == '/':
+        csv_dir = csv_dir[:-1]
+    files = glob.glob(os.path.join(os.getcwd(), csv_dir, '*.csv'))
     for file in files:
         weekly_shifts = WeeklyShiftLogic(
             base_name,
@@ -718,6 +724,11 @@ def main(api_key, base_name, level_name, multi_name, start_date,
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Import weekly schedules')
     parser.add_argument(
+        '--csv-dir',
+        help='Path to the directory housing all CSVs to import into PagerDuty',
+        dest='csv_dir'
+    )
+    parser.add_argument(
         '--api-key',
         help='PagerDuty v2 REST API Key',
         dest='api_key'
@@ -766,6 +777,7 @@ if __name__ == '__main__':
     )
     args = parser.parse_args()
     main(
+        args.csv_dir,
         args.api_key,
         args.base_name,
         args.level_name,
