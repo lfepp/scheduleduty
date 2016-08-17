@@ -164,7 +164,7 @@ class PagerDutyREST():
 
 
 # WEEKLY IMPORT FUNCTIONS ##################################################
-class WeeklyUserLogic():
+class WeeklyShiftLogic():
     """Class to house the weekly user import logic"""
 
     def __init__(self, base_name, level_name, multi_name, start_date,
@@ -662,7 +662,7 @@ def main(api_key, base_name, level_name, multi_name, start_date,
     # Loop through all CSV files
     files = glob.glob('scheduleduty/csv/*.csv')
     for file in files:
-        weekly_users = WeeklyUserLogic(
+        weekly_shifts = WeeklyShiftLogic(
             base_name,
             level_name,
             multi_name,
@@ -672,29 +672,29 @@ def main(api_key, base_name, level_name, multi_name, start_date,
             num_loops,
             escalation_delay
         )
-        days = weekly_users.create_days_of_week(file)
+        days = weekly_shifts.create_days_of_week(file)
         # Split teams into their particular users
-        days = weekly_users.split_teams_into_users(pd_rest, days)
+        days = weekly_shifts.split_teams_into_users(pd_rest, days)
         # Update user names/emails to user IDs
-        days = weekly_users.get_user_ids(pd_rest, days)
+        days = weekly_shifts.get_user_ids(pd_rest, days)
         # Create list of escalation policies by level
         base_ep = [{
             'schedules': [{
-                'name': weekly_users.base_name,
+                'name': weekly_shifts.base_name,
                 'days': days
             }]
         }]
-        ep_by_level = weekly_users.split_days_by_level(base_ep)
+        ep_by_level = weekly_shifts.split_days_by_level(base_ep)
         # TODO: Handle cominbing cases where one on-call starts at 0:00 and another ends at 24:00 # NOQA
-        ep_by_level = weekly_users.get_time_periods(ep_by_level)
-        ep_by_level = weekly_users.check_for_overlap(ep_by_level)
+        ep_by_level = weekly_shifts.get_time_periods(ep_by_level)
+        ep_by_level = weekly_shifts.check_for_overlap(ep_by_level)
         # Create schedules in PagerDuty
         for i, level in enumerate(ep_by_level):
             for j, schedule in enumerate(level['schedules']):
-                schedule_by_periods = weekly_users.concatenate_time_periods(
+                schedule_by_periods = weekly_shifts.concatenate_time_periods(
                     schedule
                 )
-                schedule_payload = weekly_users.get_schedule_payload(
+                schedule_payload = weekly_shifts.get_schedule_payload(
                     schedule_by_periods
                 )
                 schedule_id = pd_rest.create_schedule(
@@ -702,9 +702,10 @@ def main(api_key, base_name, level_name, multi_name, start_date,
                 )['schedule']['id']
                 ep_by_level[i]['schedules'][j] = schedule_id
         # Create escalation policy in PagerDuty
-        escalation_policy_payload = weekly_users.get_escalation_policy_payload(
-            ep_by_level
-        )
+        escalation_policy_payload = (weekly_shifts
+                                     .get_escalation_policy_payload(
+                                        ep_by_level
+                                     ))
         res = pd_rest.create_escalation_policy(escalation_policy_payload)
         print "Successfully create escalation policy: {id}".format(
             id=res['escalation_policy']['id']

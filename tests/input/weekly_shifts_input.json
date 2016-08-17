@@ -1,7 +1,7 @@
 {
   "split_days_by_level": [{
       "schedules": [{
-          "name": "Weekly Users Test",
+          "name": "Weekly Shifts Test",
           "days": [
               {
                   "day_of_week": 0,
@@ -1096,7 +1096,7 @@
       }
   ],
   "concatenate_time_periods": {
-    "name": "Weekly Users Test Level 1 Multi 1",
+    "name": "Weekly Shifts Test Level 1 Multi 1",
     "days": [
       {
         "time_periods": [
@@ -1255,7 +1255,7 @@
     ]
   },
   "get_schedule_payload": {
-    "name": "Weekly Users Test Level 1 Multi 1",
+    "name": "Weekly Shifts Test Level 1 Multi 1",
     "time_periods": [
       {
         "start_time": "0:00",
@@ -1286,6 +1286,6 @@
         "schedules": ["PEZA00P"]
       }
     ],
-    "name": "Weekly Users Test"
+    "name": "Weekly Shifts Test"
   }
 }
