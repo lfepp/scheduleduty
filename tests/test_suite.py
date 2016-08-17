@@ -27,13 +27,36 @@
 
 import glob
 import unittest
+import argparse
 
-# TODO: Separate out REST tests as these take longer and change less frequently
-suite = unittest.TestSuite()
-files = glob.glob('tests/*_tests.py')
-for file in files:
-    # Load suite() function from module
-    module = __import__(file[6:-3])
-    suite.addTest(module.suite())
 
-unittest.TextTestRunner().run(suite)
+def test_suite(include_rest):
+    suite = unittest.TestSuite()
+    files = glob.glob('tests/*_tests.py')
+    if include_rest:
+        for file in files:
+            # Load suite() function from module
+            module = __import__(file[6:-3])
+            suite.addTest(module.suite())
+    else:
+        for file in files:
+            # Load suite() function from module except for PagerDutyREST tests
+            if file[6:-3] != 'pd_rest_tests':
+                module = __import__(file[6:-3])
+                suite.addTest(module.suite())
+
+    unittest.TextTestRunner().run(suite)
+
+# Add command line argument to include REST API tests
+parser = argparse.ArgumentParser(description='ScheduleDuty Tests')
+parser.add_argument(
+    '--include-rest',
+    help='Flag to include the PagerDutyREST tests in the test suite',
+    dest='include_rest',
+    action='store_true'
+)
+parser.set_defaults(include_rest=False)
+args = parser.parse_args()
+
+# Load test suite with arguments
+test_suite(args.include_rest)
