@@ -1,3 +1,5 @@
 *.pyc
 tests/config.json
-.pypirc
+*.egg
+*.egg-info
+*.zip

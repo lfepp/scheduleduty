@@ -30,7 +30,7 @@ ez_setup.use_setuptools()
 
 from setuptools import setup, find_packages  # NOQA
 
-with open('README.md') as f:
+with open('README.rst') as f:
     readme = f.read()
 
 with open('LICENSE') as f:
