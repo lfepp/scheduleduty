@@ -656,6 +656,13 @@ class WeeklyShiftLogic():
             )
 
 
+# STANDARD ROTATION FUNCTIONS #################################################
+class StandardRotationLogic():
+
+    def __init__(self):
+        self.placeholder = 1
+
+
 def main(csv_dir, api_key, base_name, level_name, multi_name, start_date,
          end_date, time_zone, num_loops, escalation_delay):
     # Declare an instance of PagerDutyREST
