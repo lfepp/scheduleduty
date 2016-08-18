@@ -164,9 +164,9 @@ class PagerDutyREST():
             )
 
 
-# WEEKLY IMPORT FUNCTIONS ##################################################
+# WEEKLY SHIFT FUNCTIONS ##################################################
 class WeeklyShiftLogic():
-    """Class to house the weekly user import logic"""
+    """Class to house the weekly shift import logic"""
 
     def __init__(self, base_name, level_name, multi_name, start_date,
                  end_date, time_zone, num_loops, escalation_delay):
