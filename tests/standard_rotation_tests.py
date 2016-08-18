@@ -52,18 +52,30 @@ with open(config_filname) as config_file:
     config = json.load(config_file)
 
 pd_rest = scheduleduty.PagerDutyREST(config['api_key'])
-standard_rotation = scheduleduty.StandardRotationLogic()
+standard_rotation = scheduleduty.StandardRotationLogic(
+    config['start_date'],
+    config['end_date']
+)
 
 
 class StandardRotationTests(unittest.TestCase):
 
-    def placeholder(self):
-        expected_result = expected['placeholder']
-        actual_result = input['placeholder']
+    def get_restriction_type(self):
+        expected_result = expected['get_restriction_type_daily']
+        actual_result = standard_rotation.get_restriction_type(
+            input['get_restriction_type_daily']['restriction_start_day'],
+            input['get_restriction_type_daily']['restriction_end_day']
+        )
+        self.assertEqual(expected_result, actual_result)
+        expected_result = expected['get_restriction_type_weekly']
+        actual_result = standard_rotation.get_restriction_type(
+            input['get_restriction_type_weekly']['restriction_start_day'],
+            input['get_restriction_type_weekly']['restriction_end_day']
+        )
         self.assertEqual(expected_result, actual_result)
 
 
 def suite():
     suite = unittest.TestSuite()
-    suite.addTest(StandardRotationTests('placeholder'))
+    suite.addTest(StandardRotationTests('get_restriction_type'))
     return suite

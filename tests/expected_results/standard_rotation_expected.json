@@ -1,3 +1,4 @@
 {
-  "placeholder": 1
+  "get_restriction_type_daily": "daily_restriction",
+  "get_restriction_type_weekly": "weekly_restriction"
 }

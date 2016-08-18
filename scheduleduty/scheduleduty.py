@@ -658,9 +658,59 @@ class WeeklyShiftLogic():
 
 # STANDARD ROTATION FUNCTIONS #################################################
 class StandardRotationLogic():
+    """Class to house the standard rotation import logic"""
 
-    def __init__(self):
-        self.placeholder = 1
+    def __init__(self, start_date, end_date):
+        self.start_date = start_date,
+        self.end_date = end_date
+
+    def get_restriction_type(self, start_day, end_day):
+        acceptable_days = [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            'monday',
+            'tuesday',
+            'wednesday',
+            'thursday',
+            'friday',
+            'saturday',
+            'sunday'
+        ]
+        if not start_day and not end_day:
+            return "daily_restriction"
+        elif (start_day.lower() in acceptable_days
+              and end_day.lower() in acceptable_days):
+            return "weekly_restriction"
+        else:
+            raise ValueError(
+                'Invalid restrict start or end date provided. Dates must be in \
+                null, 0, 1, 2, 3, 4, 5, 6, monday, tuesday, wednesday, \
+                thursday, friday, saturday, sunday.'
+            )
+
+    def create_layers(self, file):
+        """Parse CSV file into schedule layers"""
+
+        reader = csv.DictReader(open(file), fieldnames=(
+            'user',
+            'layer',
+            'rotation_type',
+            'shift_length',
+            'handoff_day',
+            'handoff_time',
+            'restriction_start_day',
+            'restriction_start_time',
+            'restriction_end_day',
+            'restriction_end_time'
+        ))
+        reader.next()
+        for row in reader:
+            print "This is a placeholder while I work on tests and some other functions"  # NOQA
 
 
 def main(csv_dir, api_key, base_name, level_name, multi_name, start_date,
