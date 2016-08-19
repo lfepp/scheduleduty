@@ -85,52 +85,53 @@ class StandardRotationTests(unittest.TestCase):
         actual_result = standard_rotation.get_rotation_turn_length(
             input['get_rotation_turn_length']['daily']['rotation_type'],
             input['get_rotation_turn_length']['daily']['shift_length'],
-            input['get_rotation_turn_length']['daily']['shift_type'],
-            input['get_rotation_turn_length']['daily']['handoff_time']
+            input['get_rotation_turn_length']['daily']['shift_type']
         )
         self.assertEqual(expected_result, actual_result)
         expected_result = expected['get_rotation_turn_length']['weekly']
         actual_result = standard_rotation.get_rotation_turn_length(
             input['get_rotation_turn_length']['weekly']['rotation_type'],
             input['get_rotation_turn_length']['weekly']['shift_length'],
-            input['get_rotation_turn_length']['weekly']['shift_type'],
-            input['get_rotation_turn_length']['weekly']['handoff_time']
+            input['get_rotation_turn_length']['weekly']['shift_type']
         )
         self.assertEqual(expected_result, actual_result)
         expected_result = expected['get_rotation_turn_length']['custom_hours']
         actual_result = standard_rotation.get_rotation_turn_length(
             input['get_rotation_turn_length']['custom_hours']['rotation_type'],
             input['get_rotation_turn_length']['custom_hours']['shift_length'],
-            input['get_rotation_turn_length']['custom_hours']['shift_type'],
-            input['get_rotation_turn_length']['custom_hours']['handoff_time']
+            input['get_rotation_turn_length']['custom_hours']['shift_type']
         )
         self.assertEqual(expected_result, actual_result)
         expected_result = expected['get_rotation_turn_length']['custom_days']
         actual_result = standard_rotation.get_rotation_turn_length(
             input['get_rotation_turn_length']['custom_days']['rotation_type'],
             input['get_rotation_turn_length']['custom_days']['shift_length'],
-            input['get_rotation_turn_length']['custom_days']['shift_type'],
-            input['get_rotation_turn_length']['custom_days']['handoff_time']
+            input['get_rotation_turn_length']['custom_days']['shift_type']
         )
         self.assertEqual(expected_result, actual_result)
         expected_result = expected['get_rotation_turn_length']['custom_weeks']
         actual_result = standard_rotation.get_rotation_turn_length(
             input['get_rotation_turn_length']['custom_weeks']['rotation_type'],
             input['get_rotation_turn_length']['custom_weeks']['shift_length'],
-            input['get_rotation_turn_length']['custom_weeks']['shift_type'],
-            input['get_rotation_turn_length']['custom_weeks']['handoff_time']
+            input['get_rotation_turn_length']['custom_weeks']['shift_type']
         )
         self.assertEqual(expected_result, actual_result)
         with self.assertRaises(ValueError):
             standard_rotation.get_rotation_turn_length(
-                input['get_rotation_turn_length']['error']['rotation_type'],
-                input['get_rotation_turn_length']['error']['shift_length'],
-                input['get_rotation_turn_length']['error']['shift_type'],
-                input['get_rotation_turn_length']['error']['handoff_time']
+                input['get_rotation_turn_length']['error1']['rotation_type'],
+                input['get_rotation_turn_length']['error1']['shift_length'],
+                input['get_rotation_turn_length']['error1']['shift_type']
+            )
+        with self.assertRaises(ValueError):
+            standard_rotation.get_rotation_turn_length(
+                input['get_rotation_turn_length']['error2']['rotation_type'],
+                input['get_rotation_turn_length']['error2']['shift_length'],
+                input['get_rotation_turn_length']['error2']['shift_type']
             )
 
 
 def suite():
     suite = unittest.TestSuite()
     suite.addTest(StandardRotationTests('get_restriction_type'))
+    suite.addTest(StandardRotationTests('get_rotation_turn_length'))
     return suite

@@ -17,38 +17,37 @@
     "daily": {
       "rotation_type": "daily",
       "shift_length": null,
-      "shift_type": null,
-      "handoff_time": "0:00"
+      "shift_type": null
     },
     "weekly": {
       "rotation_type": "weekly",
       "shift_length": null,
-      "shift_type": null,
-      "handoff_time": "0:00"
+      "shift_type": null
     },
     "custom_hours": {
       "rotation_type": "custom",
       "shift_length": 2,
-      "shift_type": "hours",
-      "handoff_time": "0:00"
+      "shift_type": "hours"
     },
     "custom_days": {
       "rotation_type": "custom",
       "shift_length": 3,
-      "shift_type": "days",
-      "handoff_time": "0:00"
+      "shift_type": "days"
     },
     "custom_weeks": {
       "rotation_type": "custom",
       "shift_length": 4,
-      "shift_type": "weeks",
-      "handoff_time": "0:00"
+      "shift_type": "weeks"
     },
-    "error": {
+    "error1": {
       "rotation_type": "weeks",
       "shift_length": null,
-      "shift_type": null,
-      "handoff_time": "0:00"
+      "shift_type": null
+    },
+    "error2": {
+      "rotation_type": "custom",
+      "shift_length": 5,
+      "shift_type": "hourly"
     }
   }
 }

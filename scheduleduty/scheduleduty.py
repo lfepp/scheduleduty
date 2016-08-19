@@ -693,6 +693,30 @@ class StandardRotationLogic():
                 thursday, friday, saturday, sunday.'
             )
 
+    def get_rotation_turn_length(self, rotation_type, shift_length,
+                                 shift_type):
+        if rotation_type == 'daily':
+            return 86400
+        elif rotation_type == 'weekly':
+            return 604800
+        elif rotation_type == 'custom':
+            if shift_type == 'hours':
+                return int(shift_length) * 3600
+            elif shift_type == 'days':
+                return int(shift_length) * 86400
+            elif shift_type == 'weeks':
+                return int(shift_length) * 604800
+            else:
+                raise ValueError(
+                    'Invalid shift_type provided. Must be one of hours, days, \
+                    weeks.'
+                )
+        else:
+            raise ValueError(
+                'Invalid rotation_type provided. Must be one of daily, weekly, \
+                custom.'
+            )
+
     def create_layers(self, file):
         """Parse CSV file into schedule layers"""
 
