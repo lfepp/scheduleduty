@@ -129,9 +129,64 @@ class StandardRotationTests(unittest.TestCase):
                 input['get_rotation_turn_length']['error2']['shift_type']
             )
 
+    def get_virtual_start(self):
+        expected_result = expected['get_virtual_start']['daily']
+        actual_result = standard_rotation.get_virtual_start(
+            input['get_virtual_start']['daily']['rotation_type'],
+            input['get_virtual_start']['daily']['handoff_day'],
+            input['get_virtual_start']['daily']['handoff_time'],
+            input['get_virtual_start']['daily']['start_date'],
+            input['get_virtual_start']['daily']['time_zone']
+        )
+        self.assertEqual(expected_result, actual_result)
+        expected_result = expected['get_virtual_start']['weekly']
+        actual_result = standard_rotation.get_virtual_start(
+            input['get_virtual_start']['weekly']['rotation_type'],
+            input['get_virtual_start']['weekly']['handoff_day'],
+            input['get_virtual_start']['weekly']['handoff_time'],
+            input['get_virtual_start']['weekly']['start_date'],
+            input['get_virtual_start']['weekly']['time_zone']
+        )
+        self.assertEqual(expected_result, actual_result)
+        expected_result = expected['get_virtual_start']['custom1']
+        actual_result = standard_rotation.get_virtual_start(
+            input['get_virtual_start']['custom1']['rotation_type'],
+            input['get_virtual_start']['custom1']['handoff_day'],
+            input['get_virtual_start']['custom1']['handoff_time'],
+            input['get_virtual_start']['custom1']['start_date'],
+            input['get_virtual_start']['custom1']['time_zone']
+        )
+        self.assertEqual(expected_result, actual_result)
+        expected_result = expected['get_virtual_start']['custom2']
+        actual_result = standard_rotation.get_virtual_start(
+            input['get_virtual_start']['custom2']['rotation_type'],
+            input['get_virtual_start']['custom2']['handoff_day'],
+            input['get_virtual_start']['custom2']['handoff_time'],
+            input['get_virtual_start']['custom2']['start_date'],
+            input['get_virtual_start']['custom2']['time_zone']
+        )
+        self.assertEqual(expected_result, actual_result)
+        with self.assertRaises(ValueError):
+            standard_rotation.get_virtual_start(
+                input['get_virtual_start']['error1']['rotation_type'],
+                input['get_virtual_start']['error1']['handoff_day'],
+                input['get_virtual_start']['error1']['handoff_time'],
+                input['get_virtual_start']['error1']['start_date'],
+                input['get_virtual_start']['error1']['time_zone']
+            )
+        with self.assertRaises(ValueError):
+            standard_rotation.get_virtual_start(
+                input['get_virtual_start']['error2']['rotation_type'],
+                input['get_virtual_start']['error2']['handoff_day'],
+                input['get_virtual_start']['error2']['handoff_time'],
+                input['get_virtual_start']['error2']['start_date'],
+                input['get_virtual_start']['error2']['time_zone']
+            )
+
 
 def suite():
     suite = unittest.TestSuite()
     suite.addTest(StandardRotationTests('get_restriction_type'))
     suite.addTest(StandardRotationTests('get_rotation_turn_length'))
+    suite.addTest(StandardRotationTests('get_virtual_start'))
     return suite

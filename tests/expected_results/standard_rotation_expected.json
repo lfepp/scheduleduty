@@ -9,5 +9,11 @@
     "custom_hours": 7200,
     "custom_days": 259200,
     "custom_weeks": 2419200
+  },
+  "get_virtual_start": {
+    "daily": "2017-08-01T00:00:00Z0.00",
+    "weekly": "2017-08-02T00:00:00Z0.00",
+    "custom1": "2017-08-01T00:00:00Z0.00",
+    "custom2": "2017-08-03T00:00:00Z0.00"
   }
 }

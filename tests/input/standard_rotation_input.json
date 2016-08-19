@@ -49,5 +49,49 @@
       "shift_length": 5,
       "shift_type": "hourly"
     }
+  },
+  "get_virtual_start": {
+    "daily": {
+      "rotation_type": "daily",
+      "handoff_day": null,
+      "handoff_time": "0:00",
+      "start_date": "2017-08-01",
+      "time_zone": "UTC"
+    },
+    "weekly": {
+      "rotation_type": "weekly",
+      "handoff_day": "Wednesday",
+      "handoff_time": "0:00",
+      "start_date": "2017-08-01",
+      "time_zone": "UTC"
+    },
+    "custom1": {
+      "rotation_type": "custom",
+      "handoff_day": null,
+      "handoff_time": "0:00",
+      "start_date": "2017-08-01",
+      "time_zone": "UTC"
+    },
+    "custom2": {
+      "rotation_type": "custom",
+      "handoff_day": "2017-08-03",
+      "handoff_time": "0:00",
+      "start_date": "2017-08-01",
+      "time_zone": "UTC"
+    },
+    "error1": {
+      "rotation_type": "weeks",
+      "handoff_day": null,
+      "handoff_time": "0:00",
+      "start_date": "2017-08-01",
+      "time_zone": "UTC"
+    },
+    "error2": {
+      "rotation_type": "custom",
+      "handoff_day": "2017-07-20",
+      "handoff_time": "0:00",
+      "start_date": "2017-08-01",
+      "time_zone": "UTC"
+    }
   }
 }
