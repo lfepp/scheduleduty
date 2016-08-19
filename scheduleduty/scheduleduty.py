@@ -701,6 +701,7 @@ class StandardRotationLogic():
             'layer',
             'rotation_type',
             'shift_length',
+            'shift_type',
             'handoff_day',
             'handoff_time',
             'restriction_start_day',

@@ -12,5 +12,43 @@
       "restriction_start_day": "N/A",
       "restriction_end_day": "N/A"
     }
+  },
+  "get_rotation_turn_length": {
+    "daily": {
+      "rotation_type": "daily",
+      "shift_length": null,
+      "shift_type": null,
+      "handoff_time": "0:00"
+    },
+    "weekly": {
+      "rotation_type": "weekly",
+      "shift_length": null,
+      "shift_type": null,
+      "handoff_time": "0:00"
+    },
+    "custom_hours": {
+      "rotation_type": "custom",
+      "shift_length": 2,
+      "shift_type": "hours",
+      "handoff_time": "0:00"
+    },
+    "custom_days": {
+      "rotation_type": "custom",
+      "shift_length": 3,
+      "shift_type": "days",
+      "handoff_time": "0:00"
+    },
+    "custom_weeks": {
+      "rotation_type": "custom",
+      "shift_length": 4,
+      "shift_type": "weeks",
+      "handoff_time": "0:00"
+    },
+    "error": {
+      "rotation_type": "weeks",
+      "shift_length": null,
+      "shift_type": null,
+      "handoff_time": "0:00"
+    }
   }
 }

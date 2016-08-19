@@ -61,13 +61,13 @@ standard_rotation = scheduleduty.StandardRotationLogic(
 class StandardRotationTests(unittest.TestCase):
 
     def get_restriction_type(self):
-        expected_result = expected['get_restriction_type_daily']
+        expected_result = expected['get_restriction_type']['daily']
         actual_result = standard_rotation.get_restriction_type(
             input['get_restriction_type']['daily']['restriction_start_day'],
             input['get_restriction_type']['daily']['restriction_end_day']
         )
         self.assertEqual(expected_result, actual_result)
-        expected_result = expected['get_restriction_type_weekly']
+        expected_result = expected['get_restriction_type']['weekly']
         actual_result = standard_rotation.get_restriction_type(
             input['get_restriction_type']['weekly']['restriction_start_day'],
             input['get_restriction_type']['weekly']['restriction_end_day']
@@ -78,6 +78,55 @@ class StandardRotationTests(unittest.TestCase):
                 input['get_restriction_type']['error']
                 ['restriction_start_day'],
                 input['get_restriction_type']['error']['restriction_end_day']
+            )
+
+    def get_rotation_turn_length(self):
+        expected_result = expected['get_rotation_turn_length']['daily']
+        actual_result = standard_rotation.get_rotation_turn_length(
+            input['get_rotation_turn_length']['daily']['rotation_type'],
+            input['get_rotation_turn_length']['daily']['shift_length'],
+            input['get_rotation_turn_length']['daily']['shift_type'],
+            input['get_rotation_turn_length']['daily']['handoff_time']
+        )
+        self.assertEqual(expected_result, actual_result)
+        expected_result = expected['get_rotation_turn_length']['weekly']
+        actual_result = standard_rotation.get_rotation_turn_length(
+            input['get_rotation_turn_length']['weekly']['rotation_type'],
+            input['get_rotation_turn_length']['weekly']['shift_length'],
+            input['get_rotation_turn_length']['weekly']['shift_type'],
+            input['get_rotation_turn_length']['weekly']['handoff_time']
+        )
+        self.assertEqual(expected_result, actual_result)
+        expected_result = expected['get_rotation_turn_length']['custom_hours']
+        actual_result = standard_rotation.get_rotation_turn_length(
+            input['get_rotation_turn_length']['custom_hours']['rotation_type'],
+            input['get_rotation_turn_length']['custom_hours']['shift_length'],
+            input['get_rotation_turn_length']['custom_hours']['shift_type'],
+            input['get_rotation_turn_length']['custom_hours']['handoff_time']
+        )
+        self.assertEqual(expected_result, actual_result)
+        expected_result = expected['get_rotation_turn_length']['custom_days']
+        actual_result = standard_rotation.get_rotation_turn_length(
+            input['get_rotation_turn_length']['custom_days']['rotation_type'],
+            input['get_rotation_turn_length']['custom_days']['shift_length'],
+            input['get_rotation_turn_length']['custom_days']['shift_type'],
+            input['get_rotation_turn_length']['custom_days']['handoff_time']
+        )
+        self.assertEqual(expected_result, actual_result)
+        expected_result = expected['get_rotation_turn_length']['custom_weeks']
+        actual_result = standard_rotation.get_rotation_turn_length(
+            input['get_rotation_turn_length']['custom_weeks']['rotation_type'],
+            input['get_rotation_turn_length']['custom_weeks']['shift_length'],
+            input['get_rotation_turn_length']['custom_weeks']['shift_type'],
+            input['get_rotation_turn_length']['custom_weeks']['handoff_time']
+        )
+        self.assertEqual(expected_result, actual_result)
+        with self.assertRaises(ValueError):
+            standard_rotation.get_rotation_turn_length(
+                input['get_rotation_turn_length']['error']['rotation_type'],
+                input['get_rotation_turn_length']['error']['shift_length'],
+                input['get_rotation_turn_length']['error']['shift_type'],
+                input['get_rotation_turn_length']['error']['handoff_time']
             )
 
 

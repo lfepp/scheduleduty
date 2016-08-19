@@ -1,4 +1,13 @@
 {
-  "get_restriction_type_daily": "daily_restriction",
-  "get_restriction_type_weekly": "weekly_restriction"
+  "get_restriction_type": {
+    "daily": "daily_restriction",
+    "weekly": "weekly_restriction"
+  },
+  "get_rotation_turn_length": {
+    "daily": 86400,
+    "weekly": 604800,
+    "custom_hours": 7200,
+    "custom_days": 259200,
+    "custom_weeks": 2419200
+  }
 }
