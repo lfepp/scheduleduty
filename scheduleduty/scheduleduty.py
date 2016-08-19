@@ -29,7 +29,7 @@ import csv
 import glob
 import requests
 import json
-from datetime import datetime
+from datetime import datetime, timedelta
 import pytz
 import time
 import argparse
@@ -715,6 +715,126 @@ class StandardRotationLogic():
             raise ValueError(
                 'Invalid rotation_type provided. Must be one of daily, weekly, \
                 custom.'
+            )
+
+    def get_virtual_start(self, rotation_type, handoff_day, handoff_time,
+                          start_date, time_zone):
+        tz = pytz.timezone(time_zone)
+        # TODO: Extract this into a helper function for DRY code
+        start_datetime = "{start_date}T{start_time}".format(
+            start_date=start_date,
+            start_time=handoff_time
+        )
+        # Handle different time formats
+        if len(handoff_time.split(':')) == 3:
+            start_date = datetime.strptime(start_datetime, '%Y-%m-%dT%H:%M:%S')
+        elif len(handoff_time.split(':')) == 2:
+            start_date = datetime.strptime(start_datetime, '%Y-%m-%dT%H:%M')
+        else:
+            raise ValueError(
+                'Invalid handoff_time. Format must be in HH:MM or HH:MM:SS.'
+            )
+        if rotation_type == 'daily':
+            return tz.localize(start_date).isoformat()
+        elif rotation_type == 'weekly':
+            weekday = tz.localize(start_date).weekday()
+            # TODO: Extract the timedelta stuff as a helper function
+            if handoff_day.lower() == 'monday' or handoff_day == 1:
+                if weekday == 0:
+                    return tz.localize(start_date).isoformat()
+                else:
+                    start_date += timedelta(days=(7 - weekday))
+                    return tz.localize(start_date).isoformat()
+            elif handoff_day.lower() == 'tuesday' or handoff_day == 2:
+                if weekday < 1:
+                    start_date += timedelta(days=(1 - weekday))
+                    return tz.localize(start_date).isoformat()
+                elif weekday == 2:
+                    return tz.localize(start_date).isoformat()
+                else:
+                    start_date += timedelta(days=(9 - weekday))
+                    return tz.localize(start_date).isoformat()
+            elif handoff_day.lower() == 'wednesday' or handoff_day == 3:
+                if weekday < 2:
+                    start_date += timedelta(days=(2 - weekday))
+                    return tz.localize(start_date).isoformat()
+                elif weekday == 2:
+                    return tz.localize(start_date).isoformat()
+                else:
+                    start_date += timedelta(days=(10 - weekday))
+                    return tz.localize(start_date).isoformat()
+            elif handoff_day.lower() == 'thursday' or handoff_day == 4:
+                if handoff_day < 3:
+                    start_date += timedelta(days=(3 - weekday))
+                    return tz.localize(start_date).isoformat()
+                elif handoff_day == 3:
+                    return tz.localize(start_date).isoformat()
+                else:
+                    start_date += timedelta(days=(11 - weekday))
+                    return tz.localize(start_date).isoformat()
+            elif handoff_day.lower() == 'friday' or handoff_day == 5:
+                if handoff_day < 4:
+                    start_date += timedelta(days=(4 - weekday))
+                    return tz.localize(start_date).isoformat()
+                elif handoff_day == 4:
+                    return tz.localize(start_date).isoformat()
+                else:
+                    start_date += timedelta(days=(12 - weekday))
+                    return tz.localize(start_date).isoformat()
+            elif handoff_day.lower() == 'saturday' or handoff_day == 6:
+                if handoff_day < 5:
+                    start_date += timedelta(days=(5 - weekday))
+                    return tz.localize(start_date).isoformat()
+                elif handoff_day == 5:
+                    return tz.localize(start_date).isoformat()
+                else:
+                    start_date += timedelta(days=(13 - weekday))
+                    return tz.localize(start_date).isoformat()
+            elif handoff_day.lower() == 'sunday' or handoff_day == 0:
+                if handoff_day == 6:
+                    return tz.localize(start_date).isoformat()
+                else:
+                    start_date += timedelta(days=(6 - weekday))
+                    return tz.localize(start_date).isoformat()
+            else:
+                raise ValueError(
+                    'Invalid handoff_day provided. Must be one of 0, 1, 2, 3, \
+                    4, 5, 6, monday, tuesday, wednesday, thursday, friday, \
+                    saturday, sunday'
+                )
+        elif rotation_type == 'custom':
+            if not handoff_day:
+                return tz.localize(start_date).isoformat()
+            else:
+                # TODO: Write tests for handoff_day in incorrect format
+                if datetime.strptime(handoff_day, '%Y-%m-%d') < start_date:
+                    raise ValueError('handoff_day must come after start_date.')
+                else:
+                    start_datetime = "{start_date}T{start_time}".format(
+                        start_date=handoff_day,
+                        start_time=handoff_time
+                    )
+                    # Handle different time formats
+                    if len(handoff_time.split(':')) == 3:
+                        start_date = datetime.strptime(
+                            start_datetime,
+                            '%Y-%m-%dT%H:%M:%S'
+                        )
+                    elif len(handoff_time.split(':')) == 2:
+                        start_date = datetime.strptime(
+                            start_datetime,
+                            '%Y-%m-%dT%H:%M'
+                        )
+                    else:
+                        raise ValueError(
+                            'Invalid handoff_time. Format must be in HH:MM or \
+                            HH:MM:SS.'
+                        )
+                    return tz.localize(start_date).isoformat()
+        else:
+            raise ValueError(
+                'Invalid rotation_type provided. Must be one of daily, \
+                weekly, custom.'
             )
 
     def create_layers(self, file):

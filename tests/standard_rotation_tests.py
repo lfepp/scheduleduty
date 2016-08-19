@@ -182,6 +182,14 @@ class StandardRotationTests(unittest.TestCase):
                 input['get_virtual_start']['error2']['start_date'],
                 input['get_virtual_start']['error2']['time_zone']
             )
+        with self.assertRaises(ValueError):
+            standard_rotation.get_virtual_start(
+                input['get_virtual_start']['error3']['rotation_type'],
+                input['get_virtual_start']['error3']['handoff_day'],
+                input['get_virtual_start']['error3']['handoff_time'],
+                input['get_virtual_start']['error3']['start_date'],
+                input['get_virtual_start']['error3']['time_zone']
+            )
 
 
 def suite():

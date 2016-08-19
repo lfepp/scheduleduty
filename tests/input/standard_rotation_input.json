@@ -92,6 +92,13 @@
       "handoff_time": "0:00",
       "start_date": "2017-08-01",
       "time_zone": "UTC"
+    },
+    "error3": {
+      "rotation_type": "custom",
+      "handoff_day": "2017-07-20",
+      "handoff_time": "03",
+      "start_date": "2017-08-01",
+      "time_zone": "UTC"
     }
   }
 }
