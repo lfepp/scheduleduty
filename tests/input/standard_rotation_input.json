@@ -1,10 +1,16 @@
 {
-  "get_restriction_type_daily": {
-    "restriction_start_day": null,
-    "restriction_end_day": null
-  },
-  "get_restriction_type_weekly": {
-    "restriction_start_day": "Monday",
-    "restriction_end_day": "wednesday"
+  "get_restriction_type": {
+    "daily": {
+      "restriction_start_day": null,
+      "restriction_end_day": null
+    },
+    "weekly": {
+      "restriction_start_day": "Monday",
+      "restriction_end_day": "wednesday"
+    },
+    "error": {
+      "restriction_start_day": "N/A",
+      "restriction_end_day": "N/A"
+    }
   }
 }
