@@ -764,34 +764,34 @@ class StandardRotationLogic():
                     start_date += timedelta(days=(10 - weekday))
                     return tz.localize(start_date).isoformat()
             elif handoff_day.lower() == 'thursday' or handoff_day == 4:
-                if handoff_day < 3:
+                if weekday < 3:
                     start_date += timedelta(days=(3 - weekday))
                     return tz.localize(start_date).isoformat()
-                elif handoff_day == 3:
+                elif weekday == 3:
                     return tz.localize(start_date).isoformat()
                 else:
                     start_date += timedelta(days=(11 - weekday))
                     return tz.localize(start_date).isoformat()
             elif handoff_day.lower() == 'friday' or handoff_day == 5:
-                if handoff_day < 4:
+                if weekday < 4:
                     start_date += timedelta(days=(4 - weekday))
                     return tz.localize(start_date).isoformat()
-                elif handoff_day == 4:
+                elif weekday == 4:
                     return tz.localize(start_date).isoformat()
                 else:
                     start_date += timedelta(days=(12 - weekday))
                     return tz.localize(start_date).isoformat()
             elif handoff_day.lower() == 'saturday' or handoff_day == 6:
-                if handoff_day < 5:
+                if weekday < 5:
                     start_date += timedelta(days=(5 - weekday))
                     return tz.localize(start_date).isoformat()
-                elif handoff_day == 5:
+                elif weekday == 5:
                     return tz.localize(start_date).isoformat()
                 else:
                     start_date += timedelta(days=(13 - weekday))
                     return tz.localize(start_date).isoformat()
             elif handoff_day.lower() == 'sunday' or handoff_day == 0:
-                if handoff_day == 6:
+                if weekday == 6:
                     return tz.localize(start_date).isoformat()
                 else:
                     start_date += timedelta(days=(6 - weekday))
