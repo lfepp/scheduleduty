@@ -720,7 +720,7 @@ class StandardRotationLogic():
     def get_virtual_start(self, rotation_type, handoff_day, handoff_time,
                           start_date, time_zone):
         tz = pytz.timezone(time_zone)
-        start_date = self.get_start_date(start_date, handoff_time)
+        start_date = self.get_datetime(start_date, handoff_time)
         if rotation_type == 'daily':
             return tz.localize(start_date).isoformat()
         elif rotation_type == 'weekly':
@@ -753,7 +753,7 @@ class StandardRotationLogic():
                 if datetime.strptime(handoff_day, '%Y-%m-%d') < start_date:
                     raise ValueError('handoff_day must come after start_date.')
                 else:
-                    return tz.localize(self.get_start_date(
+                    return tz.localize(self.get_datetime(
                         handoff_day,
                         handoff_time
                     )).isoformat()
@@ -789,20 +789,20 @@ class StandardRotationLogic():
 
     # HELPER FUNCTIONS
     # TODO: Write unit tests for function
-    def get_start_date(self, handoff_day, handoff_time):
-        start_datetime = "{start_date}T{start_time}".format(
-            start_date=handoff_day,
-            start_time=handoff_time
+    def get_datetime(self, day, time):
+        date_time = "{date}T{time}".format(
+            start_date=day,
+            start_time=time
         )
         # Handle different time formats
-        if len(handoff_time.split(':')) == 3:
-            start_date = datetime.strptime(
-                start_datetime,
+        if len(time.split(':')) == 3:
+            output = datetime.strptime(
+                date_time,
                 '%Y-%m-%dT%H:%M:%S'
             )
-        elif len(handoff_time.split(':')) == 2:
-            start_date = datetime.strptime(
-                start_datetime,
+        elif len(time.split(':')) == 2:
+            output = datetime.strptime(
+                date_time,
                 '%Y-%m-%dT%H:%M'
             )
         else:
@@ -810,7 +810,7 @@ class StandardRotationLogic():
                 'Invalid handoff_time. Format must be in HH:MM or \
                 HH:MM:SS.'
             )
-        return start_date
+        return output
 
     # TODO: Write unit tests for function
     def start_date_timedelta(self, handoff_day, weekday, start_date, tz):
