@@ -240,6 +240,32 @@ class StandardRotationTests(unittest.TestCase):
             ['restriction_end_time']
         )
         self.assertEqual(expected_result, actual_result)
+        with self.assertRaises(ValueError):
+            standard_rotation.get_restriction_duration(
+                input['get_restriction_duration']['error1']
+                ['restriction_type'],
+                input['get_restriction_duration']['error1']
+                ['restriction_start_day'],
+                input['get_restriction_duration']['error1']
+                ['restriction_start_time'],
+                input['get_restriction_duration']['error1']
+                ['restriction_end_day'],
+                input['get_restriction_duration']['error1']
+                ['restriction_end_time']
+            )
+        with self.assertRaises(ValueError):
+            standard_rotation.get_restriction_duration(
+                input['get_restriction_duration']['error2']
+                ['restriction_type'],
+                input['get_restriction_duration']['error2']
+                ['restriction_start_day'],
+                input['get_restriction_duration']['error2']
+                ['restriction_start_time'],
+                input['get_restriction_duration']['error2']
+                ['restriction_end_day'],
+                input['get_restriction_duration']['error2']
+                ['restriction_end_time']
+            )
 
 
 def suite():
@@ -247,4 +273,5 @@ def suite():
     suite.addTest(StandardRotationTests('get_restriction_type'))
     suite.addTest(StandardRotationTests('get_rotation_turn_length'))
     suite.addTest(StandardRotationTests('get_virtual_start'))
+    suite.addTest(StandardRotationTests('get_restriction_duration'))
     return suite

@@ -129,6 +129,20 @@
       "restriction_start_time": "08:00",
       "restriction_end_day": "Wednesday",
       "restriction_end_time": "08:00"
+    },
+    "error1": {
+      "restriction_type": "daily_restriction",
+      "restriction_start_day": null,
+      "restriction_start_time": "08:00",
+      "restriction_end_day": null,
+      "restriction_end_time": "08:00"
+    },
+    "error2": {
+      "restriction_type": "weekly",
+      "restriction_start_day": "Monday",
+      "restriction_start_time": "08:00",
+      "restriction_end_day": "Monday",
+      "restriction_end_time": "08:00"
     }
   }
 }

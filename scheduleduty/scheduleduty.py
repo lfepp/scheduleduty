@@ -763,6 +763,10 @@ class StandardRotationLogic():
                 weekly, custom.'
             )
 
+    def get_restriction_duration(self, type, start_day, start_time,
+                                 end_day, end_time):
+        return "placeholder"
+
     def create_layers(self, file):
         """Parse CSV file into schedule layers"""
 
