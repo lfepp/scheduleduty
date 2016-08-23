@@ -909,12 +909,11 @@ class StandardRotationLogic():
         return layers
 
     # HELPER FUNCTIONS
-    # TODO: Write unit tests for function
-    def get_datetime(self, day, time):
+    def get_datetime(self, date, time):
         """Helper function to parse multiple datetime formats"""
 
         date_time = "{date}T{time}".format(
-            date=day,
+            date=date,
             time=time
         )
         # Handle different time formats

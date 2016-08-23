@@ -29,6 +29,7 @@ import unittest
 import sys
 import json
 import os
+from datetime import datetime
 sys.path.append(os.path.join(os.path.dirname(__file__), '../scheduleduty'))
 expected_filename = os.path.join(
     os.path.dirname(__file__),
@@ -292,6 +293,26 @@ class StandardRotationTests(unittest.TestCase):
         )
         self.assertEqual(expected_result, actual_result)
 
+    # HELPER FUNCTIONS
+    def get_datetime(self):
+        expected_result = datetime(2016, 8, 23, 7, 43, 28)
+        actual_result = standard_rotation.get_datetime(
+            input['get_datetime']['with_seconds']['date'],
+            input['get_datetime']['with_seconds']['time']
+        )
+        self.assertEqual(expected_result, actual_result)
+        expected_result = datetime(2016, 8, 23, 7, 43, 00)
+        actual_result = standard_rotation.get_datetime(
+            input['get_datetime']['without_seconds']['date'],
+            input['get_datetime']['without_seconds']['time']
+        )
+        self.assertEqual(expected_result, actual_result)
+        with self.assertRaises(ValueError):
+            standard_rotation.get_datetime(
+                input['get_datetime']['error']['date'],
+                input['get_datetime']['error']['time']
+            )
+
 
 def suite():
     suite = unittest.TestSuite()
@@ -300,4 +321,5 @@ def suite():
     suite.addTest(StandardRotationTests('get_virtual_start'))
     suite.addTest(StandardRotationTests('get_restriction_duration'))
     suite.addTest(StandardRotationTests('parse_csv'))
+    suite.addTest(StandardRotationTests('get_datetime'))
     return suite

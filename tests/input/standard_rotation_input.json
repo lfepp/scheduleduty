@@ -156,5 +156,19 @@
       "restriction_end_day": "Monday",
       "restriction_end_time": "08:00"
     }
+  },
+  "get_datetime": {
+    "with_seconds": {
+      "date": "2016-08-23",
+      "time": "07:43:28"
+    },
+    "without_seconds": {
+      "date": "2016-08-23",
+      "time": "07:43"
+    },
+    "error": {
+      "date": "2016-08-23",
+      "time": "14:23:18:07"
+    }
   }
 }
