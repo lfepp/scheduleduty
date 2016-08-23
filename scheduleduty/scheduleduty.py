@@ -720,20 +720,7 @@ class StandardRotationLogic():
     def get_virtual_start(self, rotation_type, handoff_day, handoff_time,
                           start_date, time_zone):
         tz = pytz.timezone(time_zone)
-        # TODO: Extract this into a helper function for DRY code
-        start_datetime = "{start_date}T{start_time}".format(
-            start_date=start_date,
-            start_time=handoff_time
-        )
-        # Handle different time formats
-        if len(handoff_time.split(':')) == 3:
-            start_date = datetime.strptime(start_datetime, '%Y-%m-%dT%H:%M:%S')
-        elif len(handoff_time.split(':')) == 2:
-            start_date = datetime.strptime(start_datetime, '%Y-%m-%dT%H:%M')
-        else:
-            raise ValueError(
-                'Invalid handoff_time. Format must be in HH:MM or HH:MM:SS.'
-            )
+        start_date = self.get_start_date(start_date, handoff_time)
         if rotation_type == 'daily':
             return tz.localize(start_date).isoformat()
         elif rotation_type == 'weekly':
@@ -810,27 +797,10 @@ class StandardRotationLogic():
                 if datetime.strptime(handoff_day, '%Y-%m-%d') < start_date:
                     raise ValueError('handoff_day must come after start_date.')
                 else:
-                    start_datetime = "{start_date}T{start_time}".format(
-                        start_date=handoff_day,
-                        start_time=handoff_time
-                    )
-                    # Handle different time formats
-                    if len(handoff_time.split(':')) == 3:
-                        start_date = datetime.strptime(
-                            start_datetime,
-                            '%Y-%m-%dT%H:%M:%S'
-                        )
-                    elif len(handoff_time.split(':')) == 2:
-                        start_date = datetime.strptime(
-                            start_datetime,
-                            '%Y-%m-%dT%H:%M'
-                        )
-                    else:
-                        raise ValueError(
-                            'Invalid handoff_time. Format must be in HH:MM or \
-                            HH:MM:SS.'
-                        )
-                    return tz.localize(start_date).isoformat()
+                    return tz.localize(self.get_start_date(
+                        handoff_day,
+                        handoff_time
+                    )).isoformat()
         else:
             raise ValueError(
                 'Invalid rotation_type provided. Must be one of daily, \
@@ -856,6 +826,31 @@ class StandardRotationLogic():
         reader.next()
         for row in reader:
             print "This is a placeholder while I work on tests and some other functions"  # NOQA
+
+    # HELPER FUNCTIONS
+    # TODO: Write unit tests for function
+    def get_start_date(self, handoff_day, handoff_time):
+        start_datetime = "{start_date}T{start_time}".format(
+            start_date=handoff_day,
+            start_time=handoff_time
+        )
+        # Handle different time formats
+        if len(handoff_time.split(':')) == 3:
+            start_date = datetime.strptime(
+                start_datetime,
+                '%Y-%m-%dT%H:%M:%S'
+            )
+        elif len(handoff_time.split(':')) == 2:
+            start_date = datetime.strptime(
+                start_datetime,
+                '%Y-%m-%dT%H:%M'
+            )
+        else:
+            raise ValueError(
+                'Invalid handoff_time. Format must be in HH:MM or \
+                HH:MM:SS.'
+            )
+        return start_date
 
 
 def main(csv_dir, api_key, base_name, level_name, multi_name, start_date,
