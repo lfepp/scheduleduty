@@ -1,13 +1,13 @@
-user,layer,rotation_type,shift_length,handoff_day,handoff_time,restriction_start_day,restriction_start_time,restriction_end_day,restriction_end_time
-Import User 1,1,weekly,,Wednesday,0:00,Monday,0:00,Wednesday,0:00
-Import User 2,1,weekly,,Wednesday,0:00,Monday,0:00,Wednesday,0:00
-Import User 3,1,weekly,,Wednesday,0:00,Monday,0:00,Wednesday,0:00
-Import User 4,1,weekly,,Wednesday,0:00,Monday,0:00,Wednesday,0:00
-Import User 3,2,weekly,,Wednesday,8:00,Wednesday,0:00,Friday,0:00
-Import User 4,2,weekly,,Wednesday,8:00,Wednesday,0:00,Friday,0:00
-Import User 1,2,weekly,,Wednesday,8:00,Wednesday,0:00,Friday,0:00
-Import User 2,2,weekly,,Wednesday,8:00,Wednesday,0:00,Friday,0:00
-Import User 2,3,weekly,,Wednesday,8:00,Friday,0:00,Monday,0:00
-Import User 3,3,weekly,,Wednesday,8:00,Friday,0:00,Monday,0:00
-Import User 4,3,weekly,,Wednesday,8:00,Friday,0:00,Monday,0:00
-Import User 1,3,weekly,,Wednesday,8:00,Friday,0:00,Monday,0:00
+user,layer,layer_name,rotation_type,shift_length,shift_type,handoff_day,handoff_time,restriction_start_day,restriction_start_time,restriction_end_date,restriction_end_time
+Import User 1,1,Layer 1,weekly,,,Wednesday,0:00,Monday,0:00,Wednesday,0:00
+Import User 2,1,Layer 1,weekly,,,Wednesday,0:00,Monday,0:00,Wednesday,0:00
+Import User 3,1,Layer 1,weekly,,,Wednesday,0:00,Monday,0:00,Wednesday,0:00
+Import User 4,1,Layer 1,weekly,,,Wednesday,0:00,Monday,0:00,Wednesday,0:00
+Import User 3,2,Layer 2,weekly,,,Wednesday,8:00,Wednesday,0:00,Friday,0:00
+Import User 4,2,Layer 2,weekly,,,Wednesday,8:00,Wednesday,0:00,Friday,0:00
+Import User 1,2,Layer 2,weekly,,,Wednesday,8:00,Wednesday,0:00,Friday,0:00
+Import User 2,2,Layer 2,weekly,,,Wednesday,8:00,Wednesday,0:00,Friday,0:00
+Import User 2,3,Layer 3,weekly,,,Wednesday,8:00,Friday,0:00,Monday,0:00
+Import User 3,3,Layer 3,weekly,,,Wednesday,8:00,Friday,0:00,Monday,0:00
+Import User 4,3,Layer 3,weekly,,,Wednesday,8:00,Friday,0:00,Monday,0:00
+Import User 1,3,Layer 3,weekly,,,Wednesday,8:00,Friday,0:00,Monday,0:00

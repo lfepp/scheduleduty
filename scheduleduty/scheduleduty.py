@@ -842,12 +842,13 @@ class StandardRotationLogic():
                     datetimes are equal'
                 )
 
-    def create_layers(self, file):
-        """Parse CSV file into schedule layers"""
+    def parse_csv(self, file):
+        """Parse CSV file into layer-based dictionary"""
 
         reader = csv.DictReader(open(file), fieldnames=(
             'user',
             'layer',
+            'layer_name',
             'rotation_type',
             'shift_length',
             'shift_type',
@@ -859,8 +860,53 @@ class StandardRotationLogic():
             'restriction_end_time'
         ))
         reader.next()
+        layers = {}
+        levels = []
         for row in reader:
-            print "This is a placeholder while I work on tests and some other functions"  # NOQA
+            # TODO: Allow users to enter layer name
+            shift_length = self.nullify(row['shift_length'])
+            shift_type = self.nullify(row['shift_type'])
+            handoff_day = self.nullify(row['handoff_day'])
+            restriction_start_day = self.nullify(row['restriction_start_day'])
+            restriction_start_time = self.nullify(
+                row['restriction_start_time']
+            )
+            restriction_end_day = self.nullify(row['restriction_end_day'])
+            restriction_end_time = self.nullify(row['restriction_end_time'])
+            if row['layer'] not in levels:
+                levels.append(row['layer'])
+                layers[row['layer']] = [{
+                    'user': row['user'],
+                    'layer_name': row['layer_name'],
+                    'rotation_type': row['rotation_type'],
+                    'shift_length': shift_length,
+                    'shift_type': shift_type,
+                    'handoff_day': handoff_day,
+                    'handoff_time': row['handoff_time'],
+                    'restriction_start_day': restriction_start_day,
+                    'restriction_start_time': restriction_start_time,
+                    'restriction_end_day': restriction_end_day,
+                    'restriction_end_time': restriction_end_time,
+                    'restriction_type': self.get_restriction_type(
+                        row['restriction_start_day'],
+                        row['restriction_end_day']
+                    )
+                }]
+            else:
+                layers[row['layer']].append({
+                    'user': row['user'],
+                    'layer_name': row['layer_name'],
+                    'rotation_type': row['rotation_type'],
+                    'shift_length': shift_length,
+                    'shift_type': shift_type,
+                    'handoff_day': handoff_day,
+                    'handoff_time': row['handoff_time'],
+                    'restriction_start_day': restriction_start_day,
+                    'restriction_start_time': restriction_start_time,
+                    'restriction_end_day': restriction_end_day,
+                    'restriction_end_time': restriction_end_time
+                })
+        return layers
 
     # HELPER FUNCTIONS
     # TODO: Write unit tests for function
@@ -926,6 +972,13 @@ class StandardRotationLogic():
                 4, 5, 6, monday, tuesday, wednesday, thursday, friday, \
                 saturday, sunday'
             )
+
+    # TODO: Write unit test for function
+    def nullify(self, val):
+        if val == "":
+            return None
+        else:
+            return val
 
 
 def main(csv_dir, api_key, base_name, level_name, multi_name, start_date,

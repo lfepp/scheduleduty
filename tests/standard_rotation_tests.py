@@ -285,6 +285,13 @@ class StandardRotationTests(unittest.TestCase):
                 ['restriction_end_time']
             )
 
+    def parse_csv(self):
+        expected_result = expected['parse_csv']
+        actual_result = standard_rotation.parse_csv(
+            'tests/csv/standard_rotation.csv'
+        )
+        self.assertEqual(expected_result, actual_result)
+
 
 def suite():
     suite = unittest.TestSuite()
@@ -292,4 +299,5 @@ def suite():
     suite.addTest(StandardRotationTests('get_rotation_turn_length'))
     suite.addTest(StandardRotationTests('get_virtual_start'))
     suite.addTest(StandardRotationTests('get_restriction_duration'))
+    suite.addTest(StandardRotationTests('parse_csv'))
     return suite

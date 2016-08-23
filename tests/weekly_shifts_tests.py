@@ -69,7 +69,7 @@ class WeeklyShiftsTests(unittest.TestCase):
     def create_days_of_week(self):
         expected_result = expected['create_days_of_week']
         actual_result = weekly_shifts.create_days_of_week(
-         "tests/csv/weekly_shifts_test.csv"
+         'tests/csv/weekly_shifts_test.csv'
         )
         self.assertEqual(expected_result, actual_result)
 
