@@ -725,64 +725,20 @@ class StandardRotationLogic():
             return tz.localize(start_date).isoformat()
         elif rotation_type == 'weekly':
             weekday = tz.localize(start_date).weekday()
-            # TODO: Extract the timedelta stuff as a helper function
             if handoff_day.lower() == 'monday' or handoff_day == 1:
-                if weekday == 0:
-                    return tz.localize(start_date).isoformat()
-                else:
-                    start_date += timedelta(days=(7 - weekday))
-                    return tz.localize(start_date).isoformat()
+                return self.start_date_timedelta(0, weekday, start_date, tz)
             elif handoff_day.lower() == 'tuesday' or handoff_day == 2:
-                if weekday < 1:
-                    start_date += timedelta(days=(1 - weekday))
-                    return tz.localize(start_date).isoformat()
-                elif weekday == 2:
-                    return tz.localize(start_date).isoformat()
-                else:
-                    start_date += timedelta(days=(9 - weekday))
-                    return tz.localize(start_date).isoformat()
+                return self.start_date_timedelta(1, weekday, start_date, tz)
             elif handoff_day.lower() == 'wednesday' or handoff_day == 3:
-                if weekday < 2:
-                    start_date += timedelta(days=(2 - weekday))
-                    return tz.localize(start_date).isoformat()
-                elif weekday == 2:
-                    return tz.localize(start_date).isoformat()
-                else:
-                    start_date += timedelta(days=(10 - weekday))
-                    return tz.localize(start_date).isoformat()
+                return self.start_date_timedelta(2, weekday, start_date, tz)
             elif handoff_day.lower() == 'thursday' or handoff_day == 4:
-                if weekday < 3:
-                    start_date += timedelta(days=(3 - weekday))
-                    return tz.localize(start_date).isoformat()
-                elif weekday == 3:
-                    return tz.localize(start_date).isoformat()
-                else:
-                    start_date += timedelta(days=(11 - weekday))
-                    return tz.localize(start_date).isoformat()
+                return self.start_date_timedelta(3, weekday, start_date, tz)
             elif handoff_day.lower() == 'friday' or handoff_day == 5:
-                if weekday < 4:
-                    start_date += timedelta(days=(4 - weekday))
-                    return tz.localize(start_date).isoformat()
-                elif weekday == 4:
-                    return tz.localize(start_date).isoformat()
-                else:
-                    start_date += timedelta(days=(12 - weekday))
-                    return tz.localize(start_date).isoformat()
+                return self.start_date_timedelta(4, weekday, start_date, tz)
             elif handoff_day.lower() == 'saturday' or handoff_day == 6:
-                if weekday < 5:
-                    start_date += timedelta(days=(5 - weekday))
-                    return tz.localize(start_date).isoformat()
-                elif weekday == 5:
-                    return tz.localize(start_date).isoformat()
-                else:
-                    start_date += timedelta(days=(13 - weekday))
-                    return tz.localize(start_date).isoformat()
+                return self.start_date_timedelta(5, weekday, start_date, tz)
             elif handoff_day.lower() == 'sunday' or handoff_day == 0:
-                if weekday == 6:
-                    return tz.localize(start_date).isoformat()
-                else:
-                    start_date += timedelta(days=(6 - weekday))
-                    return tz.localize(start_date).isoformat()
+                return self.start_date_timedelta(6, weekday, start_date, tz)
             else:
                 raise ValueError(
                     'Invalid handoff_day provided. Must be one of 0, 1, 2, 3, \
@@ -851,6 +807,17 @@ class StandardRotationLogic():
                 HH:MM:SS.'
             )
         return start_date
+
+    # TODO: Write unit tests for function
+    def start_date_timedelta(self, handoff_day, weekday, start_date, tz):
+        if weekday < handoff_day:
+            start_date += timedelta(days=(handoff_day - weekday))
+            return tz.localize(start_date).isoformat()
+        elif weekday == handoff_day:
+            return tz.localize(start_date).isoformat()
+        else:
+            start_date += timedelta(days=(8 + handoff_day - weekday))
+            return tz.localize(start_date).isoformat()
 
 
 def main(csv_dir, api_key, base_name, level_name, multi_name, start_date,
