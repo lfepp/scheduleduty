@@ -138,7 +138,7 @@
       "restriction_end_time": "08:00"
     },
     "error2": {
-      "restriction_type": "weekly",
+      "restriction_type": "weekly_restriction",
       "restriction_start_day": "Monday",
       "restriction_start_time": "08:00",
       "restriction_end_day": "Monday",

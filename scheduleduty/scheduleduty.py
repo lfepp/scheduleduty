@@ -29,7 +29,7 @@ import csv
 import glob
 import requests
 import json
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, date
 import pytz
 import time
 import argparse
@@ -683,9 +683,17 @@ class StandardRotationLogic():
         ]
         if not start_day and not end_day:
             return "daily_restriction"
+        elif (start_day in acceptable_days and end_day in acceptable_days):
+            if start_day == end_day:
+                return "daily_restriction"
+            else:
+                return "weekly_restriction"
         elif (start_day.lower() in acceptable_days
               and end_day.lower() in acceptable_days):
-            return "weekly_restriction"
+            if start_day.lower() == end_day.lower():
+                return "daily_restriction"
+            else:
+                return "weekly_restriction"
         else:
             raise ValueError(
                 'Invalid restrict start or end date provided. Dates must be in \
@@ -695,6 +703,8 @@ class StandardRotationLogic():
 
     def get_rotation_turn_length(self, rotation_type, shift_length,
                                  shift_type):
+        """Get the rotation turn length for the layer"""
+
         if rotation_type == 'daily':
             return 86400
         elif rotation_type == 'weekly':
@@ -719,32 +729,21 @@ class StandardRotationLogic():
 
     def get_virtual_start(self, rotation_type, handoff_day, handoff_time,
                           start_date, time_zone):
+        """Get the start datetime for the layer"""
+
         tz = pytz.timezone(time_zone)
         start_date = self.get_datetime(start_date, handoff_time)
         if rotation_type == 'daily':
             return tz.localize(start_date).isoformat()
         elif rotation_type == 'weekly':
             weekday = tz.localize(start_date).weekday()
-            if handoff_day.lower() == 'monday' or handoff_day == 1:
-                return self.start_date_timedelta(0, weekday, start_date, tz)
-            elif handoff_day.lower() == 'tuesday' or handoff_day == 2:
-                return self.start_date_timedelta(1, weekday, start_date, tz)
-            elif handoff_day.lower() == 'wednesday' or handoff_day == 3:
-                return self.start_date_timedelta(2, weekday, start_date, tz)
-            elif handoff_day.lower() == 'thursday' or handoff_day == 4:
-                return self.start_date_timedelta(3, weekday, start_date, tz)
-            elif handoff_day.lower() == 'friday' or handoff_day == 5:
-                return self.start_date_timedelta(4, weekday, start_date, tz)
-            elif handoff_day.lower() == 'saturday' or handoff_day == 6:
-                return self.start_date_timedelta(5, weekday, start_date, tz)
-            elif handoff_day.lower() == 'sunday' or handoff_day == 0:
-                return self.start_date_timedelta(6, weekday, start_date, tz)
-            else:
-                raise ValueError(
-                    'Invalid handoff_day provided. Must be one of 0, 1, 2, 3, \
-                    4, 5, 6, monday, tuesday, wednesday, thursday, friday, \
-                    saturday, sunday'
-                )
+            handoff_weekday = self.get_weekday(handoff_day)
+            return self.start_date_timedelta(
+                handoff_weekday,
+                weekday,
+                start_date,
+                tz
+            )
         elif rotation_type == 'custom':
             if not handoff_day:
                 return tz.localize(start_date).isoformat()
@@ -765,7 +764,83 @@ class StandardRotationLogic():
 
     def get_restriction_duration(self, type, start_day, start_time,
                                  end_day, end_time):
-        return "placeholder"
+        """Get the restriction duration in seconds"""
+
+        if type == 'daily_restriction':
+            start_datetime = self.get_datetime(
+                date(
+                    datetime.now().year,
+                    datetime.now().month,
+                    datetime.now().day
+                ),
+                start_time
+            )
+            end_datetime = self.get_datetime(
+                date(
+                    datetime.now().year,
+                    datetime.now().month,
+                    datetime.now().day
+                ),
+                end_time
+            )
+            if start_datetime < end_datetime:
+                return (end_datetime - start_datetime).total_seconds()
+            elif start_datetime > end_datetime:
+                end_datetime += timedelta(days=1)
+                return (end_datetime - start_datetime).total_seconds()
+            else:
+                raise ValueError(
+                    'Invalid input provided. The restriction start and end \
+                    datetimes are equal.'
+                )
+        else:
+            start_weekday = self.get_weekday(start_day)
+            end_weekday = self.get_weekday(end_day)
+            if start_weekday < end_weekday:
+                start_datetime = self.get_datetime(
+                    date(
+                        datetime.now().year,
+                        datetime.now().month,
+                        datetime.now().day
+                    ),
+                    start_time
+                )
+                end_datetime = self.get_datetime(
+                    date(
+                        datetime.now().year,
+                        datetime.now().month,
+                        datetime.now().day
+                    ) + timedelta(
+                        days=end_weekday - start_weekday
+                    ),
+                    end_time
+                )
+                return (end_datetime - start_datetime).total_seconds()
+            elif start_weekday > end_weekday:
+                start_datetime = self.get_datetime(
+                    date(
+                        datetime.now().year,
+                        datetime.now().month,
+                        datetime.now().day
+                    ),
+                    start_time
+                )
+                end_datetime = self.get_datetime(
+                    date(
+                        datetime.now().year,
+                        datetime.now().month,
+                        datetime.now().day
+                    ) + timedelta(
+                        days=7 - start_weekday + end_weekday
+                    ),
+                    end_time
+                )
+                return (end_datetime - start_datetime).total_seconds()
+            else:
+                raise ValueError(
+                    'Invalid input provided. The restriction start and end \
+                    datetimes are equal'
+                )
 
     def create_layers(self, file):
         """Parse CSV file into schedule layers"""
@@ -790,9 +865,11 @@ class StandardRotationLogic():
     # HELPER FUNCTIONS
     # TODO: Write unit tests for function
     def get_datetime(self, day, time):
+        """Helper function to parse multiple datetime formats"""
+
         date_time = "{date}T{time}".format(
-            start_date=day,
-            start_time=time
+            date=day,
+            time=time
         )
         # Handle different time formats
         if len(time.split(':')) == 3:
@@ -814,6 +891,8 @@ class StandardRotationLogic():
 
     # TODO: Write unit tests for function
     def start_date_timedelta(self, handoff_day, weekday, start_date, tz):
+        """Helper function to add timedelta to virtual start date"""
+
         if weekday < handoff_day:
             start_date += timedelta(days=(handoff_day - weekday))
             return tz.localize(start_date).isoformat()
@@ -822,6 +901,31 @@ class StandardRotationLogic():
         else:
             start_date += timedelta(days=(8 + handoff_day - weekday))
             return tz.localize(start_date).isoformat()
+
+    # TODO: Write unit tests for function
+    def get_weekday(self, weekday):
+        """Helper function to convert CSV day into Python datetime weekday"""
+
+        if weekday.lower() == 'monday' or weekday == 1:
+            return 0
+        elif weekday.lower() == 'tuesday' or weekday == 2:
+            return 1
+        elif weekday.lower() == 'wednesday' or weekday == 3:
+            return 2
+        elif weekday.lower() == 'thursday' or weekday == 4:
+            return 3
+        elif weekday.lower() == 'friday' or weekday == 5:
+            return 4
+        elif weekday.lower() == 'saturday' or weekday == 6:
+            return 5
+        elif weekday.lower() == 'sunday' or weekday == 0:
+            return 6
+        else:
+            raise ValueError(
+                'Invalid handoff_day provided. Must be one of 0, 1, 2, 3, \
+                4, 5, 6, monday, tuesday, wednesday, thursday, friday, \
+                saturday, sunday'
+            )
 
 
 def main(csv_dir, api_key, base_name, level_name, multi_name, start_date,
