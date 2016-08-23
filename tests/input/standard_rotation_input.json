@@ -100,5 +100,35 @@
       "start_date": "2017-08-01",
       "time_zone": "UTC"
     }
+  },
+  "get_restriction_duration": {
+    "daily1": {
+      "restriction_type": "daily_restriction",
+      "restriction_start_day": null,
+      "restriction_start_time": "08:00",
+      "restriction_end_day": null,
+      "restriction_end_time": "16:00"
+    },
+    "daily2": {
+      "restriction_type": "daily_restriction",
+      "restriction_start_day": null,
+      "restriction_start_time": "16:00",
+      "restriction_end_day": null,
+      "restriction_end_time": "08:00"
+    },
+    "weekly1": {
+      "restriction_type": "weekly_restriction",
+      "restriction_start_day": "Monday",
+      "restriction_start_time": "08:00",
+      "restriction_end_day": "Wednesday",
+      "restriction_end_time": "08:00"
+    },
+    "weekly2": {
+      "restriction_type": "weekly_restriction",
+      "restriction_start_day": "Friday",
+      "restriction_start_time": "08:00",
+      "restriction_end_day": "Wednesday",
+      "restriction_end_time": "08:00"
+    }
   }
 }

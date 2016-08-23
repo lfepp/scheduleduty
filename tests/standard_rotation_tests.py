@@ -191,6 +191,56 @@ class StandardRotationTests(unittest.TestCase):
                 input['get_virtual_start']['error3']['time_zone']
             )
 
+    def get_restriction_duration(self):
+        expected_result = expected['get_restriction_duration']['daily1']
+        actual_result = standard_rotation.get_restriction_duration(
+            input['get_restriction_duration']['daily1']['restriction_type'],
+            input['get_restriction_duration']['daily1']
+            ['restriction_start_day'],
+            input['get_restriction_duration']['daily1']
+            ['restriction_start_time'],
+            input['get_restriction_duration']['daily1']['restriction_end_day'],
+            input['get_restriction_duration']['daily1']['restriction_end_time']
+        )
+        self.assertEqual(expected_result, actual_result)
+        expected_result = expected['get_restriction_duration']['daily2']
+        actual_result = standard_rotation.get_restriction_duration(
+            input['get_restriction_duration']['daily2']['restriction_type'],
+            input['get_restriction_duration']['daily2']
+            ['restriction_start_day'],
+            input['get_restriction_duration']['daily2']
+            ['restriction_start_time'],
+            input['get_restriction_duration']['daily2']['restriction_end_day'],
+            input['get_restriction_duration']['daily2']['restriction_end_time']
+        )
+        self.assertEqual(expected_result, actual_result)
+        expected_result = expected['get_restriction_duration']['weekly1']
+        actual_result = standard_rotation.get_restriction_duration(
+            input['get_restriction_duration']['weekly1']['restriction_type'],
+            input['get_restriction_duration']['weekly1']
+            ['restriction_start_day'],
+            input['get_restriction_duration']['weekly1']
+            ['restriction_start_time'],
+            input['get_restriction_duration']['weekly1']
+            ['restriction_end_day'],
+            input['get_restriction_duration']['weekly1']
+            ['restriction_end_time']
+        )
+        self.assertEqual(expected_result, actual_result)
+        expected_result = expected['get_restriction_duration']['weekly2']
+        actual_result = standard_rotation.get_restriction_duration(
+            input['get_restriction_duration']['weekly2']['restriction_type'],
+            input['get_restriction_duration']['weekly2']
+            ['restriction_start_day'],
+            input['get_restriction_duration']['weekly2']
+            ['restriction_start_time'],
+            input['get_restriction_duration']['weekly2']
+            ['restriction_end_day'],
+            input['get_restriction_duration']['weekly2']
+            ['restriction_end_time']
+        )
+        self.assertEqual(expected_result, actual_result)
+
 
 def suite():
     suite = unittest.TestSuite()

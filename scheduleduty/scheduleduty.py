@@ -881,10 +881,8 @@ def main(csv_dir, api_key, base_name, level_name, multi_name, start_date,
             id=res['escalation_policy']['id']
         )
 
-# TODO: Handle standard rotation formatted shcedules
 # TODO: Write tests for various arguments
 # TODO: Use list comprehension where applicable
-# TODO: Use keywords for formats or joins on lists where applicable
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Import weekly schedules')
     parser.add_argument(
