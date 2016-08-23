@@ -1,7 +1,10 @@
 {
   "get_restriction_type": {
-    "daily": "daily_restriction",
-    "weekly": "weekly_restriction"
+    "daily1": "daily_restriction",
+    "daily2": "daily_restriction",
+    "daily3": "daily_restriction",
+    "weekly1": "weekly_restriction",
+    "weekly2": "weekly_restriction"
   },
   "get_rotation_turn_length": {
     "daily": 86400,

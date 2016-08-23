@@ -61,16 +61,34 @@ standard_rotation = scheduleduty.StandardRotationLogic(
 class StandardRotationTests(unittest.TestCase):
 
     def get_restriction_type(self):
-        expected_result = expected['get_restriction_type']['daily']
+        expected_result = expected['get_restriction_type']['daily1']
         actual_result = standard_rotation.get_restriction_type(
-            input['get_restriction_type']['daily']['restriction_start_day'],
-            input['get_restriction_type']['daily']['restriction_end_day']
+            input['get_restriction_type']['daily1']['restriction_start_day'],
+            input['get_restriction_type']['daily1']['restriction_end_day']
         )
         self.assertEqual(expected_result, actual_result)
-        expected_result = expected['get_restriction_type']['weekly']
+        expected_result = expected['get_restriction_type']['daily2']
         actual_result = standard_rotation.get_restriction_type(
-            input['get_restriction_type']['weekly']['restriction_start_day'],
-            input['get_restriction_type']['weekly']['restriction_end_day']
+            input['get_restriction_type']['daily2']['restriction_start_day'],
+            input['get_restriction_type']['daily2']['restriction_end_day']
+        )
+        self.assertEqual(expected_result, actual_result)
+        expected_result = expected['get_restriction_type']['daily3']
+        actual_result = standard_rotation.get_restriction_type(
+            input['get_restriction_type']['daily3']['restriction_start_day'],
+            input['get_restriction_type']['daily3']['restriction_end_day']
+        )
+        self.assertEqual(expected_result, actual_result)
+        expected_result = expected['get_restriction_type']['weekly1']
+        actual_result = standard_rotation.get_restriction_type(
+            input['get_restriction_type']['weekly1']['restriction_start_day'],
+            input['get_restriction_type']['weekly1']['restriction_end_day']
+        )
+        self.assertEqual(expected_result, actual_result)
+        expected_result = expected['get_restriction_type']['weekly2']
+        actual_result = standard_rotation.get_restriction_type(
+            input['get_restriction_type']['weekly2']['restriction_start_day'],
+            input['get_restriction_type']['weekly2']['restriction_end_day']
         )
         self.assertEqual(expected_result, actual_result)
         with self.assertRaises(ValueError):
