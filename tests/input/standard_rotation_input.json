@@ -184,5 +184,55 @@
       "handoff_day": 4,
       "weekday": 4
     }
+  },
+  "get_weekday": {
+    "sunday1": {
+      "weekday": "Sunday"
+    },
+    "sunday2": {
+      "weekday": 0
+    },
+    "monday1": {
+      "weekday": "Monday"
+    },
+    "monday2": {
+      "weekday": 1
+    },
+    "tuesday1": {
+      "weekday": "Tuesday"
+    },
+    "tuesday2": {
+      "weekday": 2
+    },
+    "wednesday1": {
+      "weekday": "Wednesday"
+    },
+    "wednesday2": {
+      "weekday": 3
+    },
+    "thursday1": {
+      "weekday": "Thursday"
+    },
+    "thursday2": {
+      "weekday": 4
+    },
+    "friday1": {
+      "weekday": "Friday"
+    },
+    "friday2": {
+      "weekday": 5
+    },
+    "saturday1": {
+      "weekday": "Saturday"
+    },
+    "saturday2": {
+      "weekday": 6
+    },
+    "error1": {
+      "weekday": "Weekend"
+    },
+    "error2": {
+      "weekday": 7
+    }
   }
 }

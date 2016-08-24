@@ -196,5 +196,21 @@
     "less": "2016-08-25T00:00:00+00:00",
     "greater": "2016-08-28T00:00:00+00:00",
     "equal": "2016-08-23T00:00:00+00:00"
+  },
+  "get_weekday": {
+    "sunday1": 6,
+    "sunday2": 6,
+    "monday1": 0,
+    "monday2": 0,
+    "tuesday1": 1,
+    "tuesday2": 1,
+    "wednesday1": 2,
+    "wednesday2": 2,
+    "thursday1": 3,
+    "thursday2": 3,
+    "friday1": 4,
+    "friday2": 4,
+    "saturday1": 5,
+    "saturday2": 5
   }
 }

@@ -341,6 +341,81 @@ class StandardRotationTests(unittest.TestCase):
         )
         self.assertEqual(expected_result, actual_result)
 
+    def get_weekday(self):
+        expected_result = expected['get_weekday']['sunday1']
+        actual_result = standard_rotation.get_weekday(
+            input['get_weekday']['sunday1']['weekday']
+        )
+        self.assertEqual(expected_result, actual_result)
+        expected_result = expected['get_weekday']['sunday2']
+        actual_result = standard_rotation.get_weekday(
+            input['get_weekday']['sunday2']['weekday']
+        )
+        self.assertEqual(expected_result, actual_result)
+        expected_result = expected['get_weekday']['monday1']
+        actual_result = standard_rotation.get_weekday(
+            input['get_weekday']['monday1']['weekday']
+        )
+        self.assertEqual(expected_result, actual_result)
+        expected_result = expected['get_weekday']['monday2']
+        actual_result = standard_rotation.get_weekday(
+            input['get_weekday']['monday2']['weekday']
+        )
+        self.assertEqual(expected_result, actual_result)
+        expected_result = expected['get_weekday']['tuesday1']
+        actual_result = standard_rotation.get_weekday(
+            input['get_weekday']['tuesday2']['weekday']
+        )
+        self.assertEqual(expected_result, actual_result)
+        expected_result = expected['get_weekday']['wednesday1']
+        actual_result = standard_rotation.get_weekday(
+            input['get_weekday']['wednesday1']['weekday']
+        )
+        self.assertEqual(expected_result, actual_result)
+        expected_result = expected['get_weekday']['wednesday2']
+        actual_result = standard_rotation.get_weekday(
+            input['get_weekday']['wednesday2']['weekday']
+        )
+        self.assertEqual(expected_result, actual_result)
+        expected_result = expected['get_weekday']['thursday1']
+        actual_result = standard_rotation.get_weekday(
+            input['get_weekday']['thursday1']['weekday']
+        )
+        self.assertEqual(expected_result, actual_result)
+        expected_result = expected['get_weekday']['thursday2']
+        actual_result = standard_rotation.get_weekday(
+            input['get_weekday']['thursday2']['weekday']
+        )
+        self.assertEqual(expected_result, actual_result)
+        expected_result = expected['get_weekday']['friday1']
+        actual_result = standard_rotation.get_weekday(
+            input['get_weekday']['friday1']['weekday']
+        )
+        self.assertEqual(expected_result, actual_result)
+        expected_result = expected['get_weekday']['friday2']
+        actual_result = standard_rotation.get_weekday(
+            input['get_weekday']['friday2']['weekday']
+        )
+        self.assertEqual(expected_result, actual_result)
+        expected_result = expected['get_weekday']['saturday1']
+        actual_result = standard_rotation.get_weekday(
+            input['get_weekday']['saturday1']['weekday']
+        )
+        self.assertEqual(expected_result, actual_result)
+        expected_result = expected['get_weekday']['saturday2']
+        actual_result = standard_rotation.get_weekday(
+            input['get_weekday']['saturday2']['weekday']
+        )
+        self.assertEqual(expected_result, actual_result)
+        with self.assertRaises(ValueError):
+            standard_rotation.get_weekday(
+                input['get_weekday']['error1']['weekday']
+            )
+        with self.assertRaises(ValueError):
+            standard_rotation.get_weekday(
+                input['get_weekday']['error2']['weekday']
+            )
+
 
 def suite():
     suite = unittest.TestSuite()
@@ -351,4 +426,5 @@ def suite():
     suite.addTest(StandardRotationTests('parse_csv'))
     suite.addTest(StandardRotationTests('get_datetime'))
     suite.addTest(StandardRotationTests('start_date_timedelta'))
+    suite.addTest(StandardRotationTests('get_weekday'))
     return suite

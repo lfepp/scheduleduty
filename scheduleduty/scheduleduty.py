@@ -946,30 +946,51 @@ class StandardRotationLogic():
             start_date += timedelta(days=(8 + handoff_day - weekday))
             return tz.localize(start_date).isoformat()
 
-    # TODO: Write unit tests for function
     def get_weekday(self, weekday):
         """Helper function to convert CSV day into Python datetime weekday"""
 
-        if weekday.lower() == 'monday' or weekday == 1:
-            return 0
-        elif weekday.lower() == 'tuesday' or weekday == 2:
-            return 1
-        elif weekday.lower() == 'wednesday' or weekday == 3:
-            return 2
-        elif weekday.lower() == 'thursday' or weekday == 4:
-            return 3
-        elif weekday.lower() == 'friday' or weekday == 5:
-            return 4
-        elif weekday.lower() == 'saturday' or weekday == 6:
-            return 5
-        elif weekday.lower() == 'sunday' or weekday == 0:
-            return 6
+        if type(weekday) is int:
+            if weekday == 1:
+                return 0
+            elif weekday == 2:
+                return 1
+            elif weekday == 3:
+                return 2
+            elif weekday == 4:
+                return 3
+            elif weekday == 5:
+                return 4
+            elif weekday == 6:
+                return 5
+            elif weekday == 0:
+                return 6
+            else:
+                raise ValueError(
+                    'Invalid handoff_day provided. Must be one of 0, 1, 2, 3, \
+                    4, 5, 6, monday, tuesday, wednesday, thursday, friday, \
+                    saturday, sunday'
+                )
         else:
-            raise ValueError(
-                'Invalid handoff_day provided. Must be one of 0, 1, 2, 3, \
-                4, 5, 6, monday, tuesday, wednesday, thursday, friday, \
-                saturday, sunday'
-            )
+            if weekday.lower() == 'monday':
+                return 0
+            elif weekday.lower() == 'tuesday':
+                return 1
+            elif weekday.lower() == 'wednesday':
+                return 2
+            elif weekday.lower() == 'thursday':
+                return 3
+            elif weekday.lower() == 'friday':
+                return 4
+            elif weekday.lower() == 'saturday':
+                return 5
+            elif weekday.lower() == 'sunday':
+                return 6
+            else:
+                raise ValueError(
+                    'Invalid handoff_day provided. Must be one of 0, 1, 2, 3, \
+                    4, 5, 6, monday, tuesday, wednesday, thursday, friday, \
+                    saturday, sunday'
+                )
 
     # TODO: Write unit test for function
     def nullify(self, val):
