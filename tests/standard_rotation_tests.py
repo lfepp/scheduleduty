@@ -416,6 +416,23 @@ class StandardRotationTests(unittest.TestCase):
                 input['get_weekday']['error2']['weekday']
             )
 
+    def nullify(self):
+        expected_result = expected['nullify']['null']
+        actual_result = standard_rotation.nullify(input['nullify']['null'])
+        self.assertEqual(expected_result, actual_result)
+        expected_result = expected['nullify']['val1']
+        actual_result = standard_rotation.nullify(input['nullify']['val1'])
+        self.assertEqual(expected_result, actual_result)
+        expected_result = expected['nullify']['val2']
+        actual_result = standard_rotation.nullify(input['nullify']['val2'])
+        self.assertEqual(expected_result, actual_result)
+        expected_result = expected['nullify']['val3']
+        actual_result = standard_rotation.nullify(input['nullify']['val3'])
+        self.assertEqual(expected_result, actual_result)
+        expected_result = expected['nullify']['val4']
+        actual_result = standard_rotation.nullify(input['nullify']['val4'])
+        self.assertEqual(expected_result, actual_result)
+
 
 def suite():
     suite = unittest.TestSuite()
@@ -427,4 +444,5 @@ def suite():
     suite.addTest(StandardRotationTests('get_datetime'))
     suite.addTest(StandardRotationTests('start_date_timedelta'))
     suite.addTest(StandardRotationTests('get_weekday'))
+    suite.addTest(StandardRotationTests('nullify'))
     return suite

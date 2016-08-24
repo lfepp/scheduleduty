@@ -212,5 +212,15 @@
     "friday2": 4,
     "saturday1": 5,
     "saturday2": 5
+  },
+  "nullify": {
+    "null": null,
+    "val1": "test",
+    "val2": 0,
+    "val3": [0, 1, 2, 3],
+    "val4": {
+      "test": "ing",
+      "this": "function"
+    }
   }
 }

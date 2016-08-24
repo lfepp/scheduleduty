@@ -234,5 +234,15 @@
     "error2": {
       "weekday": 7
     }
+  },
+  "nullify": {
+    "null": "",
+    "val1": "test",
+    "val2": 0,
+    "val3": [0, 1, 2, 3],
+    "val4": {
+      "test": "ing",
+      "this": "function"
+    }
   }
 }

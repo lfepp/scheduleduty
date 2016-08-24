@@ -992,7 +992,6 @@ class StandardRotationLogic():
                     saturday, sunday'
                 )
 
-    # TODO: Write unit test for function
     def nullify(self, val):
         if val == "":
             return None
