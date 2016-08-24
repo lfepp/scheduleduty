@@ -30,6 +30,7 @@ import sys
 import json
 import os
 from datetime import datetime
+import pytz
 sys.path.append(os.path.join(os.path.dirname(__file__), '../scheduleduty'))
 expected_filename = os.path.join(
     os.path.dirname(__file__),
@@ -313,6 +314,33 @@ class StandardRotationTests(unittest.TestCase):
                 input['get_datetime']['error']['time']
             )
 
+    def start_date_timedelta(self):
+        tz = pytz.timezone("UTC")
+        expected_result = expected['start_date_timedelta']['less']
+        actual_result = standard_rotation.start_date_timedelta(
+            input['start_date_timedelta']['less']['handoff_day'],
+            input['start_date_timedelta']['less']['weekday'],
+            datetime(2016, 8, 23, 0, 0, 0),
+            tz
+        )
+        self.assertEqual(expected_result, actual_result)
+        expected_result = expected['start_date_timedelta']['greater']
+        actual_result = standard_rotation.start_date_timedelta(
+            input['start_date_timedelta']['greater']['handoff_day'],
+            input['start_date_timedelta']['greater']['weekday'],
+            datetime(2016, 8, 23, 0, 0, 0),
+            tz
+        )
+        self.assertEqual(expected_result, actual_result)
+        expected_result = expected['start_date_timedelta']['equal']
+        actual_result = standard_rotation.start_date_timedelta(
+            input['start_date_timedelta']['equal']['handoff_day'],
+            input['start_date_timedelta']['equal']['weekday'],
+            datetime(2016, 8, 23, 0, 0, 0),
+            tz
+        )
+        self.assertEqual(expected_result, actual_result)
+
 
 def suite():
     suite = unittest.TestSuite()
@@ -322,4 +350,5 @@ def suite():
     suite.addTest(StandardRotationTests('get_restriction_duration'))
     suite.addTest(StandardRotationTests('parse_csv'))
     suite.addTest(StandardRotationTests('get_datetime'))
+    suite.addTest(StandardRotationTests('start_date_timedelta'))
     return suite

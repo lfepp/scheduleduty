@@ -934,7 +934,6 @@ class StandardRotationLogic():
             )
         return output
 
-    # TODO: Write unit tests for function
     def start_date_timedelta(self, handoff_day, weekday, start_date, tz):
         """Helper function to add timedelta to virtual start date"""
 

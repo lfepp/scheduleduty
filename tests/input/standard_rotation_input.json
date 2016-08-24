@@ -170,5 +170,19 @@
       "date": "2016-08-23",
       "time": "14:23:18:07"
     }
+  },
+  "start_date_timedelta": {
+    "less": {
+      "handoff_day": 4,
+      "weekday": 2
+    },
+    "greater": {
+      "handoff_day": 3,
+      "weekday": 6
+    },
+    "equal": {
+      "handoff_day": 4,
+      "weekday": 4
+    }
   }
 }
