@@ -222,5 +222,11 @@
       "test": "ing",
       "this": "function"
     }
+  },
+  "check_layers": {
+    "valid1": true,
+    "valid2": true,
+    "invalid1": false,
+    "invalid2": false
   }
 }

@@ -908,6 +908,41 @@ class StandardRotationLogic():
                 })
         return layers
 
+    def check_layers(self, layers):
+        for i in layers:
+            master_user = {
+                'layer_name': layers[i][0]['layer_name'],
+                'rotation_type': layers[i][0]['rotation_type'],
+                'shift_length': layers[i][0]['shift_length'],
+                'shift_type': layers[i][0]['shift_type'],
+                'handoff_day': layers[i][0]['handoff_day'],
+                'handoff_time': layers[i][0]['handoff_time'],
+                'restriction_start_day': layers[i][0]['restriction_start_day'],
+                'restriction_start_time': layers[i][0]
+                ['restriction_start_time'],
+                'restriction_end_day': layers[i][0]['restriction_end_day'],
+                'restriction_end_time': layers[i][0]['restriction_end_time']
+            }
+            for user in layers[i]:
+                if (master_user['layer_name'] != user['layer_name'] or
+                   master_user['rotation_type'] != user['rotation_type'] or
+                   master_user['shift_length'] != user['shift_length'] or
+                   master_user['shift_type'] != user['shift_type'] or
+                   master_user['handoff_day'] != user['handoff_day'] or
+                   master_user['handoff_time'] != user['handoff_time'] or
+                   master_user['restriction_start_day'] !=
+                   user['restriction_start_day'] or
+                   master_user['restriction_start_time'] !=
+                   user['restriction_start_time'] or
+                   master_user['restriction_end_day'] !=
+                   user['restriction_end_day'] or
+                   master_user['restriction_end_time'] !=
+                   user['restriction_end_time']):
+                    return False
+                else:
+                    pass
+        return True
+
     # HELPER FUNCTIONS
     def get_datetime(self, date, time):
         """Helper function to parse multiple datetime formats"""

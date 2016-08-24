@@ -294,6 +294,28 @@ class StandardRotationTests(unittest.TestCase):
         )
         self.assertEqual(expected_result, actual_result)
 
+    def check_layers(self):
+        expected_result = expected['check_layers']['valid1']
+        actual_result = standard_rotation.check_layers(
+            input['check_layers']['valid1']
+        )
+        self.assertEqual(expected_result, actual_result)
+        expected_result = expected['check_layers']['valid2']
+        actual_result = standard_rotation.check_layers(
+            input['check_layers']['valid2']
+        )
+        self.assertEqual(expected_result, actual_result)
+        expected_result = expected['check_layers']['invalid1']
+        actual_result = standard_rotation.check_layers(
+            input['check_layers']['invalid1']
+        )
+        self.assertEqual(expected_result, actual_result)
+        expected_result = expected['check_layers']['invalid2']
+        actual_result = standard_rotation.check_layers(
+            input['check_layers']['invalid2']
+        )
+        self.assertEqual(expected_result, actual_result)
+
     # HELPER FUNCTIONS
     def get_datetime(self):
         expected_result = datetime(2016, 8, 23, 7, 43, 28)
@@ -445,4 +467,5 @@ def suite():
     suite.addTest(StandardRotationTests('start_date_timedelta'))
     suite.addTest(StandardRotationTests('get_weekday'))
     suite.addTest(StandardRotationTests('nullify'))
+    suite.addTest(StandardRotationTests('check_layers'))
     return suite
