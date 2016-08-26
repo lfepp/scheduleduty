@@ -660,9 +660,11 @@ class WeeklyShiftLogic():
 class StandardRotationLogic():
     """Class to house the standard rotation import logic"""
 
-    def __init__(self, start_date, end_date):
+    def __init__(self, start_date, end_date, name, time_zone):
         self.start_date = start_date,
-        self.end_date = end_date
+        self.end_date = end_date,
+        self.name = name,
+        self.time_zone = time_zone
 
     def get_restriction_type(self, start_day, end_day):
         acceptable_days = [
@@ -1120,8 +1122,14 @@ def main(schedule_type, csv_dir, api_key, base_name, level_name, multi_name,
          start_date, end_date, time_zone, num_loops, escalation_delay):
     # Declare an instance of PagerDutyREST
     pd_rest = PagerDutyREST(api_key)
+    # Handle trailing slash on CSV directory
+    if csv_dir[:1] == '/':
+        csv_dir = csv_dir[1:]
+    if csv_dir[-1:] == '/':
+        csv_dir = csv_dir[:-1]
     # Check on the schedule type
     if schedule_type == 'standard_rotation':
+        # FIXME: First test schedule does not appear quite right. Not sure if this is an issue with the logic or the CSV file: P94KD5Z  # NOQA
         # Check to ensure required command line arguments were passed
         if (not base_name or not time_zone or not start_date or not end_date):
             raise ValueError(
@@ -1129,7 +1137,33 @@ def main(schedule_type, csv_dir, api_key, base_name, level_name, multi_name,
                 schedules you must pass --base-name, --time-zone, and \
                 --start-date.'
             )
-        # FIXME: Insert logic for standard rotations
+        # Loop through all CSV files
+        files = glob.glob(os.path.join(os.getcwd(), csv_dir, '*.csv'))
+        for file in files:
+            standard_rotation = StandardRotationLogic(
+                start_date,
+                end_date,
+                base_name,
+                time_zone
+            )
+            layers = standard_rotation.parse_csv(file)
+            if not standard_rotation.check_layers(layers):
+                raise ValueError(
+                    'There is an issue with the {filename} CSV. All layers \
+                    must match on layer_name, rotation_type, shift_length, \
+                    shift_type, handoff_day, handoff_time, \
+                    restriction_start_day, restriction_start_time, \
+                    restriction_end_day, and restriction_end_time.'
+                )
+            # TODO: Use the variables in __init__ instead of these
+            layers = standard_rotation.parse_layers(start_date, end_date,
+                                                    time_zone, layers, pd_rest)
+            schedule = standard_rotation.parse_schedules(base_name, time_zone,
+                                                         layers)
+            res = pd_rest.create_schedule(schedule)
+            print "Successfully created schedule with ID {schedule_id}".format(
+                schedule_id=res['schedule']['id']
+            )
     elif schedule_type == 'weekly_shifts':
         if (not base_name or not level_name or not multi_name or not start_date
            or not time_zone or not num_loops or not escalation_delay):
@@ -1140,10 +1174,6 @@ def main(schedule_type, csv_dir, api_key, base_name, level_name, multi_name,
                 --escalation-delay.'
             )
         # Loop through all CSV files
-        if csv_dir[:1] == '/':
-            csv_dir = csv_dir[1:]
-        if csv_dir[-1:] == '/':
-            csv_dir = csv_dir[:-1]
         files = glob.glob(os.path.join(os.getcwd(), csv_dir, '*.csv'))
         for file in files:
             weekly_shifts = WeeklyShiftLogic(
