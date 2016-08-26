@@ -1182,44 +1182,58 @@ def main(csv_dir, api_key, base_name, level_name, multi_name, start_date,
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Import weekly schedules')
     parser.add_argument(
+        '--schedule-type',
+        help='Type of schedule(s) being uploaded. Must be one of weekly_shifts,\
+         standard_rotation.',
+        dest='schedule_type',
+        required=True
+    )
+    parser.add_argument(
         '--csv-dir',
         help='Path to the directory housing all CSVs to import into PagerDuty',
-        dest='csv_dir'
+        dest='csv_dir',
+        required=True
     )
     parser.add_argument(
         '--api-key',
         help='PagerDuty v2 REST API Key',
-        dest='api_key'
+        dest='api_key',
+        required=True
     )
     parser.add_argument(
         '--base-name',
-        help='Name of the escalation policy and base name for each schedule',
+        help='Name of the escalation policy or schedule being added as well as \
+        the base name for each schedule added to the escalation policy',
         dest='base_name'
     )
     parser.add_argument(
         '--level-name',
-        help='Base name for each new level to be appended by the level number',
+        help='Base name for each new escalation policy level to be appended by \
+        the level number',
         dest='level_name'
     )
     parser.add_argument(
         '--multiple-name',
-        help='Base name for each schedule on the same layer to be appended by \
-        the multiple number',
+        help='Base name for each schedule on the same escalation policy level \
+        to be appended by the multiple number',
         dest='multi_name'
     )
     parser.add_argument(
         '--start-date',
-        help='ISO 8601 formatted start date for the schedules',
+        help='ISO 8601 formatted start date for the schedule. Currently only \
+        support dates in YYYY-MM-DD format.',
         dest='start_date'
     )
     parser.add_argument(
         '--end-date',
-        help='ISO 8601 formatted end date for the schedules',
-        dest='end_date')
+        help='ISO 8601 formatted end date for the schedule. Currently only \
+        supports dates in YYYY-MM-DD format.',
+        dest='end_date'
+    )
     parser.add_argument(
         '--time-zone',
-        help='Time zone for this schedule in the format of the IANA time zone \
-        database',
+        help='Time zone for this schedule. Must be one of the time zones from \
+        the IANA time zone database',
         dest='time_zone'
     )
     parser.add_argument(
@@ -1235,6 +1249,7 @@ if __name__ == '__main__':
     )
     args = parser.parse_args()
     main(
+        args.schedule_type,
         args.csv_dir,
         args.api_key,
         args.base_name,
