@@ -497,4 +497,5 @@ def suite():
     suite.addTest(StandardRotationTests('nullify'))
     suite.addTest(StandardRotationTests('check_layers'))
     suite.addTest(StandardRotationTests('parse_layers'))
+    suite.addTest(StandardRotationTests('parse_schedules'))
     return suite

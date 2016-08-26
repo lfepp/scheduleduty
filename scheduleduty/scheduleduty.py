@@ -1003,6 +1003,14 @@ class StandardRotationLogic():
             layer_index += 1
         return output
 
+    def parse_schedules(self, name, time_zone, layers):
+        return {
+            'name': name,
+            'type': 'schedule',
+            'time_zone': time_zone,
+            'schedule_layers': layers
+        }
+
     # HELPER FUNCTIONS
     def get_datetime(self, date, time):
         """Helper function to parse multiple datetime formats"""
