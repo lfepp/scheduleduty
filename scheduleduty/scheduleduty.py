@@ -970,18 +970,25 @@ class StandardRotationLogic():
                 'users': [],
                 'restrictions': [
                     {
-                        'type': layers[str(layer_index + 1)][0]['restriction_type'],
+                        'type': layers[str(layer_index + 1)][0]
+                        ['restriction_type'],
                         'start_time_of_day': layers[str(layer_index + 1)][0]
                         ['restriction_start_time'],
                         'start_day_of_week': self.get_weekday(
-                            layers[str(layer_index + 1)][0]['restriction_start_day']
+                            layers[str(layer_index + 1)][0]
+                            ['restriction_start_day']
                         ) + 1,
                         'duration_seconds': self.get_restriction_duration(
-                            layers[str(layer_index + 1)][0]['restriction_type'],
-                            layers[str(layer_index + 1)][0]['restriction_start_day'],
-                            layers[str(layer_index + 1)][0]['restriction_start_time'],
-                            layers[str(layer_index + 1)][0]['restriction_end_day'],
-                            layers[str(layer_index + 1)][0]['restriction_end_time']
+                            layers[str(layer_index + 1)][0]
+                            ['restriction_type'],
+                            layers[str(layer_index + 1)][0]
+                            ['restriction_start_day'],
+                            layers[str(layer_index + 1)][0]
+                            ['restriction_start_time'],
+                            layers[str(layer_index + 1)][0]
+                            ['restriction_end_day'],
+                            layers[str(layer_index + 1)][0]
+                            ['restriction_end_time']
                         )
                     }
                 ]
