@@ -784,10 +784,10 @@ class StandardRotationLogic():
                 end_time
             )
             if start_datetime < end_datetime:
-                return (end_datetime - start_datetime).total_seconds()
+                return int((end_datetime - start_datetime).total_seconds())
             elif start_datetime > end_datetime:
                 end_datetime += timedelta(days=1)
-                return (end_datetime - start_datetime).total_seconds()
+                return int((end_datetime - start_datetime).total_seconds())
             else:
                 raise ValueError(
                     'Invalid input provided. The restriction start and end \
@@ -815,7 +815,7 @@ class StandardRotationLogic():
                     ),
                     end_time
                 )
-                return (end_datetime - start_datetime).total_seconds()
+                return int((end_datetime - start_datetime).total_seconds())
             elif start_weekday > end_weekday:
                 start_datetime = self.get_datetime(
                     date(
@@ -835,7 +835,7 @@ class StandardRotationLogic():
                     ),
                     end_time
                 )
-                return (end_datetime - start_datetime).total_seconds()
+                return int((end_datetime - start_datetime).total_seconds())
             else:
                 raise ValueError(
                     'Invalid input provided. The restriction start and end \
@@ -943,6 +943,59 @@ class StandardRotationLogic():
                     pass
         return True
 
+    def parse_layers(self, start_date, end_date, time_zone, layers, pd_rest):
+        output = []
+        tz = pytz.timezone(time_zone)
+        # TODO: Allow for start/end times, handoff_time?
+        start_datetime = self.get_datetime(start_date, "00:00:00")
+        end_datetime = self.get_datetime(end_date, "00:00:00")
+        layer_index = 0
+        for level in layers:
+            output.append({
+                'name': layers[str(layer_index + 1)][0]['layer_name'],
+                'start': tz.localize(start_datetime).isoformat(),
+                'end': tz.localize(end_datetime).isoformat(),
+                'rotation_virtual_start': self.get_virtual_start(
+                    layers[str(layer_index + 1)][0]['rotation_type'],
+                    layers[str(layer_index + 1)][0]['handoff_day'],
+                    layers[str(layer_index + 1)][0]['handoff_time'],
+                    start_date,
+                    time_zone
+                ),
+                'rotation_turn_length_seconds': self.get_rotation_turn_length(
+                    layers[str(layer_index + 1)][0]['rotation_type'],
+                    layers[str(layer_index + 1)][0]['shift_length'],
+                    layers[str(layer_index + 1)][0]['shift_type']
+                ),
+                'users': [],
+                'restrictions': [
+                    {
+                        'type': layers[str(layer_index + 1)][0]['restriction_type'],
+                        'start_time_of_day': layers[str(layer_index + 1)][0]
+                        ['restriction_start_time'],
+                        'start_day_of_week': self.get_weekday(
+                            layers[str(layer_index + 1)][0]['restriction_start_day']
+                        ) + 1,
+                        'duration_seconds': self.get_restriction_duration(
+                            layers[str(layer_index + 1)][0]['restriction_type'],
+                            layers[str(layer_index + 1)][0]['restriction_start_day'],
+                            layers[str(layer_index + 1)][0]['restriction_start_time'],
+                            layers[str(layer_index + 1)][0]['restriction_end_day'],
+                            layers[str(layer_index + 1)][0]['restriction_end_time']
+                        )
+                    }
+                ]
+            })
+            for user in layers[str(layer_index + 1)]:
+                output[layer_index]['users'].append({
+                    'user': {
+                        'id': pd_rest.get_user_id(user['user']),
+                        'type': 'user'
+                    }
+                })
+            layer_index += 1
+        return output
+
     # HELPER FUNCTIONS
     def get_datetime(self, date, time):
         """Helper function to parse multiple datetime formats"""
@@ -978,7 +1031,7 @@ class StandardRotationLogic():
         elif weekday == handoff_day:
             return tz.localize(start_date).isoformat()
         else:
-            start_date += timedelta(days=(8 + handoff_day - weekday))
+            start_date += timedelta(days=(7 + handoff_day - weekday))
             return tz.localize(start_date).isoformat()
 
     def get_weekday(self, weekday):

@@ -194,7 +194,7 @@
   },
   "start_date_timedelta": {
     "less": "2016-08-25T00:00:00+00:00",
-    "greater": "2016-08-28T00:00:00+00:00",
+    "greater": "2016-08-27T00:00:00+00:00",
     "equal": "2016-08-23T00:00:00+00:00"
   },
   "get_weekday": {
@@ -266,7 +266,7 @@
         "restrictions": [
           {
             "type": "weekly_restriction",
-            "start_time_of_day": "00:00:00",
+            "start_time_of_day": "0:00",
             "start_day_of_week": 1,
             "duration_seconds": 172800
           }
@@ -276,7 +276,7 @@
         "name": "Layer 2",
         "start": "2017-01-01T00:00:00+00:00",
         "end": "2017-02-01T00:00:00+00:00",
-        "rotation_virtual_start": "2017-01-04T00:00:00+00:00",
+        "rotation_virtual_start": "2017-01-04T08:00:00+00:00",
         "rotation_turn_length_seconds": 604800,
         "users": [
           {
@@ -307,7 +307,7 @@
         "restrictions": [
           {
             "type": "weekly_restriction",
-            "start_time_of_day": "00:00:00",
+            "start_time_of_day": "0:00",
             "start_day_of_week": 3,
             "duration_seconds": 172800
           }
@@ -317,7 +317,7 @@
         "name": "Layer 3",
         "start": "2017-01-01T00:00:00+00:00",
         "end": "2017-02-01T00:00:00+00:00",
-        "rotation_virtual_start": "2017-01-04T00:00:00+00:00",
+        "rotation_virtual_start": "2017-01-04T08:00:00+00:00",
         "rotation_turn_length_seconds": 604800,
         "users": [
           {
@@ -348,7 +348,7 @@
         "restrictions": [
           {
             "type": "weekly_restriction",
-            "start_time_of_day": "00:00:00",
+            "start_time_of_day": "0:00",
             "start_day_of_week": 5,
             "duration_seconds": 259200
           }

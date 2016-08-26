@@ -321,14 +321,19 @@ class StandardRotationTests(unittest.TestCase):
         actual_result = standard_rotation.parse_layers(
             input['parse_layers']['valid']['start_date'],
             input['parse_layers']['valid']['end_date'],
-            input['parse_layers']['valid']['layers']
+            input['parse_layers']['valid']['time_zone'],
+            input['parse_layers']['valid']['layers'],
+            pd_rest
         )
+        self.maxDiff = None
         self.assertEqual(expected_result, actual_result)
-        with self.assertRaises(ValueError):
+        with self.assertRaises(IndexError):
             standard_rotation.parse_layers(
                 input['parse_layers']['error']['start_date'],
                 input['parse_layers']['error']['end_date'],
-                input['parse_layers']['error']['layers']
+                input['parse_layers']['valid']['time_zone'],
+                input['parse_layers']['error']['layers'],
+                pd_rest
             )
 
     # HELPER FUNCTIONS
