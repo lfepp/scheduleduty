@@ -325,7 +325,6 @@ class StandardRotationTests(unittest.TestCase):
             input['parse_layers']['valid']['layers'],
             pd_rest
         )
-        self.maxDiff = None
         self.assertEqual(expected_result, actual_result)
         with self.assertRaises(IndexError):
             standard_rotation.parse_layers(
@@ -335,6 +334,15 @@ class StandardRotationTests(unittest.TestCase):
                 input['parse_layers']['error']['layers'],
                 pd_rest
             )
+
+    def parse_schedules(self):
+        expected_result = expected['parse_schedules']
+        actual_result = standard_rotation.parse_schedules(
+            input['parse_schedules']['name'],
+            input['parse_schedules']['time_zone'],
+            input['parse_schedules']['layers']
+        )
+        self.assertEqual(expected_result, actual_result)
 
     # HELPER FUNCTIONS
     def get_datetime(self):

@@ -1157,6 +1157,7 @@ def main(csv_dir, api_key, base_name, level_name, multi_name, start_date,
 
 # TODO: Write tests for various arguments
 # TODO: Use list comprehension where applicable
+# TODO: Allow users to set schedule description
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Import weekly schedules')
     parser.add_argument(

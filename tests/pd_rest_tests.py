@@ -71,7 +71,7 @@ class PagerDutyRESTTests(unittest.TestCase):
         actual_result = pd_rest.get_user_id('Import User 4')
         self.assertEqual(expected_result, actual_result)
 
-    # TODO: Improve these tests
+    # TODO: Improve these tests - http://docs.python-guide.org/en/latest/writing/tests/  # NOQA
     def schedules(self):
         # create_schedule test
         expected_result = {}
@@ -84,7 +84,7 @@ class PagerDutyRESTTests(unittest.TestCase):
         )
         self.assertEqual(expected_result, actual_result)
 
-    # TODO: Improve these tests
+    # TODO: Improve these tests - http://docs.python-guide.org/en/latest/writing/tests/  # NOQA
     def escalation_policies(self):
         # create_escalation_policy test
         expected_result = {}
