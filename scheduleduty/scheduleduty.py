@@ -843,7 +843,7 @@ class StandardRotationLogic():
                 )
 
     def parse_csv(self, file):
-        """Parse CSV file into layer-based dictionary"""
+        """Parse CSV file into layer-by-user based dictionary"""
 
         reader = csv.DictReader(open(file), fieldnames=(
             'user',
@@ -909,6 +909,10 @@ class StandardRotationLogic():
         return layers
 
     def check_layers(self, layers):
+        """Checks layers to ensure the CSV was entered correctly and all
+        layer data is the same for each user
+        """
+
         for i in layers:
             master_user = {
                 'layer_name': layers[i][0]['layer_name'],
@@ -944,6 +948,10 @@ class StandardRotationLogic():
         return True
 
     def parse_layers(self, start_date, end_date, time_zone, layers, pd_rest):
+        """Parses layers by user into the format for schedule layers on the
+        PagerDuty v2 REST API
+        """
+
         output = []
         tz = pytz.timezone(time_zone)
         # TODO: Allow for start/end times, handoff_time?
@@ -1004,6 +1012,10 @@ class StandardRotationLogic():
         return output
 
     def parse_schedules(self, name, time_zone, layers):
+        """Returns a dictrionary in the format required to create a PagerDuty
+        schedule on the v2 REST API
+        """
+
         return {
             'name': name,
             'type': 'schedule',
@@ -1096,6 +1108,8 @@ class StandardRotationLogic():
                 )
 
     def nullify(self, val):
+        """Helper function to nullify empty strings"""
+
         if val == "":
             return None
         else:
@@ -1107,7 +1121,6 @@ def main(csv_dir, api_key, base_name, level_name, multi_name, start_date,
     # Declare an instance of PagerDutyREST
     pd_rest = PagerDutyREST(api_key)
     # Loop through all CSV files
-    # files = glob.glob('scheduleduty/csv/*.csv')
     if csv_dir[:1] == '/':
         csv_dir = csv_dir[1:]
     if csv_dir[-1:] == '/':
