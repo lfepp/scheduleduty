@@ -56,7 +56,9 @@ with open(config_filname) as config_file:
 pd_rest = scheduleduty.PagerDutyREST(config['api_key'])
 standard_rotation = scheduleduty.StandardRotationLogic(
     config['start_date'],
-    config['end_date']
+    config['end_date'],
+    config['base_name'],
+    config['time_zone']
 )
 
 
