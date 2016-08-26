@@ -1095,7 +1095,7 @@
           ]
       }
   ],
-  "concatenate_time_periods": {
+  "concat_time_periods": {
     "name": "Weekly Shifts Test Level 1 Multi 1",
     "days": [
       {

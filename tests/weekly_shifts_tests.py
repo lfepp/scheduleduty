@@ -110,10 +110,10 @@ class WeeklyShiftsTests(unittest.TestCase):
         )
         self.assertEqual(expected_result, actual_result)
 
-    def concatenate_time_periods(self):
-        expected_result = expected['concatenate_time_periods']
-        actual_result = weekly_shifts.concatenate_time_periods(
-         input['concatenate_time_periods']
+    def concat_time_periods(self):
+        expected_result = expected['concat_time_periods']
+        actual_result = weekly_shifts.concat_time_periods(
+         input['concat_time_periods']
         )
         self.assertEqual(expected_result, actual_result)
 
@@ -140,7 +140,7 @@ def suite():
     suite.addTest(WeeklyShiftsTests('split_days_by_level'))
     suite.addTest(WeeklyShiftsTests('get_time_periods'))
     suite.addTest(WeeklyShiftsTests('check_for_overlap'))
-    suite.addTest(WeeklyShiftsTests('concatenate_time_periods'))
+    suite.addTest(WeeklyShiftsTests('concat_time_periods'))
     suite.addTest(WeeklyShiftsTests('get_schedule_payload'))
     suite.addTest(WeeklyShiftsTests('get_escalation_policy_payload'))
     return suite

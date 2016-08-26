@@ -468,7 +468,7 @@ class WeeklyShiftLogic():
                             })
         return output
 
-    def concatenate_time_periods(self, schedule):
+    def concat_time_periods(self, schedule):
         """Concatenate any time periods that cross multiple days together"""
 
         output = {'name': schedule['name'], 'time_periods': []}
@@ -1116,64 +1116,88 @@ class StandardRotationLogic():
             return val
 
 
-def main(csv_dir, api_key, base_name, level_name, multi_name, start_date,
-         end_date, time_zone, num_loops, escalation_delay):
+def main(schedule_type, csv_dir, api_key, base_name, level_name, multi_name,
+         start_date, end_date, time_zone, num_loops, escalation_delay):
     # Declare an instance of PagerDutyREST
     pd_rest = PagerDutyREST(api_key)
-    # Loop through all CSV files
-    if csv_dir[:1] == '/':
-        csv_dir = csv_dir[1:]
-    if csv_dir[-1:] == '/':
-        csv_dir = csv_dir[:-1]
-    files = glob.glob(os.path.join(os.getcwd(), csv_dir, '*.csv'))
-    for file in files:
-        weekly_shifts = WeeklyShiftLogic(
-            base_name,
-            level_name,
-            multi_name,
-            start_date,
-            end_date,
-            time_zone,
-            num_loops,
-            escalation_delay
-        )
-        days = weekly_shifts.create_days_of_week(file)
-        # Split teams into their particular users
-        days = weekly_shifts.split_teams_into_users(pd_rest, days)
-        # Update user names/emails to user IDs
-        days = weekly_shifts.get_user_ids(pd_rest, days)
-        # Create list of escalation policies by level
-        base_ep = [{
-            'schedules': [{
-                'name': weekly_shifts.base_name,
-                'days': days
+    # Check on the schedule type
+    if schedule_type == 'standard_rotation':
+        # Check to ensure required command line arguments were passed
+        if (not base_name or not time_zone or not start_date or not end_date):
+            raise ValueError(
+                'Invalid command line arguments. To import standard rotation \
+                schedules you must pass --base-name, --time-zone, and \
+                --start-date.'
+            )
+        # FIXME: Insert logic for standard rotations
+    elif schedule_type == 'weekly_shifts':
+        if (not base_name or not level_name or not multi_name or not start_date
+           or not time_zone or not num_loops or not escalation_delay):
+            raise ValueError(
+                'Invalid command line arguments. To import weekly shift \
+                schedules you must pass --base-name, --level-name, \
+                --multi-name, --start-date, --time-zone, --num-loops, and \
+                --escalation-delay.'
+            )
+        # Loop through all CSV files
+        if csv_dir[:1] == '/':
+            csv_dir = csv_dir[1:]
+        if csv_dir[-1:] == '/':
+            csv_dir = csv_dir[:-1]
+        files = glob.glob(os.path.join(os.getcwd(), csv_dir, '*.csv'))
+        for file in files:
+            weekly_shifts = WeeklyShiftLogic(
+                base_name,
+                level_name,
+                multi_name,
+                start_date,
+                end_date,
+                time_zone,
+                num_loops,
+                escalation_delay
+            )
+            days = weekly_shifts.create_days_of_week(file)
+            # Split teams into their particular users
+            days = weekly_shifts.split_teams_into_users(pd_rest, days)
+            # Update user names/emails to user IDs
+            days = weekly_shifts.get_user_ids(pd_rest, days)
+            # Create list of escalation policies by level
+            base_ep = [{
+                'schedules': [{
+                    'name': weekly_shifts.base_name,
+                    'days': days
+                }]
             }]
-        }]
-        ep_by_level = weekly_shifts.split_days_by_level(base_ep)
-        # TODO: Handle cominbing cases where one on-call starts at 0:00 and another ends at 24:00 # NOQA
-        ep_by_level = weekly_shifts.get_time_periods(ep_by_level)
-        ep_by_level = weekly_shifts.check_for_overlap(ep_by_level)
-        # Create schedules in PagerDuty
-        for i, level in enumerate(ep_by_level):
-            for j, schedule in enumerate(level['schedules']):
-                schedule_by_periods = weekly_shifts.concatenate_time_periods(
-                    schedule
-                )
-                schedule_payload = weekly_shifts.get_schedule_payload(
-                    schedule_by_periods
-                )
-                schedule_id = pd_rest.create_schedule(
-                    schedule_payload
-                )['schedule']['id']
-                ep_by_level[i]['schedules'][j] = schedule_id
-        # Create escalation policy in PagerDuty
-        escalation_policy_payload = (weekly_shifts
-                                     .get_escalation_policy_payload(
-                                        ep_by_level
-                                     ))
-        res = pd_rest.create_escalation_policy(escalation_policy_payload)
-        print "Successfully create escalation policy: {id}".format(
-            id=res['escalation_policy']['id']
+            ep_by_level = weekly_shifts.split_days_by_level(base_ep)
+            # TODO: Handle cominbing cases where one on-call starts at 0:00 and another ends at 24:00 # NOQA
+            ep_by_level = weekly_shifts.get_time_periods(ep_by_level)
+            ep_by_level = weekly_shifts.check_for_overlap(ep_by_level)
+            # Create schedules in PagerDuty
+            for i, level in enumerate(ep_by_level):
+                for j, schedule in enumerate(level['schedules']):
+                    schedule_by_periods = weekly_shifts.concat_time_periods(
+                        schedule
+                    )
+                    schedule_payload = weekly_shifts.get_schedule_payload(
+                        schedule_by_periods
+                    )
+                    schedule_id = pd_rest.create_schedule(
+                        schedule_payload
+                    )['schedule']['id']
+                    ep_by_level[i]['schedules'][j] = schedule_id
+            # Create escalation policy in PagerDuty
+            escalation_policy_payload = (weekly_shifts
+                                         .get_escalation_policy_payload(
+                                            ep_by_level
+                                         ))
+            res = pd_rest.create_escalation_policy(escalation_policy_payload)
+            print "Successfully create escalation policy: {id}".format(
+                id=res['escalation_policy']['id']
+            )
+    else:
+        raise ValueError(
+            'Invalid command line arguments. --schedule-type must one of \
+            standard_rotation, weekly_shifts.'
         )
 
 # TODO: Write tests for various arguments
