@@ -228,5 +228,132 @@
     "valid2": true,
     "invalid1": false,
     "invalid2": false
+  },
+  "parse_layers": {
+    "valid": [
+      {
+        "name": "Layer 1",
+        "start": "2017-01-01T00:00:00+00:00",
+        "end": "2017-02-01T00:00:00+00:00",
+        "rotation_virtual_start": "2017-01-04T00:00:00+00:00",
+        "rotation_turn_length_seconds": 604800,
+        "users": [
+          {
+            "user": {
+              "id": "P7E5C85",
+              "type": "user"
+            }
+          },
+          {
+            "user": {
+              "id": "PJRFB3Z",
+              "type": "user"
+            }
+          },
+          {
+            "user": {
+              "id": "PYWIYMW",
+              "type": "user"
+            }
+          },
+          {
+            "user": {
+              "id": "PNBLWIT",
+              "type": "user"
+            }
+          }
+        ],
+        "restrictions": [
+          {
+            "type": "weekly_restriction",
+            "start_time_of_day": "00:00:00",
+            "start_day_of_week": 1,
+            "duration_seconds": 172800
+          }
+        ]
+      },
+      {
+        "name": "Layer 2",
+        "start": "2017-01-01T00:00:00+00:00",
+        "end": "2017-02-01T00:00:00+00:00",
+        "rotation_virtual_start": "2017-01-04T00:00:00+00:00",
+        "rotation_turn_length_seconds": 604800,
+        "users": [
+          {
+            "user": {
+              "id": "PYWIYMW",
+              "type": "user"
+            }
+          },
+          {
+            "user": {
+              "id": "PNBLWIT",
+              "type": "user"
+            }
+          },
+          {
+            "user": {
+              "id": "P7E5C85",
+              "type": "user"
+            }
+          },
+          {
+            "user": {
+              "id": "PJRFB3Z",
+              "type": "user"
+            }
+          }
+        ],
+        "restrictions": [
+          {
+            "type": "weekly_restriction",
+            "start_time_of_day": "00:00:00",
+            "start_day_of_week": 3,
+            "duration_seconds": 172800
+          }
+        ]
+      },
+      {
+        "name": "Layer 3",
+        "start": "2017-01-01T00:00:00+00:00",
+        "end": "2017-02-01T00:00:00+00:00",
+        "rotation_virtual_start": "2017-01-04T00:00:00+00:00",
+        "rotation_turn_length_seconds": 604800,
+        "users": [
+          {
+            "user": {
+              "id": "PJRFB3Z",
+              "type": "user"
+            }
+          },
+          {
+            "user": {
+              "id": "PYWIYMW",
+              "type": "user"
+            }
+          },
+          {
+            "user": {
+              "id": "PNBLWIT",
+              "type": "user"
+            }
+          },
+          {
+            "user": {
+              "id": "P7E5C85",
+              "type": "user"
+            }
+          }
+        ],
+        "restrictions": [
+          {
+            "type": "weekly_restriction",
+            "start_time_of_day": "00:00:00",
+            "start_day_of_week": 5,
+            "duration_seconds": 259200
+          }
+        ]
+      }
+    ]
   }
 }

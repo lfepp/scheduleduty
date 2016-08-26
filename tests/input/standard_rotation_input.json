@@ -668,5 +668,213 @@
         }
       ]
     }
+  },
+  "parse_layers": {
+    "valid": {
+      "start_date": "2017-01-01",
+      "end_date": "2017-02-01",
+      "layers": {
+        "1": [
+          {
+            "user": "Import User 1",
+            "layer_name": "Layer 1",
+            "rotation_type": "weekly",
+            "shift_length": null,
+            "shift_type": null,
+            "handoff_day": "Wednesday",
+            "handoff_time": "0:00",
+            "restriction_start_day": "Monday",
+            "restriction_start_time": "0:00",
+            "restriction_end_day": "Wednesday",
+            "restriction_end_time": "0:00",
+            "restriction_type": "weekly_restriction"
+          },
+          {
+            "user": "Import User 2",
+            "layer_name": "Layer 1",
+            "rotation_type": "weekly",
+            "shift_length": null,
+            "shift_type": null,
+            "handoff_day": "Wednesday",
+            "handoff_time": "0:00",
+            "restriction_start_day": "Monday",
+            "restriction_start_time": "0:00",
+            "restriction_end_day": "Wednesday",
+            "restriction_end_time": "0:00"
+          },
+          {
+            "user": "Import User 3",
+            "layer_name": "Layer 1",
+            "rotation_type": "weekly",
+            "shift_length": null,
+            "shift_type": null,
+            "handoff_day": "Wednesday",
+            "handoff_time": "0:00",
+            "restriction_start_day": "Monday",
+            "restriction_start_time": "0:00",
+            "restriction_end_day": "Wednesday",
+            "restriction_end_time": "0:00"
+          },
+          {
+            "user": "Import User 4",
+            "layer_name": "Layer 1",
+            "rotation_type": "weekly",
+            "shift_length": null,
+            "shift_type": null,
+            "handoff_day": "Wednesday",
+            "handoff_time": "0:00",
+            "restriction_start_day": "Monday",
+            "restriction_start_time": "0:00",
+            "restriction_end_day": "Wednesday",
+            "restriction_end_time": "0:00"
+          }
+        ],
+        "2": [
+          {
+            "user": "Import User 3",
+            "layer_name": "Layer 2",
+            "rotation_type": "weekly",
+            "shift_length": null,
+            "shift_type": null,
+            "handoff_day": "Wednesday",
+            "handoff_time": "8:00",
+            "restriction_start_day": "Wednesday",
+            "restriction_start_time": "0:00",
+            "restriction_end_day": "Friday",
+            "restriction_end_time": "0:00",
+            "restriction_type": "weekly_restriction"
+          },
+          {
+            "user": "Import User 4",
+            "layer_name": "Layer 2",
+            "rotation_type": "weekly",
+            "shift_length": null,
+            "shift_type": null,
+            "handoff_day": "Wednesday",
+            "handoff_time": "8:00",
+            "restriction_start_day": "Wednesday",
+            "restriction_start_time": "0:00",
+            "restriction_end_day": "Friday",
+            "restriction_end_time": "0:00"
+          },
+          {
+            "user": "Import User 1",
+            "layer_name": "Layer 2",
+            "rotation_type": "weekly",
+            "shift_length": null,
+            "shift_type": null,
+            "handoff_day": "Wednesday",
+            "handoff_time": "8:00",
+            "restriction_start_day": "Wednesday",
+            "restriction_start_time": "0:00",
+            "restriction_end_day": "Friday",
+            "restriction_end_time": "0:00"
+          },
+          {
+            "user": "Import User 2",
+            "layer_name": "Layer 2",
+            "rotation_type": "weekly",
+            "shift_length": null,
+            "shift_type": null,
+            "handoff_day": "Wednesday",
+            "handoff_time": "8:00",
+            "restriction_start_day": "Wednesday",
+            "restriction_start_time": "0:00",
+            "restriction_end_day": "Friday",
+            "restriction_end_time": "0:00"
+          }
+        ],
+        "3": [
+          {
+            "user": "Import User 2",
+            "layer_name": "Layer 3",
+            "rotation_type": "weekly",
+            "shift_length": null,
+            "shift_type": null,
+            "handoff_day": "Wednesday",
+            "handoff_time": "8:00",
+            "restriction_start_day": "Friday",
+            "restriction_start_time": "0:00",
+            "restriction_end_day": "Monday",
+            "restriction_end_time": "0:00",
+            "restriction_type": "weekly_restriction"
+          },
+          {
+            "user": "Import User 3",
+            "layer_name": "Layer 3",
+            "rotation_type": "weekly",
+            "shift_length": null,
+            "shift_type": null,
+            "handoff_day": "Wednesday",
+            "handoff_time": "8:00",
+            "restriction_start_day": "Friday",
+            "restriction_start_time": "0:00",
+            "restriction_end_day": "Monday",
+            "restriction_end_time": "0:00"
+          },
+          {
+            "user": "Import User 4",
+            "layer_name": "Layer 3",
+            "rotation_type": "weekly",
+            "shift_length": null,
+            "shift_type": null,
+            "handoff_day": "Wednesday",
+            "handoff_time": "8:00",
+            "restriction_start_day": "Friday",
+            "restriction_start_time": "0:00",
+            "restriction_end_day": "Monday",
+            "restriction_end_time": "0:00"
+          },
+          {
+            "user": "Import User 1",
+            "layer_name": "Layer 3",
+            "rotation_type": "weekly",
+            "shift_length": null,
+            "shift_type": null,
+            "handoff_day": "Wednesday",
+            "handoff_time": "8:00",
+            "restriction_start_day": "Friday",
+            "restriction_start_time": "0:00",
+            "restriction_end_day": "Monday",
+            "restriction_end_time": "0:00"
+          }
+        ]
+      }
+    },
+    "error": {
+      "start_date": "2017-01-01",
+      "end_date": "2017-02-01",
+      "layers": {
+        "1": [
+          {
+            "user": "Import User 1",
+            "layer_name": "Layer 1",
+            "rotation_type": "weekly",
+            "shift_length": null,
+            "shift_type": null,
+            "handoff_day": "Wednesday",
+            "handoff_time": "0:00",
+            "restriction_start_day": "Monday",
+            "restriction_start_time": "0:00",
+            "restriction_end_day": "Wednesday",
+            "restriction_end_time": "0:00",
+            "restriction_type": "weekly_restriction"
+          },
+          {
+            "user": "Not A Real User",
+            "layer_name": "Layer 1",
+            "rotation_type": "weekly",
+            "shift_length": null,
+            "shift_type": null,
+            "handoff_day": "Wednesday",
+            "handoff_time": "0:00",
+            "restriction_start_day": "Monday",
+            "restriction_start_time": "0:00",
+            "restriction_end_day": "Wednesday",
+            "restriction_end_time": "0:00"
+          }
+        ]
+      }
+    }
   }
 }
