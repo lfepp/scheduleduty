@@ -25,9 +25,6 @@
 # (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 # SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-import ez_setup
-ez_setup.use_setuptools()
-
 from setuptools import setup, find_packages  # NOQA
 
 with open('README.rst') as f:
@@ -39,7 +36,7 @@ with open('LICENSE') as f:
 # TODO: Add test class
 setup(
     name="scheduleduty",
-    version="0.2.0",
+    version="0.2.3",
     author="Lucas Epp",
     author_email="lucas@pagerduty.com",
     description="Tool to import schedules saved as CSV files into PagerDuty",
@@ -49,6 +46,7 @@ setup(
         'pytz==2013.7',
         'requests==2.10.0'
     ],
+    include_package_data=True,
     license=license,
     keywords="pagerduty pd schedule schedules",
     url="https://github.com/lfepp/scheduleduty"
