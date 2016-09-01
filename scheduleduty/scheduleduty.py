@@ -468,7 +468,7 @@ class WeeklyShiftLogic():
                             })
         return output
 
-    def concatenate_time_periods(self, schedule):
+    def concat_time_periods(self, schedule):
         """Concatenate any time periods that cross multiple days together"""
 
         output = {'name': schedule['name'], 'time_periods': []}
@@ -660,9 +660,11 @@ class WeeklyShiftLogic():
 class StandardRotationLogic():
     """Class to house the standard rotation import logic"""
 
-    def __init__(self, start_date, end_date):
+    def __init__(self, start_date, end_date, name, time_zone):
         self.start_date = start_date,
-        self.end_date = end_date
+        self.end_date = end_date,
+        self.name = name,
+        self.time_zone = time_zone
 
     def get_restriction_type(self, start_day, end_day):
         acceptable_days = [
@@ -956,13 +958,11 @@ class StandardRotationLogic():
         tz = pytz.timezone(time_zone)
         # TODO: Allow for start/end times, handoff_time?
         start_datetime = self.get_datetime(start_date, "00:00:00")
-        end_datetime = self.get_datetime(end_date, "00:00:00")
         layer_index = 0
-        for level in layers:
+        for i, level in enumerate(layers):
             output.append({
                 'name': layers[str(layer_index + 1)][0]['layer_name'],
                 'start': tz.localize(start_datetime).isoformat(),
-                'end': tz.localize(end_datetime).isoformat(),
                 'rotation_virtual_start': self.get_virtual_start(
                     layers[str(layer_index + 1)][0]['rotation_type'],
                     layers[str(layer_index + 1)][0]['handoff_day'],
@@ -1001,6 +1001,10 @@ class StandardRotationLogic():
                     }
                 ]
             })
+            # Add end_date if applicable
+            if end_date:
+                end_datetime = self.get_datetime(end_date, "00:00:00")
+                output[i]['end'] = tz.localize(end_datetime).isoformat()
             for user in layers[str(layer_index + 1)]:
                 output[layer_index]['users'].append({
                     'user': {
@@ -1116,64 +1120,109 @@ class StandardRotationLogic():
             return val
 
 
-def main(csv_dir, api_key, base_name, level_name, multi_name, start_date,
-         end_date, time_zone, num_loops, escalation_delay):
+def main(schedule_type, csv_dir, api_key, base_name, level_name, multi_name,
+         start_date, end_date, time_zone, num_loops, escalation_delay):
     # Declare an instance of PagerDutyREST
     pd_rest = PagerDutyREST(api_key)
-    # Loop through all CSV files
+    # Handle trailing slash on CSV directory
     if csv_dir[:1] == '/':
         csv_dir = csv_dir[1:]
     if csv_dir[-1:] == '/':
         csv_dir = csv_dir[:-1]
-    files = glob.glob(os.path.join(os.getcwd(), csv_dir, '*.csv'))
-    for file in files:
-        weekly_shifts = WeeklyShiftLogic(
-            base_name,
-            level_name,
-            multi_name,
-            start_date,
-            end_date,
-            time_zone,
-            num_loops,
-            escalation_delay
-        )
-        days = weekly_shifts.create_days_of_week(file)
-        # Split teams into their particular users
-        days = weekly_shifts.split_teams_into_users(pd_rest, days)
-        # Update user names/emails to user IDs
-        days = weekly_shifts.get_user_ids(pd_rest, days)
-        # Create list of escalation policies by level
-        base_ep = [{
-            'schedules': [{
-                'name': weekly_shifts.base_name,
-                'days': days
+    # Check on the schedule type
+    if schedule_type == 'standard_rotation':
+        # FIXME: First test schedule does not appear quite right. Not sure if this is an issue with the logic or the CSV file: P94KD5Z  # NOQA
+        # Loop through all CSV files
+        files = glob.glob(os.path.join(os.getcwd(), csv_dir, '*.csv'))
+        for file in files:
+            standard_rotation = StandardRotationLogic(
+                start_date,
+                end_date,
+                base_name,
+                time_zone
+            )
+            layers = standard_rotation.parse_csv(file)
+            if not standard_rotation.check_layers(layers):
+                raise ValueError(
+                    'There is an issue with the {filename} CSV. All layers \
+                    must match on layer_name, rotation_type, shift_length, \
+                    shift_type, handoff_day, handoff_time, \
+                    restriction_start_day, restriction_start_time, \
+                    restriction_end_day, and restriction_end_time.'
+                )
+            # TODO: Use the variables in __init__ instead of these
+            layers = standard_rotation.parse_layers(start_date, end_date,
+                                                    time_zone, layers, pd_rest)
+            schedule = standard_rotation.parse_schedules(base_name, time_zone,
+                                                         layers)
+            res = pd_rest.create_schedule(schedule)
+            print "Successfully created schedule with ID {schedule_id}".format(
+                schedule_id=res['schedule']['id']
+            )
+    elif schedule_type == 'weekly_shifts':
+        if (not level_name or not multi_name or not num_loops
+           or not escalation_delay):
+            raise ValueError(
+                'Invalid command line arguments. To import weekly shift \
+                schedules you must pass --base-name, --level-name, \
+                --multi-name, --start-date, --time-zone, --num-loops, and \
+                --escalation-delay.'
+            )
+        # Loop through all CSV files
+        files = glob.glob(os.path.join(os.getcwd(), csv_dir, '*.csv'))
+        for file in files:
+            weekly_shifts = WeeklyShiftLogic(
+                base_name,
+                level_name,
+                multi_name,
+                start_date,
+                end_date,
+                time_zone,
+                num_loops,
+                escalation_delay
+            )
+            days = weekly_shifts.create_days_of_week(file)
+            # Split teams into their particular users
+            days = weekly_shifts.split_teams_into_users(pd_rest, days)
+            # Update user names/emails to user IDs
+            days = weekly_shifts.get_user_ids(pd_rest, days)
+            # Create list of escalation policies by level
+            base_ep = [{
+                'schedules': [{
+                    'name': weekly_shifts.base_name,
+                    'days': days
+                }]
             }]
-        }]
-        ep_by_level = weekly_shifts.split_days_by_level(base_ep)
-        # TODO: Handle cominbing cases where one on-call starts at 0:00 and another ends at 24:00 # NOQA
-        ep_by_level = weekly_shifts.get_time_periods(ep_by_level)
-        ep_by_level = weekly_shifts.check_for_overlap(ep_by_level)
-        # Create schedules in PagerDuty
-        for i, level in enumerate(ep_by_level):
-            for j, schedule in enumerate(level['schedules']):
-                schedule_by_periods = weekly_shifts.concatenate_time_periods(
-                    schedule
-                )
-                schedule_payload = weekly_shifts.get_schedule_payload(
-                    schedule_by_periods
-                )
-                schedule_id = pd_rest.create_schedule(
-                    schedule_payload
-                )['schedule']['id']
-                ep_by_level[i]['schedules'][j] = schedule_id
-        # Create escalation policy in PagerDuty
-        escalation_policy_payload = (weekly_shifts
-                                     .get_escalation_policy_payload(
-                                        ep_by_level
-                                     ))
-        res = pd_rest.create_escalation_policy(escalation_policy_payload)
-        print "Successfully create escalation policy: {id}".format(
-            id=res['escalation_policy']['id']
+            ep_by_level = weekly_shifts.split_days_by_level(base_ep)
+            # TODO: Handle cominbing cases where one on-call starts at 0:00 and another ends at 24:00 # NOQA
+            ep_by_level = weekly_shifts.get_time_periods(ep_by_level)
+            ep_by_level = weekly_shifts.check_for_overlap(ep_by_level)
+            # Create schedules in PagerDuty
+            for i, level in enumerate(ep_by_level):
+                for j, schedule in enumerate(level['schedules']):
+                    schedule_by_periods = weekly_shifts.concat_time_periods(
+                        schedule
+                    )
+                    schedule_payload = weekly_shifts.get_schedule_payload(
+                        schedule_by_periods
+                    )
+                    schedule_id = pd_rest.create_schedule(
+                        schedule_payload
+                    )['schedule']['id']
+                    ep_by_level[i]['schedules'][j] = schedule_id
+            # Create escalation policy in PagerDuty
+            escalation_policy_payload = (weekly_shifts
+                                         .get_escalation_policy_payload(
+                                            ep_by_level
+                                         ))
+            res = pd_rest.create_escalation_policy(escalation_policy_payload)
+            print "Successfully create escalation policy: {id}".format(
+                id=res['escalation_policy']['id']
+            )
+    else:
+        raise ValueError(
+            'Invalid command line arguments. --schedule-type must one of \
+            standard_rotation, weekly_shifts.'
         )
 
 # TODO: Write tests for various arguments
@@ -1182,45 +1231,62 @@ def main(csv_dir, api_key, base_name, level_name, multi_name, start_date,
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Import weekly schedules')
     parser.add_argument(
+        '--schedule-type',
+        help='Type of schedule(s) being uploaded. Must be one of weekly_shifts,\
+         standard_rotation.',
+        dest='schedule_type',
+        required=True
+    )
+    parser.add_argument(
         '--csv-dir',
         help='Path to the directory housing all CSVs to import into PagerDuty',
-        dest='csv_dir'
+        dest='csv_dir',
+        required=True
     )
     parser.add_argument(
         '--api-key',
-        help='PagerDuty v2 REST API Key',
-        dest='api_key'
+        help='PagerDuty v2 REST API token',
+        dest='api_key',
+        required=True
     )
     parser.add_argument(
         '--base-name',
-        help='Name of the escalation policy and base name for each schedule',
-        dest='base_name'
+        help='Name of the escalation policy or schedule being added as well as \
+        the base name for each schedule added to the escalation policy',
+        dest='base_name',
+        required=True
     )
     parser.add_argument(
         '--level-name',
-        help='Base name for each new level to be appended by the level number',
+        help='Base name for each new escalation policy level to be appended by \
+        the level number',
         dest='level_name'
     )
     parser.add_argument(
         '--multiple-name',
-        help='Base name for each schedule on the same layer to be appended by \
-        the multiple number',
+        help='Base name for each schedule on the same escalation policy level \
+        to be appended by the schedule number',
         dest='multi_name'
     )
     parser.add_argument(
         '--start-date',
-        help='ISO 8601 formatted start date for the schedules',
-        dest='start_date'
+        help='ISO 8601 formatted start date for the schedule. Currently only \
+        support dates in YYYY-MM-DD format.',
+        dest='start_date',
+        required=True
     )
     parser.add_argument(
         '--end-date',
-        help='ISO 8601 formatted end date for the schedules',
-        dest='end_date')
+        help='ISO 8601 formatted end date for the schedule. Currently only \
+        supports dates in YYYY-MM-DD format.',
+        dest='end_date'
+    )
     parser.add_argument(
         '--time-zone',
-        help='Time zone for this schedule in the format of the IANA time zone \
-        database',
-        dest='time_zone'
+        help='Time zone for this schedule. Must be one of the time zones from \
+        the IANA time zone database',
+        dest='time_zone',
+        required=True
     )
     parser.add_argument(
         '--num-loops',
@@ -1235,6 +1301,7 @@ if __name__ == '__main__':
     )
     args = parser.parse_args()
     main(
+        args.schedule_type,
         args.csv_dir,
         args.api_key,
         args.base_name,
