@@ -39,7 +39,7 @@ with open('LICENSE') as f:
 # TODO: Add test class
 setup(
     name="scheduleduty",
-    version="0.1.0",
+    version="0.2.0",
     author="Lucas Epp",
     author_email="lucas@pagerduty.com",
     description="Tool to import schedules saved as CSV files into PagerDuty",
