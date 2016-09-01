@@ -1,15 +1,16 @@
 ScheduleDuty
 ============
 
-Import schedules from a CSV file. Currently only supports weekly
-shift-based schedules.
+Import schedules from a CSV file. Currently supports weekly shift-based
+schedules and standard rotation-based schedules.
 
 Usage
 -----
 
-1. Create a CSV file with the following format for each schedule:
+1. Create a CSV file with the following format depending upon your schedule
+type:
 
-   ::
+   Weekly Shifts::
 
        escalation_level,user_or_team,type,day_of_week,start_time,end_time
 
@@ -29,13 +30,56 @@ Usage
 
    **end\_time** (str): End time of the shift for that day (i.e. 21:00)
 
+   Standard Rotation::
+
+       user,layer,layer_name,rotation_type,shift_length,shift_type,handoff_day,handoff_time,restriction_start_day,restriction_start_time,restriction_end_date,restriction_end_time
+
+   **user** (str): The name/email of the user
+
+   **layer** (int): The schedule layer
+
+   **layer_name** (str): The name of the layer
+
+   **rotation_type** (str): The type of rotation. Can be one of daily, weekly,
+   custom.
+
+   **shift_length** (int): Length of the on-call shift in a ``custom`` rotation
+
+   **shift_type** (str): The unit of measure for the ``shift_length``. Can be
+   one of hours, days, weeks.
+
+   **handoff_day** (str or int): The day of the week to handoff the on-call
+   shift. Can be one of 0, 1, 2, 3, 4, 5, 6, monday, tuesday, wednesday,
+   thursday, friday, saturday, sunday
+
+   **handoff_time** (str):The time of day to handoff the shift (i.e. 08:00)
+
+   **restriction_start_day** (str): Day of the week to start the restriction.
+   Can be one of 0, 1, 2, 3, 4, 5, 6, monday, tuesday, wednesday, thursday,
+   friday, saturday, sunday
+
+   **restriction_start_time** (str): Time of day to start the restriction
+   (i.e. 08:00)
+
+   **restriction_end_date** (str): Day of the week to end the restriction. Can
+   be one of 0, 1, 2, 3, 4, 5, 6, monday, tuesday, wednesday, thursday, friday,
+   saturday, sunday
+
+   **restriction_end_time** (str): Time of day to end the restriction
+   (i.e. 17:00)
+
 2. Save all CSV files into one directory
 
-3. Run the ``import_schedules.py`` script:
+3. Run the ``import_schedules.py`` script with the command line arguments for
+your schedule type:
 
-   ::
+   Weekly Shifts::
 
-       ./scheduleduty/scheduleduty.py --csv-dir examples/weekly_shifts --api-key EXAMPLE_KEY --base-name "Weekly Shifts" --level-name Level --multiple-name Multi --start-date 2017-01-01 --end-date 2017-02-01 --time-zone UTC --num-loops 1 --escalation-delay 30
+       ./scheduleduty/scheduleduty.py --schedule-type weekly_shifts --csv-dir examples/weekly_shifts --api-key EXAMPLE_KEY --base-name "Weekly Shifts" --level-name Level --multiple-name Multi --start-date 2017-01-01 --end-date 2017-02-01 --time-zone UTC --num-loops 1 --escalation-delay 30
+
+   Standard Rotation::
+
+       ./scheduleduty/scheduleduty.py --schedule-type standard_rotation --csv-dir examples/standard_rotation --api-key EXAMPLE_KEY --base-name "Standard Rotation" --start-date 2017-01-01 --end-date 2017-02-01 --time-zone UTC
 
 Command Line Arguments
 ----------------------
@@ -54,14 +98,13 @@ Command Line Arguments
 
 ``--start-date``: ISO 8601 formatted start date for the schedule. Currently only support dates in YYYY-MM-DD format. Required for all schedule types.
 
-``--end-date``: ISO 8601 formatted end date for the schedule. Currently only supports dates in YYYY-MM-DD format. Optional for all schedule types
+``--end-date``: ISO 8601 formatted end date for the schedule. Currently only supports dates in YYYY-MM-DD format. Optional for all schedule types.
 
-``--time-zone``: Time zone for this schedule. Must be one of the time zones from the IANA time zone database
+``--time-zone``: Time zone for this schedule. Must be one of the time zones from the IANA time zone database. Required for all schedule types.
 
-``--num-loops``: The number of times to loop through the escalation policy
+``--num-loops``: The number of times to loop through the escalation policy. Required for ``weekly_shifts`` schedule type.
 
-``--escalation-delay``: The number of minutes to wait before escalating
-the incident to the next level
+``--escalation-delay``: The number of minutes to wait before escalating the incident to the next level. Required for ``weekly_shifts`` schedule type.
 
 Testing
 -------
