@@ -958,13 +958,11 @@ class StandardRotationLogic():
         tz = pytz.timezone(time_zone)
         # TODO: Allow for start/end times, handoff_time?
         start_datetime = self.get_datetime(start_date, "00:00:00")
-        end_datetime = self.get_datetime(end_date, "00:00:00")
         layer_index = 0
-        for level in layers:
+        for i, level in enumerate(layers):
             output.append({
                 'name': layers[str(layer_index + 1)][0]['layer_name'],
                 'start': tz.localize(start_datetime).isoformat(),
-                'end': tz.localize(end_datetime).isoformat(),
                 'rotation_virtual_start': self.get_virtual_start(
                     layers[str(layer_index + 1)][0]['rotation_type'],
                     layers[str(layer_index + 1)][0]['handoff_day'],
@@ -1003,6 +1001,10 @@ class StandardRotationLogic():
                     }
                 ]
             })
+            # Add end_date if applicable
+            if end_date:
+                end_datetime = self.get_datetime(end_date, "00:00:00")
+                output[i]['end'] = tz.localize(end_datetime).isoformat()
             for user in layers[str(layer_index + 1)]:
                 output[layer_index]['users'].append({
                     'user': {
@@ -1130,13 +1132,6 @@ def main(schedule_type, csv_dir, api_key, base_name, level_name, multi_name,
     # Check on the schedule type
     if schedule_type == 'standard_rotation':
         # FIXME: First test schedule does not appear quite right. Not sure if this is an issue with the logic or the CSV file: P94KD5Z  # NOQA
-        # Check to ensure required command line arguments were passed
-        if (not base_name or not time_zone or not start_date or not end_date):
-            raise ValueError(
-                'Invalid command line arguments. To import standard rotation \
-                schedules you must pass --base-name, --time-zone, and \
-                --start-date.'
-            )
         # Loop through all CSV files
         files = glob.glob(os.path.join(os.getcwd(), csv_dir, '*.csv'))
         for file in files:
@@ -1165,8 +1160,8 @@ def main(schedule_type, csv_dir, api_key, base_name, level_name, multi_name,
                 schedule_id=res['schedule']['id']
             )
     elif schedule_type == 'weekly_shifts':
-        if (not base_name or not level_name or not multi_name or not start_date
-           or not time_zone or not num_loops or not escalation_delay):
+        if (not level_name or not multi_name or not num_loops
+           or not escalation_delay):
             raise ValueError(
                 'Invalid command line arguments. To import weekly shift \
                 schedules you must pass --base-name, --level-name, \
@@ -1250,7 +1245,7 @@ if __name__ == '__main__':
     )
     parser.add_argument(
         '--api-key',
-        help='PagerDuty v2 REST API Key',
+        help='PagerDuty v2 REST API token',
         dest='api_key',
         required=True
     )
@@ -1258,7 +1253,8 @@ if __name__ == '__main__':
         '--base-name',
         help='Name of the escalation policy or schedule being added as well as \
         the base name for each schedule added to the escalation policy',
-        dest='base_name'
+        dest='base_name',
+        required=True
     )
     parser.add_argument(
         '--level-name',
@@ -1269,14 +1265,15 @@ if __name__ == '__main__':
     parser.add_argument(
         '--multiple-name',
         help='Base name for each schedule on the same escalation policy level \
-        to be appended by the multiple number',
+        to be appended by the schedule number',
         dest='multi_name'
     )
     parser.add_argument(
         '--start-date',
         help='ISO 8601 formatted start date for the schedule. Currently only \
         support dates in YYYY-MM-DD format.',
-        dest='start_date'
+        dest='start_date',
+        required=True
     )
     parser.add_argument(
         '--end-date',
@@ -1288,7 +1285,8 @@ if __name__ == '__main__':
         '--time-zone',
         help='Time zone for this schedule. Must be one of the time zones from \
         the IANA time zone database',
-        dest='time_zone'
+        dest='time_zone',
+        required=True
     )
     parser.add_argument(
         '--num-loops',

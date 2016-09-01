@@ -40,30 +40,25 @@ Usage
 Command Line Arguments
 ----------------------
 
-``--csv-dir``: Path to the directory housing all CSVs to import into PagerDuty
+``--schedule-type``: Type of schedule(s) being uploaded. Must be one of ``weekly_shifts``, ``standard_rotation``.
 
-``--api-key``: PagerDuty v2 API token
+``--csv-dir``: Path to the directory housing all CSVs to import into PagerDuty. Required for all schedule types.
 
-``--base-name``: The base name for the escalation policy and schedules
+``--api-key``: PagerDuty v2 REST API token. Required for all schedule types.
 
-``--level-name``: The base name for each new escalation policy level to
-be appended by the integer value of the level number
+``--base-name``: Name of the escalation policy or schedule being added as well as the base name for each schedule added to the escalation policy. Required for all schedule types.
 
-``--multiple-name``: The base name for each schedule on the same
-escalation policy level to be appended by the integer value of the
-schedule number
+``--level-name``: The base name for each new escalation policy level to be appended by the integer value of the level number. Required for ``weekly_shifts`` schedule type.
 
-``--start-date``: The start date for the schedule to begin in the format
-YYYY-MM-DD
+``--multiple-name``: The base name for each schedule on the same escalation policy level to be appended by the integer value of the schedule number. Required for ``weekly_shifts`` schedule type.
 
-``--end-date`` *(optional)*: The end date for the schedule to end in the
-format YYYY-MM-DD
+``--start-date``: ISO 8601 formatted start date for the schedule. Currently only support dates in YYYY-MM-DD format. Required for all schedule types.
 
-``--time-zone``: The time zone for the schedule in the format of an
-option from the `IANA time zone database`_
+``--end-date``: ISO 8601 formatted end date for the schedule. Currently only supports dates in YYYY-MM-DD format. Optional for all schedule types
 
-``--num-loops``: The number of times the escalation policy will repeat
-after reaching the end of escalation
+``--time-zone``: Time zone for this schedule. Must be one of the time zones from the IANA time zone database
+
+``--num-loops``: The number of times to loop through the escalation policy
 
 ``--escalation-delay``: The number of minutes to wait before escalating
 the incident to the next level
