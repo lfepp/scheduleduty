@@ -70,18 +70,32 @@ type:
 
 2. Save all CSV files into one directory
 
-3. Run the ``import_schedules.py`` script with the command line arguments for
+3. If running from the command line, execute the ``import_schedules.py`` script with the command line arguments for
 your schedule type:
 
    Weekly Shifts::
 
-       ./scheduleduty/scheduleduty.py --schedule-type weekly_shifts --csv-dir examples/weekly_shifts --api-key EXAMPLE_KEY --base-name "Weekly Shifts" --level-name Level --multiple-name Multi --start-date 2017-01-01 --end-date 2017-02-01 --time-zone UTC --num-loops 1 --escalation-delay 30
+       ./scheduleduty/scheduleduty.py --schedule-type weekly_shifts --csv-dir examples/weekly_shifts --api-key EXAMPLE_TOKEN --base-name "Weekly Shifts" --level-name Level --multiple-name Multi --start-date 2017-01-01 --end-date 2017-02-01 --time-zone UTC --num-loops 1 --escalation-delay 30
 
    Standard Rotation::
 
-       ./scheduleduty/scheduleduty.py --schedule-type standard_rotation --csv-dir examples/standard_rotation --api-key EXAMPLE_KEY --base-name "Standard Rotation" --start-date 2017-01-01 --end-date 2017-02-01 --time-zone UTC
+       ./scheduleduty/scheduleduty.py --schedule-type standard_rotation --csv-dir examples/standard_rotation --api-key EXAMPLE_TOKEN --base-name "Standard Rotation" --start-date 2017-01-01 --end-date 2017-02-01 --time-zone UTC
 
-Command Line Arguments
+4. If importing into a script, use the ``execute`` function within the ``Import`` class to import your schedules:
+
+    Weekly Shifts::
+
+        from scheduleduty import scheduleduty
+        importer = scheduleduty.Import("weekly_shifts","./examples/weekly_shifts","EXAMPLE_TOKEN","Weekly Shifts","Level","Multi","2017-01-01","2017-02-01","UTC",1,30)
+        importer.execute()
+
+    Standard Rotation::
+
+        from scheduleduty import scheduleduty
+        importer = scheduleduty.Import("standard_rotation","./examples/standard_rotation","EXAMPLE_TOKEN","Standard Rotation",None,None,"2017-01-01","2017-02-01","UTC",None,None)
+        importer.execute()
+
+Arguments
 ----------------------
 
 ``--schedule-type``: Type of schedule(s) being uploaded. Must be one of ``weekly_shifts``, ``standard_rotation``.
