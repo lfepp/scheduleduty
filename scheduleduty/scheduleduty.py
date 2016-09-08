@@ -1138,6 +1138,13 @@ class Import():
         self.num_loops = num_loops
         self.escalation_delay = escalation_delay
 
+    def execute(self):
+        """Function to execute the main import logic"""
+
+        main(self.schedule_type, self.csv_dir, self.api_key, self.base_name,
+             self.level_name, self.multi_name, self.start_date, self.end_date,
+             self.time_zone, self.num_loops, self.escalation_delay)
+
 
 def main(schedule_type, csv_dir, api_key, base_name, level_name, multi_name,
          start_date, end_date, time_zone, num_loops, escalation_delay):
@@ -1237,7 +1244,7 @@ def main(schedule_type, csv_dir, api_key, base_name, level_name, multi_name,
                                             ep_by_level
                                          ))
             res = pd_rest.create_escalation_policy(escalation_policy_payload)
-            print "Successfully create escalation policy: {id}".format(
+            print "Successfully created escalation policy: {id}".format(
                 id=res['escalation_policy']['id']
             )
     else:

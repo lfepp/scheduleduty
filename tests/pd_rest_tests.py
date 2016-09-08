@@ -29,7 +29,7 @@ import unittest
 import sys
 import json
 import os
-sys.path.append(os.path.join(os.path.dirname(__file__), '../scheduleduty'))
+sys.path.append(os.path.join(os.path.dirname(__file__), '../'))
 from scheduleduty import scheduleduty  # NOQA
 
 expected_filename = os.path.join(

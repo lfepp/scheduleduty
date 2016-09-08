@@ -31,7 +31,7 @@ import json
 import os
 from datetime import datetime
 import pytz
-sys.path.append(os.path.join(os.path.dirname(__file__), '../scheduleduty'))
+sys.path.append(os.path.join(os.path.dirname(__file__), '../'))
 from scheduleduty import scheduleduty  # NOQA
 
 expected_filename = os.path.join(
