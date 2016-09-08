@@ -30,6 +30,8 @@ import sys
 import json
 import os
 sys.path.append(os.path.join(os.path.dirname(__file__), '../scheduleduty'))
+from scheduleduty import scheduleduty  # NOQA
+
 expected_filename = os.path.join(
     os.path.dirname(__file__),
     './expected_results/pd_rest_expected.json'
@@ -39,8 +41,6 @@ input_filename = os.path.join(
     './input/pd_rest_input.json'
 )
 config_filname = os.path.join(os.path.dirname(__file__), './config.json')
-
-import scheduleduty  # NOQA
 
 with open(expected_filename) as expected_file:
     expected = json.load(expected_file)

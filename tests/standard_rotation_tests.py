@@ -32,6 +32,8 @@ import os
 from datetime import datetime
 import pytz
 sys.path.append(os.path.join(os.path.dirname(__file__), '../scheduleduty'))
+from scheduleduty import scheduleduty  # NOQA
+
 expected_filename = os.path.join(
     os.path.dirname(__file__),
     './expected_results/standard_rotation_expected.json'
@@ -41,8 +43,6 @@ input_filename = os.path.join(
     './input/standard_rotation_input.json'
 )
 config_filname = os.path.join(os.path.dirname(__file__), './config.json')
-
-import scheduleduty  # NOQA
 
 with open(expected_filename) as expected_file:
     expected = json.load(expected_file)
