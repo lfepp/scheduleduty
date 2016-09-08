@@ -1120,8 +1120,29 @@ class StandardRotationLogic():
             return val
 
 
+class Import():
+    """Class to import schedules using the PyPi module"""
+
+    def __init__(self, schedule_type, csv_dir, api_key, base_name, level_name,
+                 multi_name, start_date, end_date, time_zone, num_loops,
+                 escalation_delay):
+        self.schedule_type = schedule_type
+        self.csv_dir = csv_dir
+        self.api_key = api_key
+        self.base_name = base_name
+        self.level_name = level_name
+        self.multi_name = multi_name
+        self.start_date = start_date
+        self.end_date = end_date
+        self.time_zone = time_zone
+        self.num_loops = num_loops
+        self.escalation_delay = escalation_delay
+
+
 def main(schedule_type, csv_dir, api_key, base_name, level_name, multi_name,
          start_date, end_date, time_zone, num_loops, escalation_delay):
+    """Function to import schedules using the command line"""
+
     # Declare an instance of PagerDutyREST
     pd_rest = PagerDutyREST(api_key)
     # Handle trailing slash on CSV directory
