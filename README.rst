@@ -68,7 +68,7 @@ type:
    **restriction_end_time** (str): Time of day to end the restriction
    (i.e. 17:00)
 
-2. Save all CSV files into one directory
+\2. Save all CSV files into one directory
 
 3. If running from the command line, execute the ``import_schedules.py`` script with the command line arguments for
 your schedule type:
@@ -81,7 +81,7 @@ your schedule type:
 
        ./scheduleduty/scheduleduty.py --schedule-type standard_rotation --csv-dir examples/standard_rotation --api-key EXAMPLE_TOKEN --base-name "Standard Rotation" --start-date 2017-01-01 --end-date 2017-02-01 --time-zone UTC
 
-4. If importing into a script, use the ``execute`` function within the ``Import`` class to import your schedules:
+\4. If importing into a script, use the ``execute`` function within the ``Import`` class to import your schedules:
 
     Weekly Shifts::
 
