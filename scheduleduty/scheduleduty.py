@@ -1257,7 +1257,7 @@ def main(schedule_type, csv_dir, api_key, base_name, level_name, multi_name,
 # TODO: Use list comprehension where applicable
 # TODO: Allow users to set schedule description
 if __name__ == '__main__':
-    parser = argparse.ArgumentParser(description='Import weekly schedules')
+    parser = argparse.ArgumentParser(description='Import schedules')
     parser.add_argument(
         '--schedule-type',
         help='Type of schedule(s) being uploaded. Must be one of weekly_shifts,\
