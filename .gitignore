@@ -4,3 +4,4 @@ tests/config.json
 *.egg-info
 *.zip
 dist/
+.DS_Store

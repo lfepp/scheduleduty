@@ -1153,8 +1153,6 @@ def main(schedule_type, csv_dir, api_key, base_name, level_name, multi_name,
     # Declare an instance of PagerDutyREST
     pd_rest = PagerDutyREST(api_key)
     # Handle trailing slash on CSV directory
-    if csv_dir[:1] == '/':
-        csv_dir = csv_dir[1:]
     if csv_dir[-1:] == '/':
         csv_dir = csv_dir[:-1]
     # Check on the schedule type
@@ -1247,6 +1245,7 @@ def main(schedule_type, csv_dir, api_key, base_name, level_name, multi_name,
             print "Successfully created escalation policy: {id}".format(
                 id=res['escalation_policy']['id']
             )
+            return True
     else:
         raise ValueError(
             'Invalid command line arguments. --schedule-type must one of \
