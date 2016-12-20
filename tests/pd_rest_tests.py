@@ -62,6 +62,7 @@ class PagerDutyRESTTests(unittest.TestCase):
         self.assertEqual(expected_result, actual_result)
 
     def get_users_in_team(self):
+        # FIXME: Currently not receiving expected value
         expected_result = expected['get_users_in_team']
         actual_result = pd_rest.get_users_in_team('P9NY9DM')
         self.assertEqual(expected_result, actual_result)

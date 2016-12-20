@@ -23,14 +23,14 @@
         {
           "id": "PPI5CMV",
           "type": "assignment_notification_rule_reference",
-          "summary": "0 minutes: channel 4285510",
+          "summary": "0 minutes: channel PSW6THL",
           "self": "https://api.pagerduty.com/users/PNBLWIT/notification_rules/PPI5CMV",
           "html_url": null
         },
         {
           "id": "PAD2F3Y",
           "type": "assignment_notification_rule_reference",
-          "summary": "0 minutes: channel 4285510",
+          "summary": "0 minutes: channel PSW6THL",
           "self": "https://api.pagerduty.com/users/PNBLWIT/notification_rules/PAD2F3Y",
           "html_url": null
         }
@@ -75,14 +75,14 @@
         {
           "id": "PDAIZDJ",
           "type": "assignment_notification_rule_reference",
-          "summary": "0 minutes: channel 4285513",
+          "summary": "0 minutes: channel P4B9RDI",
           "self": "https://api.pagerduty.com/users/PMPYVDK/notification_rules/PDAIZDJ",
           "html_url": null
         },
         {
           "id": "P208AIS",
           "type": "assignment_notification_rule_reference",
-          "summary": "0 minutes: channel 4285513",
+          "summary": "0 minutes: channel P4B9RDI",
           "self": "https://api.pagerduty.com/users/PMPYVDK/notification_rules/P208AIS",
           "html_url": null
         }

@@ -89,10 +89,10 @@ class PagerDutyREST():
         r = requests.get(url, params=payload, headers=self.headers)
         if r.status_code == 200:
             if len(r.json()['users']) > 1:
-                raise ValueError(
-                    'Found more than one user for {query}. \
-                    Please use a unique identifier'.format(query=user_query)
-                )
+                raise ValueError('Found more than one user for {query}. '
+                                 'Please use a unique identifier'.format(
+                                    query=user_query
+                                 ))
             else:
                 return r.json()['users'][0]['id']
         else:
@@ -109,11 +109,11 @@ class PagerDutyREST():
         if r.status_code == 201:
             return r.json()
         else:
-            raise ValueError(
-                'create_schedule returned status code {status_code}\
-                \n{error_body}'
-                .format(status_code=r.status_code, error_body=r.text)
-            )
+            raise ValueError('create_schedule returned status code '
+                             '{status_code}\n{error_body}'.format(
+                                status_code=r.status_code,
+                                error_body=r.text
+                             ))
 
     def delete_schedule(self, schedule_id):
         """Delete a schedule"""
@@ -126,11 +126,11 @@ class PagerDutyREST():
         if r.status_code == 204:
             return r.status_code
         else:
-            raise ValueError(
-                'delete_schedule returned status code {status_code}\
-                \n{error_body}'
-                .format(status_code=r.status_code, error_body=r.text)
-            )
+            raise ValueError('delete_schedule returned status code '
+                             '{status_code}\n{error_body}'.format(
+                                status_code=r.status_code,
+                                error_body=r.text
+                             ))
 
     def create_escalation_policy(self, payload):
         """Create an escalation policy"""
@@ -140,11 +140,11 @@ class PagerDutyREST():
         if r.status_code == 201:
             return r.json()
         else:
-            raise ValueError(
-                'create_escalation_policy returned status code {status_code}\
-                \n{error_body}'
-                .format(status_code=r.status_code, error_body=r.text)
-            )
+            raise ValueError('create_escalation_policy returned status code '
+                             '{status_code}\n{error_body}'.format(
+                                status_code=r.status_code,
+                                error_body=r.text
+                             ))
 
     def delete_escalation_policy(self, escalation_policy_id):
         """Delete an escalation policy"""
@@ -157,11 +157,11 @@ class PagerDutyREST():
         if r.status_code == 204:
             return r.status_code
         else:
-            raise ValueError(
-                'delete_escalation_policy returned status code {status_code}\
-                \n{error_body}'
-                .format(status_code=r.status_code, error_body=r.text)
-            )
+            raise ValueError('delete_escalation_policy returned status code '
+                             '{status_code}\n{error_body}'.format(
+                                status_code=r.status_code,
+                                error_body=r.text
+                             ))
 
 
 # WEEKLY SHIFT FUNCTIONS ##################################################
@@ -245,13 +245,12 @@ class WeeklyShiftLogic():
                 saturday_entries.append(entry)
                 sunday_entries.append(entry)
             else:
-                print (
-                    'Error: Entry {name} has an unknown value for day_of_week: \
-                    {day}'.format(
-                        name=row['user_or_team'],
-                        day=row['day_of_week']
-                    )
-                )
+                print ('Error: Entry {name} has an unknown value for '
+                       'day_of_week: {day}'.format(
+                            name=row['user_or_team'],
+                            day=row['day_of_week']
+                        )
+                       )
         # Create days with entries
         sunday = {'day_of_week': 0, 'entries': sunday_entries}
         monday = {'day_of_week': 1, 'entries': monday_entries}
@@ -289,10 +288,8 @@ class WeeklyShiftLogic():
                 else:
                     raise ValueError('Type must be of user or team')
                 if total_entries > 25:
-                    raise ValueError(
-                        'Can only have a maximum of 25 targets per \
-                        escalation policy level'
-                    )
+                    raise ValueError('Can only have a maximum of 25 targets '
+                                     'per escalation policy level')
         return output
 
     def get_user_ids(self, pd_rest, days):
@@ -392,7 +389,7 @@ class WeeklyShiftLogic():
         return ep_by_level
 
     def check_for_overlap(self, ep_by_level):
-        """Checks time periods for multiple entries and breaks the entries into \
+        """Checks time periods for multiple entries and breaks the entries into
         multiple schedules
         """
 
@@ -434,8 +431,8 @@ class WeeklyShiftLogic():
                                 output[i]['schedules'].insert(
                                     l,
                                     {
-                                        'name': '{base_name} {multi_name} \
-                                        {multiple}'.format(
+                                        'name': ('{base_name} {multi_name} '
+                                                 '{multiple}').format(
                                             base_name=new_base_name,
                                             multi_name=self.multi_name,
                                             multiple=l + 1
@@ -656,10 +653,8 @@ class WeeklyShiftLogic():
         elif len(time_list) == 2:
             return int(time_list[0]) * 3600 + int(time_list[1]) * 60
         else:
-            raise ValueError(
-                'Invalid input. Time must be of format HH:MM:SS or HH:MM. \
-                You input: {time}'.format(time=time)
-            )
+            raise ValueError('Invalid input. Time must be of format HH:MM:SS '
+                             'or HH:MM. You input: {time}'.format(time=time))
 
 
 # STANDARD ROTATION FUNCTIONS #################################################
@@ -703,11 +698,10 @@ class StandardRotationLogic():
             else:
                 return "weekly_restriction"
         else:
-            raise ValueError(
-                'Invalid restrict start or end date provided. Dates must be in \
-                null, 0, 1, 2, 3, 4, 5, 6, monday, tuesday, wednesday, \
-                thursday, friday, saturday, sunday.'
-            )
+            raise ValueError('Invalid restrict start or end date provided. '
+                             'Dates must be in null, 0, 1, 2, 3, 4, 5, 6, '
+                             'monday, tuesday, wednesday, thursday, friday, '
+                             'saturday, sunday.')
 
     def get_rotation_turn_length(self, rotation_type, shift_length,
                                  shift_type):
@@ -725,15 +719,11 @@ class StandardRotationLogic():
             elif shift_type == 'weeks':
                 return int(shift_length) * 604800
             else:
-                raise ValueError(
-                    'Invalid shift_type provided. Must be one of hours, days, \
-                    weeks.'
-                )
+                raise ValueError('Invalid shift_type provided. Must be one of '
+                                 'hours, days, weeks.')
         else:
-            raise ValueError(
-                'Invalid rotation_type provided. Must be one of daily, weekly, \
-                custom.'
-            )
+            raise ValueError('Invalid rotation_type provided. Must be one of '
+                             'daily, weekly, custom.')
 
     def get_virtual_start(self, rotation_type, handoff_day, handoff_time,
                           start_date, time_zone):
@@ -765,10 +755,8 @@ class StandardRotationLogic():
                         handoff_time
                     )).isoformat()
         else:
-            raise ValueError(
-                'Invalid rotation_type provided. Must be one of daily, \
-                weekly, custom.'
-            )
+            raise ValueError('Invalid rotation_type provided. Must be one of '
+                             'daily, weekly, custom.')
 
     def get_restriction_duration(self, type, start_day, start_time,
                                  end_day, end_time):
@@ -797,10 +785,8 @@ class StandardRotationLogic():
                 end_datetime += timedelta(days=1)
                 return int((end_datetime - start_datetime).total_seconds())
             else:
-                raise ValueError(
-                    'Invalid input provided. The restriction start and end \
-                    datetimes are equal.'
-                )
+                raise ValueError('Invalid input provided. The restriction '
+                                 'start and end datetimes are equal.')
         else:
             start_weekday = self.get_weekday(start_day)
             end_weekday = self.get_weekday(end_day)
@@ -845,10 +831,8 @@ class StandardRotationLogic():
                 )
                 return int((end_datetime - start_datetime).total_seconds())
             else:
-                raise ValueError(
-                    'Invalid input provided. The restriction start and end \
-                    datetimes are equal'
-                )
+                raise ValueError('Invalid input provided. The restriction '
+                                 'start and end datetimes are equal')
 
     def parse_csv(self, file):
         """Parse CSV file into layer-by-user based dictionary"""
@@ -1052,10 +1036,8 @@ class StandardRotationLogic():
                 '%Y-%m-%dT%H:%M'
             )
         else:
-            raise ValueError(
-                'Invalid handoff_time. Format must be in HH:MM or \
-                HH:MM:SS.'
-            )
+            raise ValueError('Invalid handoff_time. Format must be in HH:MM or'
+                             ' HH:MM:SS.')
         return output
 
     def start_date_timedelta(self, handoff_day, weekday, start_date, tz):
@@ -1089,11 +1071,10 @@ class StandardRotationLogic():
             elif weekday == 0:
                 return 6
             else:
-                raise ValueError(
-                    'Invalid handoff_day provided. Must be one of 0, 1, 2, 3, \
-                    4, 5, 6, monday, tuesday, wednesday, thursday, friday, \
-                    saturday, sunday'
-                )
+                raise ValueError('Invalid handoff_day provided. Must be one '
+                                 'of 0, 1, 2, 3, 4, 5, 6, monday, tuesday, '
+                                 'wednesday, thursday, friday, saturday, '
+                                 'sunday')
         else:
             if weekday.lower() == 'monday':
                 return 0
@@ -1110,11 +1091,10 @@ class StandardRotationLogic():
             elif weekday.lower() == 'sunday':
                 return 6
             else:
-                raise ValueError(
-                    'Invalid handoff_day provided. Must be one of 0, 1, 2, 3, \
-                    4, 5, 6, monday, tuesday, wednesday, thursday, friday, \
-                    saturday, sunday'
-                )
+                raise ValueError('Invalid handoff_day provided. Must be one '
+                                 'of 0, 1, 2, 3, 4, 5, 6, monday, tuesday, '
+                                 'wednesday, thursday, friday, saturday, '
+                                 'sunday')
 
     def nullify(self, val):
         """Helper function to nullify empty strings"""
@@ -1190,13 +1170,13 @@ def main(schedule_type, csv_dir, api_key, base_name, level_name, multi_name,
             )
             layers = standard_rotation.parse_csv(file['filename'])
             if not standard_rotation.check_layers(layers):
-                raise ValueError(
-                    'There is an issue with the {filename} CSV. All layers \
-                    must match on layer_name, rotation_type, shift_length, \
-                    shift_type, handoff_day, handoff_time, \
-                    restriction_start_day, restriction_start_time, \
-                    restriction_end_day, and restriction_end_time.'
-                )
+                raise ValueError('There is an issue with the {filename} CSV. '
+                                 'All layers must match on layer_name, '
+                                 'rotation_type, shift_length, shift_type, '
+                                 'handoff_day, handoff_time, '
+                                 'restriction_start_day, '
+                                 'restriction_start_time, restriction_end_day,'
+                                 ' and restriction_end_time.')
             layers = standard_rotation.parse_layers(layers, pd_rest)
             schedule = standard_rotation.parse_schedules(layers)
             res = pd_rest.create_schedule(schedule)
@@ -1206,12 +1186,11 @@ def main(schedule_type, csv_dir, api_key, base_name, level_name, multi_name,
     elif schedule_type == 'weekly_shifts':
         if (not level_name or not multi_name or not num_loops
            or not escalation_delay):
-            raise ValueError(
-                'Invalid command line arguments. To import weekly shift \
-                schedules you must pass --base-name, --level-name, \
-                --multi-name, --start-date, --time-zone, --num-loops, and \
-                --escalation-delay.'
-            )
+            raise ValueError('Invalid command line arguments. To import weekly'
+                             ' shift schedules you must pass --base-name, '
+                             '--level-name, --multi-name, --start-date, '
+                             '--time-zone, --num-loops, and '
+                             '--escalation-delay.')
         # Loop through all CSV files
         for file in files:
             weekly_shifts = WeeklyShiftLogic(
@@ -1263,10 +1242,8 @@ def main(schedule_type, csv_dir, api_key, base_name, level_name, multi_name,
                 id=res['escalation_policy']['id']
             )
     else:
-        raise ValueError(
-            'Invalid command line arguments. --schedule-type must one of \
-            standard_rotation, weekly_shifts.'
-        )
+        raise ValueError('Invalid command line arguments. --schedule-type must'
+                         ' one of standard_rotation, weekly_shifts.')
 
 # TODO: Write tests for various arguments
 # TODO: Use list comprehension where applicable
@@ -1275,8 +1252,8 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Import schedules')
     parser.add_argument(
         '--schedule-type',
-        help='Type of schedule(s) being uploaded. Must be one of weekly_shifts,\
-         standard_rotation.',
+        help=('Type of schedule(s) being uploaded. Must be one of '
+              'weekly_shifts, standard_rotation.'),
         dest='schedule_type',
         required=True
     )
@@ -1294,40 +1271,41 @@ if __name__ == '__main__':
     )
     parser.add_argument(
         '--base-name',
-        help='Name of the escalation policy or schedule being added as well as \
-        the base name for each schedule added to the escalation policy',
+        help=('Name of the escalation policy or schedule being added as well '
+              'as the base name for each schedule added to the escalation '
+              'policy'),
         dest='base_name',
         required=True
     )
     parser.add_argument(
         '--level-name',
-        help='Base name for each new escalation policy level to be appended by \
-        the level number',
+        help=('Base name for each new escalation policy level to be appended '
+              'by the level number'),
         dest='level_name'
     )
     parser.add_argument(
         '--multiple-name',
-        help='Base name for each schedule on the same escalation policy level \
-        to be appended by the schedule number',
+        help=('Base name for each schedule on the same escalation policy level'
+              ' to be appended by the schedule number'),
         dest='multi_name'
     )
     parser.add_argument(
         '--start-date',
-        help='ISO 8601 formatted start date for the schedule. Currently only \
-        support dates in YYYY-MM-DD format.',
+        help=('ISO 8601 formatted start date for the schedule. Currently only '
+              'support dates in YYYY-MM-DD format.'),
         dest='start_date',
         required=True
     )
     parser.add_argument(
         '--end-date',
-        help='ISO 8601 formatted end date for the schedule. Currently only \
-        supports dates in YYYY-MM-DD format.',
+        help=('ISO 8601 formatted end date for the schedule. Currently only '
+              'supports dates in YYYY-MM-DD format.'),
         dest='end_date'
     )
     parser.add_argument(
         '--time-zone',
-        help='Time zone for this schedule. Must be one of the time zones from \
-        the IANA time zone database',
+        help=('Time zone for this schedule. Must be one of the time zones from'
+              ' the IANA time zone database'),
         dest='time_zone',
         required=True
     )
@@ -1338,8 +1316,8 @@ if __name__ == '__main__':
     )
     parser.add_argument(
         '--escalation-delay',
-        help='The number of minutes to wait before escalating the incident to \
-        the next level',
+        help=('The number of minutes to wait before escalating the incident to'
+              ' the next level'),
         dest='escalation_delay'
     )
     args = parser.parse_args()
