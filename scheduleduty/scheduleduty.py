@@ -1021,13 +1021,13 @@ class StandardRotationLogic():
             layer_index += 1
         return output
 
-    def parse_schedules(self, name, time_zone, layers):
+    def parse_schedules(self, time_zone, layers):
         """Returns a dictrionary in the format required to create a PagerDuty
         schedule on the v2 REST API
         """
 
         return {
-            'name': name,
+            'name': self.name[0],
             'type': 'schedule',
             'time_zone': time_zone,
             'schedule_layers': layers
@@ -1202,7 +1202,7 @@ def main(schedule_type, csv_dir, api_key, base_name, level_name, multi_name,
             # TODO: Use the variables in __init__ instead of these
             layers = standard_rotation.parse_layers(start_date, end_date,
                                                     time_zone, layers, pd_rest)
-            schedule = standard_rotation.parse_schedules(base_name, time_zone,
+            schedule = standard_rotation.parse_schedules(time_zone,
                                                          layers)
             res = pd_rest.create_schedule(schedule)
             print "Successfully created schedule with ID {schedule_id}".format(
