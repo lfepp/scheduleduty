@@ -1181,7 +1181,6 @@ def main(schedule_type, csv_dir, api_key, base_name, level_name, multi_name,
         raise Exception('No CSV files found.')
     # Check on the schedule type
     if schedule_type == 'standard_rotation':
-        # FIXME: First test schedule does not appear quite right. Not sure if this is an issue with the logic or the CSV file: P94KD5Z  # NOQA
         # Loop through all CSV files
         for file in files:
             standard_rotation = StandardRotationLogic(
