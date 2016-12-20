@@ -1,0 +1,2 @@
+user,layer,layer_name,rotation_type,shift_length,shift_type,handoff_day,handoff_time,restriction_start_day,restriction_start_time,restriction_end_date,restriction_end_time
+Import User 1,1,Layer 1,weekly,,,Wednesday,0:00,Monday,0:00,Wednesday,0:00

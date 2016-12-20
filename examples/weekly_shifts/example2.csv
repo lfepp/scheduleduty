@@ -1,0 +1,3 @@
+escalation_level,user_or_team,type,day_of_week,start_time,end_time
+1,Import Team,Team,Friday,0:00,9:00
+1,Import Team,Team,Sunday,0:00,9:00

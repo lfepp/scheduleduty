@@ -536,6 +536,8 @@ class WeeklyShiftLogic():
                      })
                 else:
                     for day in period['days']:
+                        if day == 0:
+                            day = 7
                         (output
                          ['schedule']['schedule_layers'][i]['restrictions']
                          ).append({
@@ -550,7 +552,8 @@ class WeeklyShiftLogic():
                                 period['end_time']
                             ) - self.get_seconds(
                                 period['start_time']
-                            ))
+                            )),
+                            'start_day_of_week': day
                          })
         else:
             for i, period in enumerate(schedule['time_periods']):
@@ -587,6 +590,8 @@ class WeeklyShiftLogic():
                      })
                 else:
                     for day in period['days']:
+                        if day == 0:
+                            day = 7
                         (output
                          ['schedule']['schedule_layers'][i]['restrictions']
                          ).append({
@@ -601,7 +606,8 @@ class WeeklyShiftLogic():
                                 period['end_time']
                             ) - self.get_seconds(
                                 period['start_time']
-                            ))
+                            )),
+                            'start_day_of_week': day
                          })
         return output
 
@@ -1155,19 +1161,36 @@ def main(schedule_type, csv_dir, api_key, base_name, level_name, multi_name,
     # Handle trailing slash on CSV directory
     if csv_dir[-1:] == '/':
         csv_dir = csv_dir[:-1]
+    # Get all CSV files
+    files = glob.glob(os.path.join(os.getcwd(), csv_dir, '*.csv'))
+    if len(files) > 1:
+        for i in range(len(files)):
+            files[i] = {
+                'filename': files[i],
+                'base_name': '{name} #{number}'.format(
+                    name=base_name,
+                    number=i + 1
+                )
+            }
+    elif len(files) == 1:
+        files[0] = {
+            'filename': files[0],
+            'base_name': base_name
+        }
+    else:
+        raise Exception('No CSV files found.')
     # Check on the schedule type
     if schedule_type == 'standard_rotation':
         # FIXME: First test schedule does not appear quite right. Not sure if this is an issue with the logic or the CSV file: P94KD5Z  # NOQA
         # Loop through all CSV files
-        files = glob.glob(os.path.join(os.getcwd(), csv_dir, '*.csv'))
         for file in files:
             standard_rotation = StandardRotationLogic(
                 start_date,
                 end_date,
-                base_name,
+                file['base_name'],
                 time_zone
             )
-            layers = standard_rotation.parse_csv(file)
+            layers = standard_rotation.parse_csv(file['filename'])
             if not standard_rotation.check_layers(layers):
                 raise ValueError(
                     'There is an issue with the {filename} CSV. All layers \
@@ -1195,10 +1218,9 @@ def main(schedule_type, csv_dir, api_key, base_name, level_name, multi_name,
                 --escalation-delay.'
             )
         # Loop through all CSV files
-        files = glob.glob(os.path.join(os.getcwd(), csv_dir, '*.csv'))
         for file in files:
             weekly_shifts = WeeklyShiftLogic(
-                base_name,
+                file['base_name'],
                 level_name,
                 multi_name,
                 start_date,
@@ -1207,7 +1229,7 @@ def main(schedule_type, csv_dir, api_key, base_name, level_name, multi_name,
                 num_loops,
                 escalation_delay
             )
-            days = weekly_shifts.create_days_of_week(file)
+            days = weekly_shifts.create_days_of_week(file['filename'])
             # Split teams into their particular users
             days = weekly_shifts.split_teams_into_users(pd_rest, days)
             # Update user names/emails to user IDs
@@ -1245,7 +1267,6 @@ def main(schedule_type, csv_dir, api_key, base_name, level_name, multi_name,
             print "Successfully created escalation policy: {id}".format(
                 id=res['escalation_policy']['id']
             )
-            return True
     else:
         raise ValueError(
             'Invalid command line arguments. --schedule-type must one of \
