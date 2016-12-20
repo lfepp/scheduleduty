@@ -321,18 +321,12 @@ class StandardRotationTests(unittest.TestCase):
     def parse_layers(self):
         expected_result = expected['parse_layers']['valid']
         actual_result = standard_rotation.parse_layers(
-            input['parse_layers']['valid']['start_date'],
-            input['parse_layers']['valid']['end_date'],
-            input['parse_layers']['valid']['time_zone'],
             input['parse_layers']['valid']['layers'],
             pd_rest
         )
         self.assertEqual(expected_result, actual_result)
         with self.assertRaises(IndexError):
             standard_rotation.parse_layers(
-                input['parse_layers']['error']['start_date'],
-                input['parse_layers']['error']['end_date'],
-                input['parse_layers']['valid']['time_zone'],
                 input['parse_layers']['error']['layers'],
                 pd_rest
             )
@@ -340,8 +334,6 @@ class StandardRotationTests(unittest.TestCase):
     def parse_schedules(self):
         expected_result = expected['parse_schedules']
         actual_result = standard_rotation.parse_schedules(
-            input['parse_schedules']['name'],
-            input['parse_schedules']['time_zone'],
             input['parse_schedules']['layers']
         )
         self.assertEqual(expected_result, actual_result)

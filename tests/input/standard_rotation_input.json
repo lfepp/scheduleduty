@@ -671,9 +671,6 @@
   },
   "parse_layers": {
     "valid": {
-      "start_date": "2017-01-01",
-      "end_date": "2017-02-01",
-      "time_zone": "UTC",
       "layers": {
         "1": [
           {
@@ -881,7 +878,6 @@
   },
   "parse_schedules": {
     "name": "Test Schedule 1",
-    "time_zone": "UTC",
     "layers": [
       {
         "name": "Layer 1",

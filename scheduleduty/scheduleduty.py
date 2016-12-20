@@ -871,7 +871,6 @@ class StandardRotationLogic():
         layers = {}
         levels = []
         for row in reader:
-            # TODO: Allow users to enter layer name
             shift_length = self.nullify(row['shift_length'])
             shift_type = self.nullify(row['shift_type'])
             handoff_day = self.nullify(row['handoff_day'])
@@ -955,15 +954,15 @@ class StandardRotationLogic():
                     pass
         return True
 
-    def parse_layers(self, start_date, end_date, time_zone, layers, pd_rest):
+    def parse_layers(self, layers, pd_rest):
         """Parses layers by user into the format for schedule layers on the
         PagerDuty v2 REST API
         """
 
         output = []
-        tz = pytz.timezone(time_zone)
+        tz = pytz.timezone(self.time_zone)
         # TODO: Allow for start/end times, handoff_time?
-        start_datetime = self.get_datetime(start_date, "00:00:00")
+        start_datetime = self.get_datetime(self.start_date[0], "00:00:00")
         layer_index = 0
         for i, level in enumerate(layers):
             output.append({
@@ -973,8 +972,8 @@ class StandardRotationLogic():
                     layers[str(layer_index + 1)][0]['rotation_type'],
                     layers[str(layer_index + 1)][0]['handoff_day'],
                     layers[str(layer_index + 1)][0]['handoff_time'],
-                    start_date,
-                    time_zone
+                    self.start_date[0],
+                    self.time_zone
                 ),
                 'rotation_turn_length_seconds': self.get_rotation_turn_length(
                     layers[str(layer_index + 1)][0]['rotation_type'],
@@ -1008,8 +1007,8 @@ class StandardRotationLogic():
                 ]
             })
             # Add end_date if applicable
-            if end_date:
-                end_datetime = self.get_datetime(end_date, "00:00:00")
+            if self.end_date[0]:
+                end_datetime = self.get_datetime(self.end_date[0], "00:00:00")
                 output[i]['end'] = tz.localize(end_datetime).isoformat()
             for user in layers[str(layer_index + 1)]:
                 output[layer_index]['users'].append({
@@ -1021,7 +1020,7 @@ class StandardRotationLogic():
             layer_index += 1
         return output
 
-    def parse_schedules(self, time_zone, layers):
+    def parse_schedules(self, layers):
         """Returns a dictrionary in the format required to create a PagerDuty
         schedule on the v2 REST API
         """
@@ -1029,7 +1028,7 @@ class StandardRotationLogic():
         return {
             'name': self.name[0],
             'type': 'schedule',
-            'time_zone': time_zone,
+            'time_zone': self.time_zone,
             'schedule_layers': layers
         }
 
@@ -1198,11 +1197,8 @@ def main(schedule_type, csv_dir, api_key, base_name, level_name, multi_name,
                     restriction_start_day, restriction_start_time, \
                     restriction_end_day, and restriction_end_time.'
                 )
-            # TODO: Use the variables in __init__ instead of these
-            layers = standard_rotation.parse_layers(start_date, end_date,
-                                                    time_zone, layers, pd_rest)
-            schedule = standard_rotation.parse_schedules(time_zone,
-                                                         layers)
+            layers = standard_rotation.parse_layers(layers, pd_rest)
+            schedule = standard_rotation.parse_schedules(layers)
             res = pd_rest.create_schedule(schedule)
             print "Successfully created schedule with ID {schedule_id}".format(
                 schedule_id=res['schedule']['id']
