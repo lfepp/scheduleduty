@@ -44,7 +44,7 @@ setup(
     packages=find_packages(exclude=('tests')),
     install_requires=[
         'pytz==2013.7',
-        'requests==2.10.0'
+        'requests==2.20.0'
     ],
     include_package_data=True,
     license=license,
